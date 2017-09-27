@@ -1,3 +1,8 @@
+require 'biovision/base'
+require 'carrierwave'
+require 'carrierwave-bombshelter'
+require 'mini_magick'
+
 module Biovision
   module Post
     class Engine < ::Rails::Engine
@@ -10,10 +15,5 @@ module Biovision
       config.assets.precompile << %w(biovision/base/icons/*)
       config.assets.precompile << %w(biovision/base/placeholders/*)
     end
-
-    require 'biovision/base'
-    require 'carrierwave'
-    require 'carrierwave-bombshelter'
-    require 'mini_magick'
   end
 end
