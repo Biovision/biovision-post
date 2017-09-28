@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170917000001) do
+ActiveRecord::Schema.define(version: 20170928000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "post_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "post_type_id", null: false
+    t.integer "parent_id"
+    t.integer "priority", limit: 2, default: 1, null: false
+    t.integer "posts_count", default: 0, null: false
+    t.boolean "locked", default: false, null: false
+    t.boolean "visible", default: true, null: false
+    t.boolean "deleted", default: false, null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "long_slug", null: false
+    t.string "parents_cache", default: "", null: false
+    t.integer "children_cache", default: [], null: false, array: true
+    t.index ["post_type_id"], name: "index_post_categories_on_post_type_id"
+  end
 
   create_table "post_types", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -27,5 +45,7 @@ ActiveRecord::Schema.define(version: 20170917000001) do
     t.index ["slug"], name: "index_post_types_on_slug", unique: true
   end
 
+  add_foreign_key "post_categories", "post_categories", column: "parent_id", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "post_categories", "post_types"
   add_foreign_key "post_types", "post_types", column: "parent_id", on_update: :cascade, on_delete: :cascade
 end

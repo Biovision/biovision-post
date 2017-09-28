@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Admin::PostTypesController, type: :controller, focus: true do
+RSpec.describe Admin::PostTypesController, type: :controller do
   let(:entity) { create :post_type }
 
   before :each do
