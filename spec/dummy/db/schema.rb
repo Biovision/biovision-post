@@ -18,9 +18,14 @@ ActiveRecord::Schema.define(version: 20170917000001) do
   create_table "post_types", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id"
     t.integer "posts_count", default: 0, null: false
+    t.integer "category_depth", limit: 2, default: 0
     t.string "name", null: false
     t.string "slug", null: false
+    t.index ["name"], name: "index_post_types_on_name", unique: true
+    t.index ["slug"], name: "index_post_types_on_slug", unique: true
   end
 
+  add_foreign_key "post_types", "post_types", column: "parent_id", on_update: :cascade, on_delete: :cascade
 end

@@ -1,0 +1,16 @@
+ru:
+  post_count:
+    zero: "публикаций нет"
+    one: "%{count} публикация"
+    few: "%{count} публикации"
+    many: "%{count} публикаций"
+    other: "%{count} публикаций"
+  activerecord:
+    models:
+      post_type: "Тип публикации"
+    attributes:
+      post:
+        category_depth: "Глубина категорий"
+        name: "Название"
+        parent_id: "Родительский тип"
+        slug: "Код"

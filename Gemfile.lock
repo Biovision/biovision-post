@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    biovision-post (0.0.170927)
+    biovision-post (0.0.170928)
       biovision-base
       carrierwave
       carrierwave-bombshelter

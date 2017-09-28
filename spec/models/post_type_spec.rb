@@ -49,5 +49,17 @@ RSpec.describe PostType, type: :model do
       expect(subject).not_to be_valid
       expect(subject.errors.messages).to have_key(:slug)
     end
+
+    it 'fails with negative category_depth' do
+      subject.category_depth = -1
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:category_depth)
+    end
+
+    it 'fails with too big category_depth' do
+      subject.category_depth = 11
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:category_depth)
+    end
   end
 end
