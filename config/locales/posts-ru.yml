@@ -14,3 +14,13 @@ ru:
         name: "Название"
         parent_id: "Родительский тип"
         slug: "Код"
+  admin:
+    post_types:
+      nav_item:
+        description: "Управление типами и категориями публикаций"
+        text: "Типы публикаций"
+      index:
+        heading: "Типы публикаций"
+        title: "Типы публикаций"
+      show:
+        title: "Тип публикаций «%{name}»"
