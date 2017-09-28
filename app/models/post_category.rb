@@ -2,6 +2,9 @@ class PostCategory < ApplicationRecord
   include Toggleable
 
   PRIORITY_RANGE = (1..100)
+  NAME_LIMIT     = 50
+  SLUG_LIMIT     = 50
+  SLUG_PATTERN   = /\A[a-z][-0-9a-z]*[0-9a-z]\z/i
 
   toggleable :visible
 
@@ -22,6 +25,11 @@ class PostCategory < ApplicationRecord
   validates_presence_of :name, :slug
   validates_uniqueness_of :name, scope: [:parent_id]
   validates_uniqueness_of :slug, scope: [:post_type_id]
+  validates_length_of :name, maximum: NAME_LIMIT
+  validates_length_of :slug, maximum: SLUG_LIMIT
+  validates_format_of :slug, with: SLUG_PATTERN
+  validate :parent_matches_type
+  validate :parent_is_not_too_deep
 
   scope :ordered_by_priority, -> { order 'priority asc, name asc' }
   scope :visible, -> { where(visible: true, deleted: false) }
@@ -120,6 +128,22 @@ class PostCategory < ApplicationRecord
       self.long_slug = slug
     else
       self.long_slug = "#{parent.long_slug}_#{slug}"
+    end
+  end
+
+  def parent_matches_type
+    return if parent.nil?
+    if parent.post_type != post_type
+      error = I18n.t('activerecord.errors.models.post_category.attributes.parent_id.mismatches_post_type')
+      errors.add(:parent_id, error)
+    end
+  end
+
+  def parent_is_not_too_deep
+    return if parent.nil?
+    if parent.depth >= post_type.category_depth
+      error = I18n.t('activerecord.errors.models.post_category.attributes.parent_id.is_too_deep')
+      errors.add(:parent_id, error)
     end
   end
 end

@@ -8,12 +8,30 @@ ru:
   activerecord:
     models:
       post_type: "Тип публикации"
+      post_category: "Категория публикации"
+    errors:
+      models:
+        post_category:
+          attributes:
+            parent_id:
+              mismatches_post_type: "имеет другой тип публикации"
+              is_too_deep: "находится слишком глубоко"
     attributes:
-      post:
+      post_type:
         category_depth: "Глубина категорий"
         name: "Название"
         parent_id: "Родительский тип"
         slug: "Код"
+      post_category:
+        children_cache: "Кеш дочек"
+        name: "Название"
+        parent_id: "Родительская категория"
+        parents_cache: "Кеш родителей"
+        post_type: "Тип публикации"
+        post_type_id: "Тип публикации"
+        priority: "Порядок сортировки"
+        slug: "Идентификатор"
+        visible: "Показывать"
   admin:
     post_types:
       nav_item:
