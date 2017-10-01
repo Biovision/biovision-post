@@ -7,8 +7,9 @@ ru:
     other: "%{count} публикаций"
   activerecord:
     models:
-      post_type: "Тип публикации"
+      post: "Публикация"
       post_category: "Категория публикации"
+      post_type: "Тип публикации"
     errors:
       models:
         post_category:
@@ -17,11 +18,34 @@ ru:
               mismatches_post_type: "имеет другой тип публикации"
               is_too_deep: "находится слишком глубоко"
     attributes:
-      post_type:
-        category_depth: "Глубина категорий"
-        name: "Название"
-        parent_id: "Родительский тип"
-        slug: "Код"
+      post:
+        allow_comments: "Разрешить комментарии"
+        approved: "Одобрено к показу"
+        body: "Текст"
+        image: "Изображение"
+        image_author_link: "Ссылка на автора изображения"
+        image_author_name: "Автор изображения"
+        image_name: "Название изображения"
+        lead: "Аннотация"
+        original_post_id: "Оригинальная публикация"
+        privacy: "Видимость"
+        post_category: "Категория"
+        post_category_id: "Категория"
+        post_type: "Тип"
+        post_type_id: "Тип"
+        publication_time: "Время публикации"
+        region: "Регион"
+        region_id: "Регион"
+        show_owner: "Показывать автора"
+        slug: "Идентификатор для URL"
+        source_link: "Ссылка на источник"
+        source_name: "Название источника"
+        tags_cache: ""
+        title: "Название"
+        user: "Автор"
+        uuid: "UUID"
+        video_url: "URL видео"
+        visible: "Показывать"
       post_category:
         children_cache: "Кеш дочек"
         name: "Название"
@@ -32,6 +56,11 @@ ru:
         priority: "Порядок сортировки"
         slug: "Идентификатор"
         visible: "Показывать"
+      post_type:
+        category_depth: "Глубина категорий"
+        name: "Название"
+        parent_id: "Родительский тип"
+        slug: "Код"
   admin:
     post_types:
       nav_item:

@@ -74,6 +74,12 @@ RSpec.describe PostCategory, type: :model do
       post_type.update! category_depth: 1
     end
 
+    it 'fails without post type' do
+      subject.post_type = nil
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:post_type)
+    end
+
     it 'fails without name' do
       subject.name = ' '
       expect(subject).not_to be_valid

@@ -184,8 +184,10 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.integer "upvote_count", default: 0, null: false
     t.integer "downvote_count", default: 0, null: false
     t.integer "vote_result", default: 0, null: false
+    t.string "uuid", null: false
     t.string "title", null: false
     t.string "slug", null: false
+    t.string "video_url"
     t.string "image"
     t.string "image_name"
     t.string "image_author_name"
@@ -195,8 +197,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.text "lead"
     t.text "body", null: false
     t.string "tags_cache", default: [], null: false, array: true
-    t.index "date_trunc('month'::text, created_at)", name: "posts_created_month_idx"
-    t.index "date_trunc('month'::text, publication_time)", name: "posts_published_month_idx"
+    t.index "date_trunc('month'::text, publication_time), post_type_id, user_id", name: "posts_published_month_idx"
     t.index ["agent_id"], name: "index_posts_on_agent_id"
     t.index ["post_category_id"], name: "index_posts_on_post_category_id"
     t.index ["post_type_id"], name: "index_posts_on_post_type_id"

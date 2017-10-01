@@ -7,6 +7,12 @@ RSpec.describe Post, type: :model, focus: true do
     expect(subject).to be_valid
   end
 
+  describe 'after initialize' do
+    it 'generates uuid if needed' do
+      expect(Post.new.uuid).not_to be_nil
+    end
+  end
+
   describe 'before validation' do
     it 'normalizes blank slug' do
       subject.title = 'TEST'

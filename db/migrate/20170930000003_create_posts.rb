@@ -23,8 +23,10 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.integer :upvote_count, default: 0, null: false
         t.integer :downvote_count, default: 0, null: false
         t.integer :vote_result, default: 0, null: false
+        t.string :uuid, null: false
         t.string :title, null: false
         t.string :slug, null: false
+        t.string :video_url
         t.string :image
         t.string :image_name
         t.string :image_author_name
@@ -36,8 +38,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :tags_cache, array: true, default: [], null: false
       end
 
-      execute "create index posts_created_month_idx on posts using btree (date_trunc('month', created_at));"
-      execute "create index posts_published_month_idx on posts using btree (date_trunc('month', publication_time));"
+      execute "create index posts_published_month_idx on posts using btree (date_trunc('month', publication_time), post_type_id, user_id);"
     end
   end
 
