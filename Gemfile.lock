@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    biovision-post (0.0.170930)
+    biovision-post (0.0.171001)
       biovision-base
       carrierwave
       carrierwave-bombshelter
@@ -61,7 +61,7 @@ GEM
       rails (~> 5.1)
       rails-i18n (~> 5.0)
     builder (3.2.3)
-    carrierwave (1.1.0)
+    carrierwave (1.2.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
