@@ -7,6 +7,7 @@ class Admin::PostTypesController < AdminController
 
   # get /admin/post_types/:id
   def show
+    @collection = @entity.posts.page_for_administration(current_page)
   end
 
   private

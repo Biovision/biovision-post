@@ -15,4 +15,8 @@ class PostManager
   def parsed_body
     @body.gsub(/<script/, '&lt;script')
   end
+
+  def post_path
+    "/posts/#{entity.id}"
+  end
 end

@@ -15,7 +15,7 @@ ru:
         post:
           attributes:
             post_category:
-              mismatches_post_type: "имеет другой тип публикации"
+              has_invalid_post_type: ""
         post_category:
           attributes:
             parent_id:
