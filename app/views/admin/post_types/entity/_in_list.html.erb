@@ -1,0 +1,10 @@
+<div class="data">
+  <div><%= admin_post_type_link(entity) %></div>
+  <div class="secondary info">
+    <%= t(:post_count, count: entity.posts_count) %>
+  </div>
+
+  <% if entity.children.any? %>
+      <%= render partial: 'shared/admin/list', locals: { collection: PostType.for_tree(entity.id).ordered_by_name } %>
+  <% end %>
+</div>

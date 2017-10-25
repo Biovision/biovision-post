@@ -1,0 +1,32 @@
+<% content_for :meta_title, t('.title') %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.post_types.nav_item.text'), admin_post_types_path) %>
+    <span><%= @entity.name %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.name %></h1>
+
+  <ul class="actions">
+    <li><%= back_icon(admin_post_type_path(@entity.id)) %></li>
+    <% unless @entity.parent.nil? %>
+        <li><%= return_icon(admin_post_type_path(@entity.parent_id)) %></li>
+    <% end %>
+  </ul>
+
+  <% if @entity.children.any? %>
+      <section>
+        <h2><%= t('.children') %></h2>
+
+        <%= render partial: 'shared/admin/list', locals: { collection: PostType.for_tree(@entity.id).ordered_by_name } %>
+      </section>
+  <% end %>
+
+  <section>
+    <h2><%= t(:post_count, count: @entity.posts_count) %></h2>
+
+    <%= paginate @collection %>
+    <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
+    <%= paginate @collection %>
+  </section>
+</article>

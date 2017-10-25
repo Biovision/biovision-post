@@ -15,7 +15,7 @@ ru:
         post:
           attributes:
             post_category:
-              has_invalid_post_type: ""
+              mismatches_post_type: "имеет другой тип публикации"
         post_category:
           attributes:
             parent_id:
@@ -75,3 +75,4 @@ ru:
         title: "Типы публикаций"
       show:
         title: "Тип публикаций «%{name}»"
+        children: "Дочерние типы"
