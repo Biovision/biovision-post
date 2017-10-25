@@ -27,5 +27,81 @@ RSpec.describe Post, type: :model, focus: true do
       subject.valid?
       expect(subject.slug).to eq('test')
     end
+
+    it 'generates transliterated slug from title' do
+      subject.title = 'Проверка'
+      subject.valid?
+      expect(subject.slug).to eq('proverka')
+    end
+  end
+
+  describe 'before_save' do
+    it 'prepares parsed body' do
+      pending
+      subject.save
+      expect(subject.parsed_body).not_to be_blank
+    end
+  end
+
+  describe 'validation' do
+    it 'fails with invalid slug' do
+      subject.slug = 'invalid slug'
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:slug)
+    end
+
+    it 'fails with too long slug' do
+      subject.slug = 'a' * 201
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:slug)
+    end
+
+    it 'fails without title' do
+      subject.title = ' '
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:title)
+    end
+
+    it 'fails with too long title' do
+      subject.title = 'A' * 141
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:title)
+    end
+
+    it 'fails without body' do
+      subject.body = ' '
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:body)
+    end
+
+    it 'fails with too long body' do
+      subject.body = 'a' * 50001
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:body)
+    end
+
+    it 'fails with too long lead' do
+      subject.lead = 'A' * 351
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:lead)
+    end
+
+    it 'fails without user' do
+      subject.user = nil
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:user)
+    end
+
+    it 'fails without post type' do
+      subject.post_type = nil
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:post_type)
+    end
+
+    it 'fails when post category belongs to other post type' do
+      subject.post_category = create(:post_category)
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:post_category)
+    end
   end
 end

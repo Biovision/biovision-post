@@ -166,8 +166,9 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "post_type_id", null: false
-    t.bigint "post_category_id", null: false
+    t.bigint "post_category_id"
     t.bigint "region_id"
+    t.integer "original_post_id"
     t.bigint "agent_id"
     t.inet "ip"
     t.datetime "publication_time"
@@ -178,7 +179,6 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.boolean "show_owner", default: true, null: false
     t.boolean "allow_comments", default: true, null: false
     t.integer "privacy", limit: 2, default: 0
-    t.integer "original_post_id"
     t.integer "comments_count", default: 0, null: false
     t.integer "view_count", default: 0, null: false
     t.integer "upvote_count", default: 0, null: false
@@ -196,12 +196,14 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.string "source_link"
     t.text "lead"
     t.text "body", null: false
+    t.text "parsed_body"
     t.string "tags_cache", default: [], null: false, array: true
     t.index "date_trunc('month'::text, publication_time), post_type_id, user_id", name: "posts_published_month_idx"
     t.index ["agent_id"], name: "index_posts_on_agent_id"
     t.index ["post_category_id"], name: "index_posts_on_post_category_id"
     t.index ["post_type_id"], name: "index_posts_on_post_type_id"
     t.index ["region_id"], name: "index_posts_on_region_id"
+    t.index ["slug"], name: "index_posts_on_slug"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -362,6 +364,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
   add_foreign_key "posts", "agents"
   add_foreign_key "posts", "post_categories"
   add_foreign_key "posts", "post_types"
+  add_foreign_key "posts", "posts", column: "original_post_id", on_update: :cascade, on_delete: :nullify
   add_foreign_key "posts", "regions"
   add_foreign_key "posts", "users"
   add_foreign_key "privilege_group_privileges", "privilege_groups"

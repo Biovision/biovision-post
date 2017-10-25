@@ -12,6 +12,10 @@ ru:
       post_type: "Тип публикации"
     errors:
       models:
+        post:
+          attributes:
+            post_category:
+              mismatches_post_type: "имеет другой тип публикации"
         post_category:
           attributes:
             parent_id:
