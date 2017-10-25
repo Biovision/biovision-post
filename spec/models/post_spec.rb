@@ -37,7 +37,6 @@ RSpec.describe Post, type: :model, focus: true do
 
   describe 'before_save' do
     it 'prepares parsed body' do
-      pending
       subject.save
       expect(subject.parsed_body).not_to be_blank
     end
