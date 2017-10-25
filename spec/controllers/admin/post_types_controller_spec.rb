@@ -31,4 +31,8 @@ RSpec.describe Admin::PostTypesController, type: :controller do
       expect(entity.class).to have_received(:find_by)
     end
   end
+
+  describe 'get post_categories' do
+    pending
+  end
 end

@@ -76,3 +76,10 @@ ru:
       show:
         title: "Тип публикаций «%{name}»"
         children: "Дочерние типы"
+      post_categories:
+        title: "Категории типа публикаций «%{name}»"
+        heading: "Категории публикаций"
+    post_categories:
+      show:
+        title: "Категория публикаций «%{name}»"
+        children: "Дочерние категории"

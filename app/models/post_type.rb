@@ -17,5 +17,5 @@ class PostType < ApplicationRecord
   validates_format_of :slug, with: SLUG_PATTERN
   validates_inclusion_of :category_depth, in: DEPTH_RANGE
 
-  scope :for_tree, ->(parent_id = nil) { where(parent_id: parent_id) }
+  scope :for_tree, ->(parent_id = nil) { where(parent_id: parent_id).ordered_by_name }
 end

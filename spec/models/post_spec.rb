@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Post, type: :model, focus: true do
+RSpec.describe Post, type: :model do
   subject { build :post }
 
   it 'has valid factory' do
