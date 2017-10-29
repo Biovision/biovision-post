@@ -8,7 +8,7 @@
 <article>
   <h1><%= t('.title', name: @entity.name) %></h1>
 
-  <%= render partial: 'shared/admin/list', locals: { collection: PostCategory.siblings(@entity.id, nil).ordered_by_priority } %>
+  <%= render partial: 'shared/admin/list_with_priority', locals: { collection: PostCategory.siblings(@entity.id, nil).ordered_by_priority } %>
 
   <section>
     <h2><%= t('post_categories.new.heading') %></h2>

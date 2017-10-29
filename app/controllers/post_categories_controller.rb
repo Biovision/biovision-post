@@ -15,6 +15,7 @@ class PostCategoriesController < AdminController
       respond_to do |format|
         format.html { redirect_to(next_page) }
         format.json { render json: { links: { self: next_page } } }
+        format.js { render(js: "document.location.href = '#{next_page}'") }
       end
     else
       render :new, status: :bad_request
@@ -32,6 +33,7 @@ class PostCategoriesController < AdminController
       respond_to do |format|
         format.html { redirect_to(next_page, notice: t('post_categories.update.success')) }
         format.json { render json: { links: { self: next_page } } }
+        format.js { render(js: "document.location.href = '#{next_page}'") }
       end
     else
       render :edit, status: :bad_request

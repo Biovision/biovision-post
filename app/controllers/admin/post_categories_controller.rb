@@ -1,6 +1,7 @@
 class Admin::PostCategoriesController < AdminController
   include LockableEntity
   include ToggleableEntity
+  include EntityPriority
 
   before_action :set_entity
 

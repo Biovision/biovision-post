@@ -1,0 +1,70 @@
+<% content_for :meta_title, t('.title', name: @entity.name) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.post_types.nav_item.text'), admin_post_types_path) %>
+    <%= admin_post_type_link(@entity.post_type) %>
+    <% @entity.parents.each do |parent| %>
+        <%= admin_post_category_link(parent) %>
+    <% end %>
+    <span><%= @entity.name %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.name %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(admin_post_type_path(@entity.post_type_id)) %></li>
+    <% unless @entity.locked? %>
+        <li><%= edit_icon(edit_post_category_path(@entity.id)) %></li>
+    <% end %>
+  </ul>
+
+  <dl>
+    <dt><%= t('activerecord.attributes.post_category.post_type_id') %></dt>
+    <dd><%= admin_post_type_link(@entity.post_type) %></dd>
+
+    <% unless @entity.parent.nil? %>
+        <dt><%= t('activerecord.attributes.post_category.parent_id') %></dt>
+        <dd><%= admin_post_category_link(@entity.parent) %></dd>
+    <% end %>
+
+    <dt><%= t('activerecord.attributes.post_category.slug') %></dt>
+    <dd><%= @entity.slug %> (<%= @entity.long_slug %>)</dd>
+
+    <dt><%= t('activerecord.attributes.post_category.priority') %></dt>
+    <dd><%= @entity.priority %></dd>
+
+    <% unless @entity.parents_cache.blank? %>
+        <dt><%= t('activerecord.attributes.post_category.parents_cache') %></dt>
+        <dd><%= @entity.parents_cache %></dd>
+    <% end %>
+
+    <% unless @entity.children_cache.blank? %>
+        <dt><%= t('activerecord.attributes.post_category.children_cache') %></dt>
+        <dd><%= @entity.children_cache %></dd>
+    <% end %>
+  </dl>
+
+  <% if @entity.child_categories.any? %>
+      <section>
+        <h2><%= t('.children') %></h2>
+
+        <%= render partial: 'shared/admin/list_with_priority', locals: { collection: PostCategory.for_tree(@entity.post_type_id, @entity.id) } %>
+      </section>
+  <% end %>
+
+  <% if @entity.depth < @entity.post_type.category_depth %>
+      <section>
+        <h2><%= t('.new_child') %></h2>
+
+        <%= render partial: 'post_categories/form', locals: { entity: PostCategory.new(parent: @entity, post_type: @entity.post_type) } %>
+      </section>
+  <% end %>
+
+  <section>
+    <h2><%= t(:post_count, count: @entity.posts_count) %></h2>
+
+    <%= paginate @collection %>
+    <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
+    <%= paginate @collection %>
+  </section>
+</article>

@@ -1,7 +1,7 @@
 <% content_for :meta_title, t('.title') %>
 <% content_for :breadcrumbs do %>
     <%= link_to(t('admin.post_types.nav_item.text'), admin_post_types_path) %>
-    <%= admin_post_type_link(@entity) %>
+    <%= admin_post_type_link(@entity.post_type) %>
     <% @entity.parents.each do |parent| %>
         <%= admin_post_category_link(parent) %>
     <% end %>
@@ -14,7 +14,7 @@
 
   <ul class="actions">
     <li><%= return_icon(admin_post_category_path(@entity.id)) %></li>
-    <% unless @entity.locked? %>
+    <% if @entity.can_be_deleted? %>
         <li class="danger"><%= destroy_icon(@entity) %></li>
     <% end %>
   </ul>

@@ -33,12 +33,8 @@ class PostCategory < ApplicationRecord
 
   scope :ordered_by_priority, -> { order 'priority asc, name asc' }
   scope :visible, -> { where(visible: true, deleted: false) }
-  scope :for_tree, ->(parent_id = nil) { siblings(parent_id).ordered_by_priority }
+  scope :for_tree, ->(post_type_id, parent_id = nil) { siblings(post_type_id, parent_id).ordered_by_priority }
   scope :siblings, ->(post_type_id, parent_id) { where(post_type_id: post_type_id, parent_id: parent_id) }
-
-  def self.page_for_administration
-    for_tree
-  end
 
   def self.entity_parameters
     %i(name slug priority visible)
