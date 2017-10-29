@@ -17,6 +17,25 @@ module BiovisionPostsHelper
     link_to(text, admin_post_path(entity.id))
   end
 
+  # @param [Integer] post_type_id
+  def post_categories_for_select(post_type_id)
+    options = [[t(:not_set), '']]
+    PostCategory.for_tree(post_type_id).each do |category|
+      options << [category.name, category.id]
+      if category.child_categories.any?
+        PostCategory.for_tree(post_type_id, category.id).each do |subcategory|
+          options << ["-#{subcategory.name}", subcategory.id]
+          if subcategory.child_categories.any?
+            PostCategory.for_tree(post_type_id, subcategory.id).each do |deep_category|
+              options << ["--#{deep_category.name}", deep_category.id]
+            end
+          end
+        end
+      end
+    end
+    options
+  end
+
   # Post image preview for displaying in "administrative" lists
   #
   # @param [Post] entity

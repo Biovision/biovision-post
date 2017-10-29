@@ -5,6 +5,10 @@
     <%= t(:post_count, count: entity.posts_count) %>
   </div>
 
+  <ul class="actions">
+    <li><%= create_icon(new_post_admin_post_type_path(entity.id)) %></li>
+  </ul>
+
   <% if entity.children.any? %>
       <div class="children">
         <%= render partial: 'shared/admin/list', locals: { collection: PostType.for_tree(entity.id) } %>

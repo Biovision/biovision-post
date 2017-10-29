@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   resources :post_categories, except: [:index, :show]
   resources :posts
+  resources :articles
 
   namespace :admin do
     resources :post_types, only: [:index, :show] do
       member do
         get :post_categories
+        get :new_post
       end
     end
     resources :post_categories, only: [:show] do

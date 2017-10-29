@@ -8,6 +8,7 @@ class Post < ApplicationRecord
   SLUG_PATTERN = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
   LEAD_LIMIT   = 350
   BODY_LIMIT   = 50000
+  META_LIMIT   = 100
   PER_PAGE     = 10
 
   mount_uploader :image, PostImageUploader
@@ -29,6 +30,12 @@ class Post < ApplicationRecord
   validates_length_of :slug, maximum: SLUG_LIMIT
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :body, maximum: BODY_LIMIT
+  validates_length_of :image, maximum: META_LIMIT
+  validates_length_of :image_name, maximum: META_LIMIT
+  validates_length_of :image_author_name, maximum: META_LIMIT
+  validates_length_of :image_author_link, maximum: META_LIMIT
+  validates_length_of :source_link, maximum: META_LIMIT
+  validates_length_of :source_name, maximum: META_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validate :category_consistency
 
