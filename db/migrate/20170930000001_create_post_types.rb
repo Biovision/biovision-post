@@ -16,6 +16,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.1]
       add_index :post_types, :name, unique: true
 
       PostType.create(slug: 'article', name: 'Статья')
+      PostType.create(slug: 'blog_post', name: 'Публикация в блоге')
     end
   end
 

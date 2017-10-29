@@ -7,4 +7,12 @@
 
 <article>
   <h1><%= t('.title', name: @entity.name) %></h1>
+
+  <%= render partial: 'shared/admin/list', locals: { collection: PostCategory.siblings(@entity.id, nil).ordered_by_priority } %>
+
+  <section>
+    <h2><%= t('post_categories.new.heading') %></h2>
+
+    <%= render partial: 'post_categories/form', locals: { entity: @entity.post_categories.new } %>
+  </section>
 </article>

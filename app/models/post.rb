@@ -21,6 +21,7 @@ class Post < ApplicationRecord
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
   before_validation { self.slug = slug.downcase }
+  before_validation { self.publication_time = Time.now if publication_time.nil? }
   before_save { self.parsed_body = PostManager.handler(self).parsed_body }
 
   validates_presence_of :uuid, :title, :slug, :body

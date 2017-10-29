@@ -10,6 +10,10 @@ class Admin::PostTypesController < AdminController
     @collection = @entity.posts.page_for_administration(current_page)
   end
 
+  # get /admin/post_types/:id/post_categories
+  def post_categories
+  end
+
   private
 
   def set_entity

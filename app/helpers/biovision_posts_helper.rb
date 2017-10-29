@@ -5,6 +5,12 @@ module BiovisionPostsHelper
     link_to(text, admin_post_type_path(entity.id))
   end
 
+  # @param [PostCategory] entity
+  # @param [String] text
+  def admin_post_category_link(entity, text = entity.name)
+    link_to(text, admin_post_category_path(entity.id))
+  end
+
   # @param [Post] entity
   # @param [String] text
   def admin_post_link(entity, text = entity.title)

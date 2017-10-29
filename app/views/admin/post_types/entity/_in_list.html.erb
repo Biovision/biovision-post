@@ -1,6 +1,7 @@
 <div class="data">
   <div><%= admin_post_type_link(entity) %></div>
   <div class="secondary info">
+    <%= entity.slug %>,
     <%= t(:post_count, count: entity.posts_count) %>
   </div>
 

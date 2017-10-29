@@ -12,3 +12,5 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+
+gem 'biovision-base', git: 'https://github.com/Biovision/biovision-base.git'
