@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :post_categories, except: [:index, :show]
-  resources :posts
+  resources :posts, except: [:new]
   resources :articles
 
   namespace :admin do

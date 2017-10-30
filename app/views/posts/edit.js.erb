@@ -1,0 +1,19 @@
+new function () {
+    const form = document.getElementById('post-form');
+
+    let errors = form.querySelector('ol.errors');
+    let data = '';
+
+    if (!errors) {
+        errors = document.createElement('ol');
+        errors.classList.add('errors');
+    }
+
+    <% @entity.errors.full_messages.each do |message| %>
+    data += '<li><%= j message %></li>';
+    <% end %>
+
+    errors.innerHTML = data;
+
+    form.prepend(errors);
+}();

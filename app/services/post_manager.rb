@@ -17,6 +17,6 @@ class PostManager
   end
 
   def post_path
-    "/posts/#{entity.id}"
+    "/posts/#{@entity.id}"
   end
 end
