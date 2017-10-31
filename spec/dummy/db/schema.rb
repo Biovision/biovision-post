@@ -15,10 +15,10 @@ ActiveRecord::Schema.define(version: 20170930000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "agents", id: :serial, force: :cascade do |t|
+  create_table "agents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "browser_id"
+    t.bigint "browser_id"
     t.boolean "bot", default: false, null: false
     t.boolean "mobile", default: false, null: false
     t.boolean "active", default: true, null: false
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["name"], name: "index_agents_on_name"
   end
 
-  create_table "browsers", id: :serial, force: :cascade do |t|
+  create_table "browsers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "bot", default: false, null: false
@@ -47,12 +47,12 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.string "name", null: false
   end
 
-  create_table "codes", id: :serial, force: :cascade do |t|
+  create_table "codes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "code_type_id", null: false
-    t.integer "user_id"
-    t.integer "agent_id"
+    t.bigint "code_type_id", null: false
+    t.bigint "user_id"
+    t.bigint "agent_id"
     t.inet "ip"
     t.integer "quantity", limit: 2, default: 1, null: false
     t.string "body", null: false
@@ -63,11 +63,14 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["user_id"], name: "index_codes_on_user_id"
   end
 
-  create_table "editable_pages", id: :serial, force: :cascade do |t|
+  create_table "editable_pages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "priority", limit: 2, default: 1, null: false
     t.string "slug", null: false
     t.string "name", null: false
+    t.string "nav_group"
+    t.string "url"
     t.string "image"
     t.string "title", default: "", null: false
     t.string "keywords", default: "", null: false
@@ -75,7 +78,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.text "body", default: "", null: false
   end
 
-  create_table "foreign_sites", id: :serial, force: :cascade do |t|
+  create_table "foreign_sites", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug", null: false
@@ -83,12 +86,12 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.integer "foreign_users_count", default: 0, null: false
   end
 
-  create_table "foreign_users", id: :serial, force: :cascade do |t|
+  create_table "foreign_users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "foreign_site_id", null: false
-    t.integer "user_id", null: false
-    t.integer "agent_id"
+    t.bigint "foreign_site_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "agent_id"
     t.inet "ip"
     t.string "slug", null: false
     t.string "email"
@@ -110,15 +113,15 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["user_id"], name: "index_login_attempts_on_user_id"
   end
 
-  create_table "metric_values", id: :serial, force: :cascade do |t|
-    t.integer "metric_id", null: false
+  create_table "metric_values", force: :cascade do |t|
+    t.bigint "metric_id", null: false
     t.datetime "time", null: false
     t.integer "quantity", default: 1, null: false
     t.index "date_trunc('day'::text, \"time\")", name: "metric_values_day_idx"
     t.index ["metric_id"], name: "index_metric_values_on_metric_id"
   end
 
-  create_table "metrics", id: :serial, force: :cascade do |t|
+  create_table "metrics", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "incremental", default: false, null: false
@@ -152,7 +155,6 @@ ActiveRecord::Schema.define(version: 20170930000003) do
   create_table "post_types", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "parent_id"
     t.integer "posts_count", default: 0, null: false
     t.integer "category_depth", limit: 2, default: 0
     t.string "name", null: false
@@ -207,16 +209,16 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "privilege_group_privileges", id: :serial, force: :cascade do |t|
+  create_table "privilege_group_privileges", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "privilege_group_id", null: false
-    t.integer "privilege_id", null: false
+    t.bigint "privilege_group_id", null: false
+    t.bigint "privilege_id", null: false
     t.index ["privilege_group_id"], name: "index_privilege_group_privileges_on_privilege_group_id"
     t.index ["privilege_id"], name: "index_privilege_group_privileges_on_privilege_id"
   end
 
-  create_table "privilege_groups", id: :serial, force: :cascade do |t|
+  create_table "privilege_groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
@@ -225,7 +227,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["slug"], name: "index_privilege_groups_on_slug", unique: true
   end
 
-  create_table "privileges", id: :serial, force: :cascade do |t|
+  create_table "privileges", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "parent_id"
@@ -258,8 +260,12 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.string "locative"
     t.string "image"
     t.string "header_image"
+    t.string "image_url"
+    t.text "map_geometry"
+    t.text "svg_geometry"
     t.string "parents_cache", default: "", null: false
     t.integer "children_cache", default: [], null: false, array: true
+    t.index ["long_slug"], name: "index_regions_on_long_slug"
   end
 
   create_table "stored_values", force: :cascade do |t|
@@ -271,11 +277,11 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.string "description"
   end
 
-  create_table "tokens", id: :serial, force: :cascade do |t|
+  create_table "tokens", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.integer "agent_id"
+    t.bigint "user_id", null: false
+    t.bigint "agent_id"
     t.inet "ip"
     t.datetime "last_used"
     t.boolean "active", default: true, null: false
@@ -286,12 +292,12 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
-  create_table "user_privileges", id: :serial, force: :cascade do |t|
+  create_table "user_privileges", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "region_id"
-    t.integer "user_id", null: false
-    t.integer "privilege_id", null: false
+    t.bigint "region_id"
+    t.bigint "user_id", null: false
+    t.bigint "privilege_id", null: false
     t.index ["privilege_id"], name: "index_user_privileges_on_privilege_id"
     t.index ["region_id"], name: "index_user_privileges_on_region_id"
     t.index ["user_id"], name: "index_user_privileges_on_user_id"
@@ -309,11 +315,11 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "region_id"
-    t.integer "agent_id"
+    t.bigint "region_id"
+    t.bigint "agent_id"
     t.inet "ip"
     t.integer "inviter_id"
     t.integer "native_id"
@@ -324,6 +330,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.integer "upvote_count", default: 0, null: false
     t.integer "downvote_count", default: 0, null: false
     t.integer "vote_result", default: 0, null: false
+    t.integer "balance", default: 0, null: false
     t.boolean "super_user", default: false, null: false
     t.boolean "deleted", default: false, null: false
     t.boolean "bot", default: false, null: false
@@ -360,7 +367,6 @@ ActiveRecord::Schema.define(version: 20170930000003) do
   add_foreign_key "metric_values", "metrics"
   add_foreign_key "post_categories", "post_categories", column: "parent_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "post_categories", "post_types"
-  add_foreign_key "post_types", "post_types", column: "parent_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "posts", "agents"
   add_foreign_key "posts", "post_categories"
   add_foreign_key "posts", "post_types"

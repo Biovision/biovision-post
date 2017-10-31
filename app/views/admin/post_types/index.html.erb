@@ -10,5 +10,5 @@
     <li><%= back_icon(admin_path) %></li>
   </ul>
 
-  <%= render partial: 'shared/admin/list', locals: { collection: PostType.for_tree } %>
+  <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
 </article>

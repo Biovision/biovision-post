@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170425000002)
-class CreateForeignUsers < ActiveRecord::Migration[5.0]
+class CreateForeignUsers < ActiveRecord::Migration[5.1]
   def up
     unless ForeignUser.table_exists?
       create_table :foreign_users do |t|

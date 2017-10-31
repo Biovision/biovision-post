@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170301000002)
-class CreateMetricValues < ActiveRecord::Migration[5.0]
+class CreateMetricValues < ActiveRecord::Migration[5.1]
   def up
     unless MetricValue.table_exists?
       create_table :metric_values do |t|

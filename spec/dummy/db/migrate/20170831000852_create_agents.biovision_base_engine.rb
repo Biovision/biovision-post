@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170301000102)
-class CreateAgents < ActiveRecord::Migration[5.0]
+class CreateAgents < ActiveRecord::Migration[5.1]
   def up
     unless Agent.table_exists?
       create_table :agents do |t|

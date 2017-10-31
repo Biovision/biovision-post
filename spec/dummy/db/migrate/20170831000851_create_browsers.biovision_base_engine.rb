@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170301000101)
-class CreateBrowsers < ActiveRecord::Migration[5.0]
+class CreateBrowsers < ActiveRecord::Migration[5.1]
   def up
     unless Browser.table_exists?
       create_table :browsers do |t|

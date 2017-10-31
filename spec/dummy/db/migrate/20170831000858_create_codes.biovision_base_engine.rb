@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170302000005)
-class CreateCodes < ActiveRecord::Migration[5.0]
+class CreateCodes < ActiveRecord::Migration[5.1]
   def up
     unless Code.table_exists?
       create_table :codes do |t|

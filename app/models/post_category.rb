@@ -130,7 +130,7 @@ class PostCategory < ApplicationRecord
   def parent_matches_type
     return if parent.nil?
     if parent.post_type != post_type
-      error = I18n.t('activerecord.errors.models.post_category.attributes.parent_id.mismatches_post_type')
+      error = I18n.t('activerecord.errors.messages.mismatches_post_type')
       errors.add(:parent_id, error)
     end
   end

@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170425000001)
-class CreateForeignSites < ActiveRecord::Migration[5.0]
+class CreateForeignSites < ActiveRecord::Migration[5.1]
   def up
     unless ForeignSite.table_exists?
       create_table :foreign_sites do |t|

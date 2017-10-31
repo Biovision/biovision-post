@@ -3,6 +3,7 @@ class Admin::PostTypesController < AdminController
 
   # get /admin/post_types
   def index
+    @collection = PostType.page_for_administration
   end
 
   # get /admin/post_types/:id

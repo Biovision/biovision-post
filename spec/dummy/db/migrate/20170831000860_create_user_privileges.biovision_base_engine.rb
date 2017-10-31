@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170302000102)
-class CreateUserPrivileges < ActiveRecord::Migration[5.0]
+class CreateUserPrivileges < ActiveRecord::Migration[5.1]
   def up
     unless UserPrivilege.table_exists?
       create_table :user_privileges do |t|

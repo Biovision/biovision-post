@@ -69,8 +69,7 @@ class Post < ApplicationRecord
   def category_consistency
     return if post_category.nil?
     if post_category.post_type != post_type
-      error = 'activerecord.errors.models.post.attributes.post_category.mismatches_post_type'
-      errors.add(:post_category, I18n.t(error))
+      errors.add(:post_category, I18n.t('activerecord.errors.messages.mismatches_post_type'))
     end
   end
 end

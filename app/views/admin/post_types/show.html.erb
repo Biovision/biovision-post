@@ -26,14 +26,6 @@
     <dd><%= @entity.category_depth %></dd>
   </dl>
 
-  <% if @entity.children.any? %>
-      <section>
-        <h2><%= t('.children') %></h2>
-
-        <%= render partial: 'shared/admin/list', locals: { collection: PostType.for_tree(@entity.id).ordered_by_name } %>
-      </section>
-  <% end %>
-
   <section>
     <h2><%= t(:post_count, count: @entity.posts_count) %></h2>
 

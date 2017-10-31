@@ -11,15 +11,12 @@ ru:
       post_category: "Категория публикации"
       post_type: "Тип публикации"
     errors:
+      messages:
+        mismatches_post_type: "имеет другой тип публикации"
       models:
-        post:
-          attributes:
-            post_category:
-              mismatches_post_type: "имеет другой тип публикации"
         post_category:
           attributes:
             parent_id:
-              mismatches_post_type: "имеет другой тип публикации"
               is_too_deep: "находится слишком глубоко"
     attributes:
       post:
@@ -38,7 +35,6 @@ ru:
         post_type: "Тип"
         post_type_id: "Тип"
         publication_time: "Время публикации"
-        region: "Регион"
         region_id: "Регион"
         show_owner: "Показывать автора"
         slug: "Идентификатор для URL"
@@ -63,8 +59,7 @@ ru:
       post_type:
         category_depth: "Глубина категорий"
         name: "Название"
-        parent_id: "Родительский тип"
-        slug: "Код"
+        slug: "Идентификатор"
   admin:
     post_types:
       nav_item:

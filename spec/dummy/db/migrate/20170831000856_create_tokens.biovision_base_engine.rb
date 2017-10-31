@@ -1,5 +1,5 @@
 # This migration comes from biovision_base_engine (originally 20170302000003)
-class CreateTokens < ActiveRecord::Migration[5.0]
+class CreateTokens < ActiveRecord::Migration[5.1]
   def up
     unless Token.table_exists?
       create_table :tokens do |t|
