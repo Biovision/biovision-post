@@ -18,7 +18,7 @@
 
       <dt><%= f.label :name %></dt>
       <dd>
-        <%= f.text_field :name, id: :post_category_name, size: nil, maxlength: PostCategory::NAME_LIMIT, required: true %>
+        <%= f.text_field :name, id: :post_category_name, size: nil, maxlength: PostCategory::NAME_LIMIT, required: true, data: { transliterate: 'post_category_slug' } %>
         <div class="guideline"><%= t('.guidelines.name') %></div>
       </dd>
 

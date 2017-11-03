@@ -9,9 +9,6 @@
 
   <ul class="actions">
     <li><%= back_icon(admin_post_type_path(@entity.id)) %></li>
-    <% unless @entity.parent.nil? %>
-        <li><%= return_icon(admin_post_type_path(@entity.parent_id)) %></li>
-    <% end %>
   </ul>
 
   <nav>
