@@ -23,6 +23,7 @@ class Post < ApplicationRecord
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
   before_validation { self.slug = slug.downcase }
   before_validation { self.publication_time = Time.now if publication_time.nil? }
+  before_validation :prepare_source_names
   before_save { self.parsed_body = PostManager.handler(self).parsed_body }
 
   validates_presence_of :uuid, :title, :slug, :body
@@ -64,12 +65,34 @@ class Post < ApplicationRecord
     entity_parameters + %i(post_type_id)
   end
 
+  # @param [User] user
+  def editable_by?(user)
+    owned_by?(user) || UserPrivilege.user_has_privilege?(user, :chief_editor)
+  end
+
+  def has_image_data?
+    !image_name.blank? || !image_author_name.blank? || !image_author_link.blank?
+  end
+
+  def has_source_data?
+    !source_name.blank? || !source_link.blank?
+  end
+
   private
 
   def category_consistency
     return if post_category.nil?
     if post_category.post_type != post_type
       errors.add(:post_category, I18n.t('activerecord.errors.messages.mismatches_post_type'))
+    end
+  end
+
+  def prepare_source_names
+    if image_author_name.blank? && !image_author_link.blank?
+      self.image_author_name = URI.parse(image_author_name).host
+    end
+    if source_name.blank? && !source_link.blank?
+      self.source_name = URI.parse(source_link).host
     end
   end
 end

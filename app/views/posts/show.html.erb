@@ -1,1 +1,4 @@
 <% content_for :meta_title, @entity.title %>
+<%= render partial: 'posts/entity/metadata', locals: { entity: @entity } %>
+
+<%= render @entity %>

@@ -36,6 +36,11 @@ module BiovisionPostsHelper
     options
   end
 
+  # @param [Post] entity
+  def post_link(entity, text = entity.title)
+    link_to(text, PostManager.handler(entity).post_path)
+  end
+
   # Post image preview for displaying in "administrative" lists
   #
   # @param [Post] entity
@@ -46,28 +51,27 @@ module BiovisionPostsHelper
     image_tag(entity.image.preview.url, alt: entity.title, srcset: versions)
   end
 
-  # @param [Post] entity
-  def post_link(entity, text = entity.title)
-    link_to(text, PostManager.handler(entity).post_path)
-  end
-
   # Small post image for displaying in lists of posts and feeds
   #
   # @param [Post] entity
-  def post_image_small(entity)
+  # @param [Hash] add_options
+  def post_image_small(entity, add_options = {})
     return '' if entity.image.blank?
 
     versions = "#{entity.image.medium.url} 2x"
-    image_tag(entity.image.small.url, alt: entity.title, srcset: versions)
+    options  = { alt: entity.title, srcset: versions }.merge(add_options)
+    image_tag(entity.image.small.url, options)
   end
 
   # Medium post image for displaying on post page
   #
   # @param [Post] entity
-  def post_image_medium(entity)
+  # @param [Hash] add_options
+  def post_image_medium(entity, add_options = {})
     return '' if entity.image.blank?
 
     versions = "#{entity.image.big.url} 2x"
-    image_tag(entity.image.medium.url, alt: entity.title, srcset: versions)
+    options  = { alt: entity.title, srcset: versions }.merge(add_options)
+    image_tag(entity.image.medium.url, options)
   end
 end

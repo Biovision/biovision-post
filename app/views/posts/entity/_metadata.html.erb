@@ -1,0 +1,10 @@
+<% content_for :meta_description, entity.lead %>
+<% content_for :meta_type, 'article' %>
+<% content_for :meta_type_extension do %>
+    <meta property="og:article:published_time" content="<%= entity.publication_time.strftime('%Y-%m-%d') %>"/>
+    <meta property="og:article:modified_time" content="<%= entity.updated_at.strftime('%Y-%m-%d') %>"/>
+    <% if entity.show_owner? %>
+        <meta property="og:article:author" content="<%= entity.user.screen_name %>"/>
+    <% end %>
+<% end %>
+<% content_for :meta_image, (request.protocol + request.host_with_port + entity.image.url) unless entity.image.blank? %>
