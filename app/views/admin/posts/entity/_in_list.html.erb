@@ -1,0 +1,31 @@
+<div class="image">
+  <%= post_image_preview(entity) %>
+</div>
+<div class="data">
+  <div>
+    <%= entity.post_type.name %> <cite><%= admin_post_link(entity) %></cite>
+  </div>
+  <div class="info">
+    <%= admin_user_link(entity.user) %>,
+    <%= time_tag(entity.publication_time) %>
+  </div>
+  <div class="secondaty info">
+    <div><%= t(:created_at) %>: <%= time_tag(entity.created_at) %></div>
+    <% unless entity.post_category.nil? %>
+        <div>
+          <%= t('activerecord.attributes.post.post_category') %>:
+          <%= entity.post_category.full_title %>
+        </div>
+    <% end %>
+  </div>
+
+  <ul class="actions">
+    <%= render partial: 'shared/actions/locks', locals: { entity: entity, path: (current_user_has_privilege?(:chief_editor, current_region) ? lock_admin_post_path(entity.id) : '') } %>
+    <li class="lockable <%= entity.editable_by?(current_user) ? '' : 'hidden' %>">
+      <%= edit_icon(edit_post_path(entity.id)) %>
+    </li>
+    <li class="lockable <%= entity.editable_by?(current_user) ? '' : 'hidden' %> danger">
+      <%= destroy_icon(entity) %>
+    </li>
+  </ul>
+</div>

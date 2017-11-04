@@ -18,6 +18,12 @@ Rails.application.routes.draw do
         post 'toggle', defaults: { format: :json }
       end
     end
-    resources :posts, only: [:index, :show]
+    resources :posts, only: [:index, :show] do
+      member do
+        put 'lock', defaults: { format: :json }
+        delete 'lock', action: :unlock, defaults: { format: :json }
+        post 'toggle', defaults: { format: :json }
+      end
+    end
   end
 end
