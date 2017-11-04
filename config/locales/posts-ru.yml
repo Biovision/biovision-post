@@ -91,6 +91,9 @@ ru:
         title: "Публикации, страница %{page}"
       show:
         title: "Публикация «%{name}»"
+    index:
+      biovision_post:
+        heading: "Модуль публикаций"
   post_categories:
     new:
       title: "Новая категория публикаций"
