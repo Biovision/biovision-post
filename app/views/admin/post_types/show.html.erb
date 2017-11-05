@@ -8,7 +8,8 @@
   <h1><%= @entity.name %></h1>
 
   <ul class="actions">
-    <li><%= back_icon(admin_post_type_path(@entity.id)) %></li>
+    <li><%= back_icon(admin_post_types_path) %></li>
+    <li><%= create_icon(new_post_admin_post_type_path(@entity.id)) %></li>
   </ul>
 
   <nav>

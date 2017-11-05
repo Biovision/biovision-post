@@ -19,4 +19,8 @@ class PostManager
   def post_path
     "/posts/#{@entity.id}"
   end
+
+  def edit_path
+    "/posts/#{@entity.id}/edit"
+  end
 end

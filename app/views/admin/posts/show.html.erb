@@ -1,0 +1,78 @@
+<% content_for :meta_title, t('.title', name: @entity.title) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.posts.nav_item.text'), admin_posts_path) %>
+    <span><%= @entity.title %></span>
+<% end %>
+
+<% handler = PostManager.handler(@entity) %>
+
+<article>
+  <h1><%= @entity.title %></h1>
+
+  <ul class="actions">
+    <li><%= back_icon(admin_posts_path) %></li>
+    <li><%= world_icon(handler.post_path) %></li>
+    <% if @entity.editable_by?(current_user) && !@entity.locked? %>
+        <li><%= edit_icon(handler.edit_path) %></li>
+        <li class="danger"><%= destroy_icon(@entity) %></li>
+    <% end %>
+  </ul>
+
+  <dl>
+    <dt><%= t('activerecord.attributes.post.post_type') %></dt>
+    <dd><%= admin_post_type_link(@entity.post_type) %></dd>
+
+    <dt><%= t('activerecord.attributes.post.slug') %></dt>
+    <dd><%= @entity.slug %></dd>
+
+    <% unless @entity.post_category.nil? %>
+        <dt><%= t('activerecord.attributes.post.post_category') %></dt>
+        <dd>
+          <%= admin_post_category_link(@entity.post_category, @entity.post_category.full_title) %>
+        </dd>
+    <% end %>
+
+    <dt><%= t('activerecord.attributes.post.user') %></dt>
+    <dd><%= admin_user_link(@entity.user) %></dd>
+
+    <% unless @entity.image.blank? %>
+        <dt><%= t('activerecord.attributes.post.image') %></dt>
+        <dd>
+          <figure>
+            <%= post_image_small(@entity) %>
+          </figure>
+        </dd>
+    <% end %>
+
+    <% unless @entity.image_name.blank? %>
+        <dt><%= t('activerecord.attributes.post.image_name') %></dt>
+        <dd><%= @entity.image_name %></dd>
+    <% end %>
+
+    <% unless @entity.image_author_name.blank? %>
+        <dt><%= t('activerecord.attributes.post.image_author_name') %></dt>
+        <dd><%= @entity.image_author_name %></dd>
+    <% end %>
+
+    <% unless @entity.image_author_link.blank? %>
+        <dt><%= t('activerecord.attributes.post.image_author_link') %></dt>
+        <dd><%= @entity.image_author_link %></dd>
+    <% end %>
+
+    <dt><%= t('activerecord.attributes.post.lead') %></dt>
+    <dd><%= @entity.lead %></dd>
+
+    <dt><%= t('activerecord.attributes.post.body') %></dt>
+    <dd><%= simple_format(strip_tags(@entity.body)) %></dd>
+
+    <% unless @entity.source_name.blank? %>
+        <dt><%= t('activerecord.attributes.post.source_name') %></dt>
+        <dd><%= @entity.source_name %></dd>
+    <% end %>
+
+    <% unless @entity.source_link.blank? %>
+        <dt><%= t('activerecord.attributes.post.source_link') %></dt>
+        <dd><%= @entity.source_link %></dd>
+    <% end %>
+  </dl>
+</article>

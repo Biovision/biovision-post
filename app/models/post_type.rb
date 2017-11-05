@@ -8,7 +8,7 @@ class PostType < ApplicationRecord
   DEPTH_RANGE = (0..10)
 
   has_many :post_categories, dependent: :destroy
-  has_many :posts, through: :post_categories
+  has_many :posts
 
   validates_length_of :name, maximum: NAME_LIMIT
   validates_length_of :slug, maximum: SLUG_LIMIT

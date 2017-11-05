@@ -1,3 +1,4 @@
+<% handler = PostManager.handler(post) %>
 <article class="post" itemscope itemtype="http://schema.org/Article" itemprop="mainEntityOfPage">
   <section>
     <h1 itemprop="headline"><%= post.title %></h1>
@@ -7,7 +8,7 @@
               <li><%= gear_icon(admin_post_path(post.id)) %></li>
           <% end %>
           <% unless post.locked? %>
-              <li><%= edit_icon(edit_post_path(post.id)) %></li>
+              <li><%= edit_icon(handler.edit_path) %></li>
           <% end %>
         </ul>
     <% end %>
