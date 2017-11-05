@@ -33,7 +33,7 @@ class PostsController < ApplicationController
 
   # get /posts/:id
   def show
-    @entity = Post.find_by(id: params[:id], deleted: false)
+    @entity = Post.find_by(id: params[:id], visible: true, deleted: false)
     if @entity.nil?
       handle_http_404("Cannot find non-deleted post #{params[:id]}")
     end
@@ -90,7 +90,9 @@ class PostsController < ApplicationController
   end
 
   def restrict_editing
-    raise record_not_found unless @entity.editable_by? current_user
+    if @entity.locked? || !@entity.editable_by?(current_user)
+       handle_http_403('Post is locked or not editable by current user')
+    end
   end
 
   def entity_parameters
