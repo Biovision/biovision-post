@@ -41,6 +41,7 @@ class Post < ApplicationRecord
 
   scope :recent, -> { order('publication_time desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
+  scope :list_for_visitors, -> { visible.recent }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
@@ -49,7 +50,7 @@ class Post < ApplicationRecord
 
   # @param [Integer] page
   def self.page_for_visitors(page = 1)
-    visible.recent.page(page).per(PER_PAGE)
+    list_for_visitors.page(page).per(PER_PAGE)
   end
 
   def self.entity_parameters

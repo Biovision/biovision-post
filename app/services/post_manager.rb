@@ -23,4 +23,9 @@ class PostManager
   def edit_path
     "/posts/#{@entity.id}/edit"
   end
+
+  # @param [PostCategory] category
+  def category_path(category)
+    "posts/#{category.long_slug}"
+  end
 end

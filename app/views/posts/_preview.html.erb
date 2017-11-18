@@ -1,0 +1,19 @@
+<div class="post-preview">
+  <div class="image">
+    <%= post_image_small(entity) %>
+  </div>
+  <div class="title">
+    <%= post_link(entity) %>
+  </div>
+  <div class="info">
+    <% if entity.show_owner? %>
+        <%= user_link(entity.user) %>
+    <% end %>
+    <%= time_tag(entity.publication_time) %>
+  </div>
+  <div class="lead"><%= entity.lead %></div>
+  <div class="counters">
+    <span class="comment_count"><%= entity.comments_count %></span>
+    <span class="view_count"><%= entity.view_count %></span>
+  </div>
+</div>

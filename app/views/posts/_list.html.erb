@@ -1,0 +1,9 @@
+<% if collection.any? %>
+    <div class="list">
+      <% collection.each do |entity| %>
+          <%= render partial: 'posts/preview', locals: { entity: entity } %>
+      <% end %>
+    </div>
+<% else %>
+    <%= render 'shared/nothing_found' %>
+<% end %>

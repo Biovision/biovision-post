@@ -132,3 +132,14 @@ ru:
         source_link: "https://example.org/posts/123"
     post:
       source: "Источник"
+  index:
+    index:
+      recent_posts:
+        heading: "Недавние публикации"
+  articles:
+    index:
+      title: "Статьи, страница %{page}"
+      heading: "Статьи"
+      nav_text: "Статьи"
+    category:
+      title: "Статьи в категории «%{category}», страница %{page}"
