@@ -67,6 +67,12 @@
         <div class="guideline"><%= t('.guidelines.image_name') %></div>
       </dd>
 
+      <dt><%= f.label :image_alt_text %></dt>
+      <dd>
+        <%= f.text_field :image_alt_text, id: :post_image_alt_text, size: nil, maxlength: Post::META_LIMIT %>
+        <div class="guideline"><%= t('.guidelines.image_alt_text') %></div>
+      </dd>
+
       <dt><%= f.label :image_author_name %></dt>
       <dd>
         <%= f.text_field :image_author_name, id: :post_image_author_name, size: nil, maxlength: Post::META_LIMIT %>

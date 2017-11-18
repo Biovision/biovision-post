@@ -1,0 +1,18 @@
+<% content_for :meta_title, t('.title', category: @category.name, page: current_page) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('blog_posts.index.nav_text'), blog_posts_path) %>
+    <% @category.parents.each do |parent| %>
+        <%= link_to(parent.name, blog_posts_category_path(parent.long_slug)) %>
+    <% end %>
+    <span><%= @category.name %></span>
+<% end %>
+
+<article>
+  <h1><%= @category.name %></h1>
+
+  <section class="recent-posts">
+    <%= paginate @collection %>
+    <%= render partial: 'posts/list', locals: { collection: @collection } %>
+    <%= paginate @collection %>
+  </section>
+</article>

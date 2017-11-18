@@ -8,6 +8,7 @@
 }
 
 .post-preview {
+  border-radius: .2rem;
   box-shadow: $block-shadow;
   display: flex;
   flex: 1;
@@ -19,6 +20,7 @@
 
   .image {
     background: linear-gradient(to top, #f0f0f0, #fff);
+    border-radius: .2rem .2rem 0 0;
     height: 20rem;
     overflow: hidden;
     width: 100%;
@@ -44,12 +46,18 @@
   .counters {
     margin-top: auto;
     padding: .4rem;
+    text-align: right;
+  }
+
+  .category {
+    padding: .4rem;
   }
 
   .info {
     align-items: center;
     -webkit-backdrop-filter: blur(.2rem);
     background: rgba(255, 255, 255, .75);
+    border-radius: .2rem .2rem 0 0;
     display: flex;
     flex-wrap: wrap;
     left: 0;
@@ -64,4 +72,10 @@
       margin-left: auto;
     }
   }
+}
+
+.view_count {
+  background: image_url('biovision/post/icons/view.svg') no-repeat center left / 1.6rem auto;
+  margin: 0 .4rem;
+  padding-left: 1.8rem;
 }

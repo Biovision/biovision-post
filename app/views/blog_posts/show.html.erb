@@ -1,0 +1,7 @@
+<% content_for :meta_title, @entity.title %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('blog_posts.index.nav_text'), blog_posts_path) %>
+    <%= render partial: 'posts/breadcrumbs', locals: { entity: @entity } %>
+<% end %>
+<%= render partial: 'posts/entity/metadata', locals: { entity: @entity } %>
+<%= render partial: 'posts/post', locals: { post: @entity } %>

@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   LEAD_LIMIT   = 350
   BODY_LIMIT   = 50000
   META_LIMIT   = 100
+  ALT_LIMIT    = 200
   PER_PAGE     = 10
 
   mount_uploader :image, PostImageUploader
@@ -32,6 +33,7 @@ class Post < ApplicationRecord
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :body, maximum: BODY_LIMIT
   validates_length_of :image_name, maximum: META_LIMIT
+  validates_length_of :image_alt_text, maximum: ALT_LIMIT
   validates_length_of :image_author_name, maximum: META_LIMIT
   validates_length_of :image_author_link, maximum: META_LIMIT
   validates_length_of :source_link, maximum: META_LIMIT
@@ -55,7 +57,7 @@ class Post < ApplicationRecord
 
   def self.entity_parameters
     main_data  = %i(post_category_id title slug lead body visible region_id)
-    image_data = %i(image image_name image_author_name image_author_link)
+    image_data = %i(image image_alt_text image_name image_author_name image_author_link)
     meta_data  = %i(source_name source_link publication_time)
     flags_data = %i(show_owner allow_comments)
 
