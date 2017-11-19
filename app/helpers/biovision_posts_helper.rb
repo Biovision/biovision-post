@@ -71,8 +71,9 @@ module BiovisionPostsHelper
   def post_image_medium(entity, add_options = {})
     return '' if entity.image.blank?
 
+    alt_text = entity.image_alt_text.to_s
     versions = "#{entity.image.big.url} 2x"
-    options  = { alt: entity.title, srcset: versions }.merge(add_options)
+    options  = { alt: alt_text, srcset: versions }.merge(add_options)
     image_tag(entity.image.medium.url, options)
   end
 end

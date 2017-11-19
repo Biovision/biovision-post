@@ -124,19 +124,4 @@
 
 <%= render 'posts/form/wysiwyg' %>
 
-<script>
-    'use strict';
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('post-form');
-        const button = form.querySelector('button[type=submit]');
-
-        form.addEventListener('ajax:before', function() {
-            button.disabled = true;
-        });
-
-        form.addEventListener('ajax:complete', function() {
-            button.disabled = false;
-        });
-    });
-</script>
+<%= render partial: 'shared/forms/default_ajax_handler', locals: { form_id: 'post-form' } %>

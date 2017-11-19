@@ -41,7 +41,7 @@ ru:
         slug: "Идентификатор для URL"
         source_link: "Ссылка на источник"
         source_name: "Название источника"
-        tags_cache: ""
+        tags_cache: "Метки"
         title: "Название"
         user: "Автор"
         uuid: "UUID"

@@ -1,3 +1,6 @@
+$background-post-footer: rgb(248, 248, 248) !default;
+$background-post-preview-image: linear-gradient(to top, #f0f0f0, #fff) !default;
+
 .recent-posts {
   .list {
     align-items: stretch;
@@ -19,7 +22,7 @@
   min-width: 28rem;
 
   .image {
-    background: linear-gradient(to top, #f0f0f0, #fff);
+    background: $background-post-preview-image;
     border-radius: .2rem .2rem 0 0;
     height: 20rem;
     overflow: hidden;
@@ -78,4 +81,52 @@
   background: image_url('biovision/post/icons/view.svg') no-repeat center left / 1.6rem auto;
   margin: 0 .4rem;
   padding-left: 1.8rem;
+}
+
+article.post {
+  figure {
+    border-bottom: $border-secondary;
+    margin: 0 auto;
+    max-width: 64rem;
+    padding: 0 0 .8rem 0;
+  }
+
+  figcaption {
+    align-items: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .image_author {
+    color: $text-color-secondary;
+    font-size: $font-size-decreased;
+    margin-left: auto;
+  }
+
+  .body {
+    padding: .4rem;
+  }
+
+  footer {
+    align-items: center;
+    background: $background-post-footer;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: $font-size-decreased;
+    padding: .8rem;
+
+    .author {
+      margin: 0 1.6rem 0 0;
+    }
+
+    .source {
+      color: $text-color-secondary;
+      margin-left: auto;
+    }
+
+    .time {
+      margin: .8rem 0 0 0;
+      width: 100%;
+    }
+  }
 }
