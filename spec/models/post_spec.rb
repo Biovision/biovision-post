@@ -33,11 +33,6 @@ RSpec.describe Post, type: :model do
       subject.valid?
       expect(subject.slug).to eq('proverka')
     end
-
-    it 'sets publication time' do
-      subject.valid?
-      expect(subject.publication_time).not_to be_nil
-    end
   end
 
   describe 'before_save' do

@@ -9,7 +9,7 @@
     <% if entity.show_owner? %>
         <%= user_link(entity.user) %>
     <% end %>
-    <%= time_tag(entity.publication_time) %>
+    <%= time_tag(entity.created_at) %>
   </div>
   <div class="lead"><%= entity.lead %></div>
   <% unless entity.post_category.nil? %>

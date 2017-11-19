@@ -23,7 +23,6 @@ class Post < ApplicationRecord
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
   before_validation { self.slug = slug.downcase }
-  before_validation { self.publication_time = Time.now if publication_time.nil? }
   before_validation :prepare_source_names
   before_save { self.parsed_body = PostManager.handler(self).parsed_body }
 
@@ -41,7 +40,7 @@ class Post < ApplicationRecord
   validates_format_of :slug, with: SLUG_PATTERN
   validate :category_consistency
 
-  scope :recent, -> { order('publication_time desc') }
+  scope :recent, -> { order('id desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :list_for_visitors, -> { visible.recent }
 
@@ -58,7 +57,7 @@ class Post < ApplicationRecord
   def self.entity_parameters
     main_data  = %i(post_category_id title slug lead body visible region_id)
     image_data = %i(image image_alt_text image_name image_author_name image_author_link)
-    meta_data  = %i(source_name source_link publication_time)
+    meta_data  = %i(source_name source_link)
     flags_data = %i(show_owner allow_comments)
 
     main_data + image_data + meta_data + flags_data

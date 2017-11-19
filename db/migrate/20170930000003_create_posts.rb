@@ -10,7 +10,6 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.integer :original_post_id
         t.references :agent, foreign_key: true, on_update: :cascade, on_delete: :nullify
         t.inet :ip
-        t.datetime :publication_time
         t.boolean :visible, default: true, null: false
         t.boolean :locked, default: false, null: false
         t.boolean :deleted, default: false, null: false
@@ -40,7 +39,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :tags_cache, array: true, default: [], null: false
       end
 
-      execute "create index posts_published_month_idx on posts using btree (date_trunc('month', publication_time), post_type_id, user_id);"
+      execute "create index posts_created_at_month_idx on posts using btree (date_trunc('month', created_at), post_type_id, user_id);"
 
       add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
     end

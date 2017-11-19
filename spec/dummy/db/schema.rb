@@ -173,7 +173,6 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.integer "original_post_id"
     t.bigint "agent_id"
     t.inet "ip"
-    t.datetime "publication_time"
     t.boolean "visible", default: true, null: false
     t.boolean "locked", default: false, null: false
     t.boolean "deleted", default: false, null: false
@@ -191,6 +190,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.string "slug", null: false
     t.string "video_url"
     t.string "image"
+    t.string "image_alt_text"
     t.string "image_name"
     t.string "image_author_name"
     t.string "image_author_link"
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 20170930000003) do
     t.text "body", null: false
     t.text "parsed_body"
     t.string "tags_cache", default: [], null: false, array: true
-    t.index "date_trunc('month'::text, publication_time), post_type_id, user_id", name: "posts_published_month_idx"
+    t.index "date_trunc('month'::text, created_at), post_type_id, user_id", name: "posts_created_at_month_idx"
     t.index ["agent_id"], name: "index_posts_on_agent_id"
     t.index ["post_category_id"], name: "index_posts_on_post_category_id"
     t.index ["post_type_id"], name: "index_posts_on_post_type_id"
