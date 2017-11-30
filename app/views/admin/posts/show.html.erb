@@ -28,7 +28,11 @@
     <% unless @entity.post_category.nil? %>
         <dt><%= t('activerecord.attributes.post.post_category') %></dt>
         <dd>
-          <%= admin_post_category_link(@entity.post_category, @entity.post_category.full_title) %>
+          <% if current_user_has_privilege?(:chief_editor) %>
+              <%= admin_post_category_link(@entity.post_category, @entity.post_category.full_title) %>
+          <% else %>
+              <%= @entity.post_category.full_title %>
+          <% end %>
         </dd>
     <% end %>
 

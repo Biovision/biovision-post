@@ -25,6 +25,6 @@ class Admin::PostTypesController < AdminController
   end
 
   def restrict_access
-    require_privilege :chief_editor
+    require_privilege_group :editors
   end
 end

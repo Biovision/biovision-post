@@ -82,11 +82,14 @@ class PostsController < ApplicationController
   private
 
   def set_entity
-    @entity = Post.find params[:id]
+    @entity = Post.find_by(id: params[:id])
+    if @entity.nil?
+      handle_http_404('Cannot find post')
+    end
   end
 
   def restrict_access
-    require_privilege_group :reporters
+    require_privilege_group :editors
   end
 
   def restrict_editing
