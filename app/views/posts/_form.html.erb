@@ -37,7 +37,7 @@
 
       <dt><%= f.label :lead %></dt>
       <dd>
-        <%= f.text_area :lead, id: :post_lead, cols: 80, rows: 3, maxlength: Post::LEAD_LIMIT, required: true %>
+        <%= f.text_area :lead, id: :post_lead, cols: 80, rows: 3, maxlength: Post::LEAD_LIMIT %>
         <div class="guideline"><%= t('.guidelines.lead') %></div>
       </dd>
 

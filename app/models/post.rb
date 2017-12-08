@@ -10,7 +10,7 @@ class Post < ApplicationRecord
   BODY_LIMIT   = 50000
   META_LIMIT   = 100
   ALT_LIMIT    = 200
-  PER_PAGE     = 10
+  PER_PAGE     = 1
 
   mount_uploader :image, PostImageUploader
 
