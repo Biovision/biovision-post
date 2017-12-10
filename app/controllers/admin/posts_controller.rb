@@ -1,4 +1,6 @@
 class Admin::PostsController < AdminController
+  include ToggleableEntity
+
   before_action :set_entity, except: [:index]
 
   # get /admin/posts

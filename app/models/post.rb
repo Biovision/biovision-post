@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   include HasOwner
   include CommentableItem if 'CommentableItem'.safe_constantize
   include VotableItem if 'VotableItem'.safe_constantize
+  include Toggleable
 
   TITLE_LIMIT  = 140
   SLUG_LIMIT   = 200
@@ -11,6 +12,8 @@ class Post < ApplicationRecord
   META_LIMIT   = 100
   ALT_LIMIT    = 200
   PER_PAGE     = 10
+
+  toggleable :visible, :show_owner, :allow_comments
 
   mount_uploader :image, PostImageUploader
 
