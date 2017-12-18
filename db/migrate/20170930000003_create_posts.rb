@@ -3,12 +3,12 @@ class CreatePosts < ActiveRecord::Migration[5.1]
     unless Post.table_exists?
       create_table :posts do |t|
         t.timestamps
-        t.references :user, foreign_key: true, on_update: :cascade, on_delete: :cascade
-        t.references :post_type, foreign_key: true, null: false, on_update: :cascade, on_delete: :cascade
-        t.references :post_category, foreign_key: true, on_update: :cascade, on_delete: :cascade
-        t.references :region, foreign_key: true, on_update: :cascade, on_delete: :nullify
+        t.references :user, foreign_key: { on_update: :cascade, on_delete: :cascade }
+        t.references :post_type, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+        t.references :post_category, foreign_key: { on_update: :cascade, on_delete: :cascade }
+        t.references :region, foreign_key: { on_update: :cascade, on_delete: :nullify }
         t.integer :original_post_id
-        t.references :agent, foreign_key: true, on_update: :cascade, on_delete: :nullify
+        t.references :agent, foreign_key: { on_update: :cascade, on_delete: :nullify }
         t.inet :ip
         t.boolean :visible, default: true, null: false
         t.boolean :locked, default: false, null: false
@@ -16,6 +16,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.boolean :approved, default: true, null: false
         t.boolean :show_owner, default: true, null: false
         t.boolean :allow_comments, default: true, null: false
+        t.boolean :translation, default: false, null: false
         t.integer :privacy, limit: 2, default: 0
         t.integer :comments_count, default: 0, null: false
         t.integer :view_count, default: 0, null: false
@@ -33,6 +34,9 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :image_author_link
         t.string :source_name
         t.string :source_link
+        t.string :meta_title
+        t.string :meta_keywords
+        t.string :meta_description
         t.text :lead
         t.text :body, null: false
         t.text :parsed_body

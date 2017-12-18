@@ -30,6 +30,9 @@ ru:
         image_author_name: "Автор изображения"
         image_name: "Название изображения"
         lead: "Аннотация"
+        meta_description: "Описание для метатэга"
+        meta_keywords: "Ключевые слова для метатэга"
+        meta_title: "Название для заголовка окна"
         original_post_id: "Оригинальная публикация"
         privacy: "Видимость"
         post_category: "Категория"
@@ -43,6 +46,7 @@ ru:
         source_name: "Название источника"
         tags_cache: "Метки"
         title: "Название"
+        translation: "Перевод"
         user: "Автор"
         uuid: "UUID"
         video_url: "URL видео"
@@ -153,3 +157,10 @@ ru:
       nav_text: "Блог"
     category:
       title: "Записи в блоге в категории «%{category}», страница %{page}"
+  news:
+    index:
+      title: "Новости, страница %{page}"
+      heading: "Новости"
+      nav_text: "Новости"
+    category:
+      title: "Новости в категории «%{category}», страница %{page}"

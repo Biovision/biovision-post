@@ -11,6 +11,12 @@ Rails.application.routes.draw do
     get '/:post_id-:post_slug' => :show, as: :show_article, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
   end
 
+  scope :news, controller: :news do
+    get '/' => :index, as: :news_index
+    get '/:category_slug' => :category, as: :news_category, constraints: { category_slug: category_slug_pattern }
+    get '/:post_id-:post_slug' => :show, as: :show_news, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
+  end
+
   scope :blog_posts, controller: :blog_posts do
     get '/' => :index, as: :blog_posts
     get '/:category_slug' => :category, as: :blog_posts_category, constraints: { category_slug: category_slug_pattern }

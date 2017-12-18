@@ -14,6 +14,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.1]
 
       PostType.create(slug: 'blog_post', name: 'Запись в блоге')
       PostType.create(slug: 'article', name: 'Статья')
+      PostType.create(slug: 'news', name: 'Новость')
     end
   end
 

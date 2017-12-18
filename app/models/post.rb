@@ -9,7 +9,7 @@ class Post < ApplicationRecord
   SLUG_PATTERN = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
   LEAD_LIMIT   = 350
   BODY_LIMIT   = 50000
-  META_LIMIT   = 100
+  META_LIMIT   = 250
   ALT_LIMIT    = 200
   PER_PAGE     = 10
 
@@ -40,6 +40,9 @@ class Post < ApplicationRecord
   validates_length_of :image_author_link, maximum: META_LIMIT
   validates_length_of :source_link, maximum: META_LIMIT
   validates_length_of :source_name, maximum: META_LIMIT
+  validates_length_of :meta_title, maximum: TITLE_LIMIT
+  validates_length_of :meta_description, maximum: META_LIMIT
+  validates_length_of :meta_keywords, maximum: META_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validate :category_consistency
 
@@ -58,9 +61,9 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data  = %i(post_category_id title slug lead body visible region_id)
+    main_data  = %i(post_category_id title slug lead body visible translation region_id)
     image_data = %i(image image_alt_text image_name image_author_name image_author_link)
-    meta_data  = %i(source_name source_link)
+    meta_data  = %i(source_name source_link meta_title meta_description meta_keyworks)
     flags_data = %i(show_owner allow_comments)
 
     main_data + image_data + meta_data + flags_data

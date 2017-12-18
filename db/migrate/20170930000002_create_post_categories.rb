@@ -3,7 +3,7 @@ class CreatePostCategories < ActiveRecord::Migration[5.1]
     unless PostCategory.table_exists?
       create_table :post_categories do |t|
         t.timestamps
-        t.references :post_type, foreign_key: true, null: false, on_update: :cascade, on_delete: :cascade
+        t.references :post_type, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
         t.integer :parent_id
         t.integer :priority, limit: 2, default: 1, null: false
         t.integer :posts_count, default: 0, null: false

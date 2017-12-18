@@ -1,0 +1,8 @@
+<% content_for :meta_title, @entity.title %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('news.index.nav_text'), news_index_path) %>
+    <%= render partial: 'posts/breadcrumbs', locals: { entity: @entity } %>
+<% end %>
+<%= render partial: 'posts/entity/metadata', locals: { entity: @entity } %>
+<%= render partial: 'posts/post', locals: { post: @entity } %>
+<%# render partial: 'comments/list', locals: { commentable: @entity, comments: @entity.comments } %>
