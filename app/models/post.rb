@@ -43,6 +43,9 @@ class Post < ApplicationRecord
   validates_length_of :meta_title, maximum: TITLE_LIMIT
   validates_length_of :meta_description, maximum: META_LIMIT
   validates_length_of :meta_keywords, maximum: META_LIMIT
+  validates_length_of :author_name, maximum: META_LIMIT
+  validates_length_of :author_title, maximum: META_LIMIT
+  validates_length_of :author_url, maximum: META_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validate :category_consistency
 
@@ -61,12 +64,13 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data  = %i(post_category_id title slug lead body visible translation region_id)
-    image_data = %i(image image_alt_text image_name image_author_name image_author_link)
-    meta_data  = %i(source_name source_link meta_title meta_description meta_keyworks)
-    flags_data = %i(show_owner allow_comments)
+    main_data   = %i(post_category_id title slug lead body visible translation region_id)
+    image_data  = %i(image image_alt_text image_name image_author_name image_author_link)
+    meta_data   = %i(source_name source_link meta_title meta_description meta_keyworks)
+    flags_data  = %i(show_owner allow_comments)
+    author_data = %i(author_name author_title author_url)
 
-    main_data + image_data + meta_data + flags_data
+    main_data + image_data + meta_data + author_data + flags_data
   end
 
   def self.creation_parameters

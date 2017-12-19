@@ -22,6 +22,9 @@ en:
       post:
         allow_comments: "Allow comments"
         approved: "Approved"
+        author_name: "Author name"
+        author_title: "Author title"
+        author_url: "Author URL"
         body: "Text"
         created_at: "Created at"
         image: "Image"
@@ -124,6 +127,9 @@ en:
       success: "Post was successfully deleted"
     form:
       guidelines:
+        author_name: "If specified, shown instead of current user"
+        author_title: "For example, occupation of status"
+        author_url: "If specified, author name will link here"
         image: "Maximum dimensions is 3000×3000, format — JPG or PNG."
         image_alt_text: "Brief description of image. Maximum 200 chars."
         image_author_link: "Will be opened when one clicks on author name."

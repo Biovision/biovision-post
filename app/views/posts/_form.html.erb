@@ -46,6 +46,24 @@
       <%= f.text_area :body, id: :post_body, cols: 20, rows: 25, required: true %>
     </dd>
 
+    <dt><%= f.label :author_name %></dt>
+    <dd>
+      <%= f.text_field :author_name, id: :post_author_name, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.author_name') %></div>
+    </dd>
+
+    <dt><%= f.label :author_title %></dt>
+    <dd>
+      <%= f.text_field :author_title, id: :post_author_title, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.author_title') %></div>
+    </dd>
+
+    <dt><%= f.label :author_url %></dt>
+    <dd>
+      <%= f.url_field :author_url, id: :post_author_url, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.author_url') %></div>
+    </dd>
+
     <dt><%= f.label :image %></dt>
     <dd>
       <figure class="preview" id="post-image">

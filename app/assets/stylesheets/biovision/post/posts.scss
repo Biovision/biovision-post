@@ -127,6 +127,16 @@ article.post {
       margin: 0 1.6rem 0 0;
     }
 
+    .author-title {
+      &::before {
+        content: '(';
+      }
+
+      &::after {
+        content: ')';
+      }
+    }
+
     .source {
       color: $text-color-secondary;
       margin-left: auto;

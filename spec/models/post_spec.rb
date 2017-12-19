@@ -102,5 +102,14 @@ RSpec.describe Post, type: :model do
       expect(subject).not_to be_valid
       expect(subject.errors.messages).to have_key(:post_category)
     end
+
+    it 'fails with too long author name'
+    it 'fails with too long author title'
+    it 'fails with too long author url'
+    it 'fails with malformed author url'
+    it 'fails with too long image name'
+    it 'fails with too long image author name'
+    it 'fails with too long image author link'
+    it 'fails with malformed image author link'
   end
 end

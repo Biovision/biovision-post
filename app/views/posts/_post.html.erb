@@ -2,39 +2,39 @@
 <article class="post" itemscope itemtype="http://schema.org/Article" itemprop="mainEntityOfPage">
   <h1 itemprop="headline"><%= post.title %></h1>
   <% if post.editable_by? current_user %>
-      <ul class="actions">
-        <% if UserPrivilege.user_in_group?(current_user, :editors) %>
-            <li><%= gear_icon(admin_post_path(post.id)) %></li>
-        <% end %>
-        <% unless post.locked? %>
-            <li><%= edit_icon(handler.edit_path) %></li>
-        <% end %>
-      </ul>
+    <ul class="actions">
+      <% if UserPrivilege.user_in_group?(current_user, :editors) %>
+        <li><%= gear_icon(admin_post_path(post.id)) %></li>
+      <% end %>
+      <% unless post.locked? %>
+        <li><%= edit_icon(handler.edit_path) %></li>
+      <% end %>
+    </ul>
   <% end %>
 
   <% unless post.image.blank? %>
-      <figure itemprop="image" itemscope itemtype="http://schema.org/ImageObject" role="group">
-        <%= post_image_medium(post, { itemprop: 'about' }) %>
-        <% if post.has_image_data? %>
-            <figcaption>
-              <% unless post.image_name.blank? %>
-                  <div class="image_name" itemprop="caption">
-                    <%= post.image_name %>
-                  </div>
+    <figure itemprop="image" itemscope itemtype="http://schema.org/ImageObject" role="group">
+      <%= post_image_medium(post, { itemprop: 'about' }) %>
+      <% if post.has_image_data? %>
+        <figcaption>
+          <% unless post.image_name.blank? %>
+            <div class="image_name" itemprop="caption">
+              <%= post.image_name %>
+            </div>
+          <% end %>
+          <% unless post.image_author_name.blank? %>
+            <div class="image_author" itemprop="author">
+              <span><%= t('activerecord.attributes.post.image_author_name') %></span>
+              <% if post.image_author_link.blank? %>
+                <%= post.image_author_name %>
+              <% else %>
+                <%= link_to(post.image_author_name, post.image_author_link, rel: 'external nofollow noopener noreferrer', itemprop: 'url', target: '_blank') %>
               <% end %>
-              <% unless post.image_author_name.blank? %>
-                  <div class="image_author" itemprop="author">
-                    <span><%= t('activerecord.attributes.post.image_author_name') %></span>
-                    <% if post.image_author_link.blank? %>
-                        <%= post.image_author_name %>
-                    <% else %>
-                        <%= link_to(post.image_author_name, post.image_author_link, rel: 'external nofollow noopener noreferrer', itemprop: 'url', target: '_blank') %>
-                    <% end %>
-                  </div>
-              <% end %>
-            </figcaption>
-        <% end %>
-      </figure>
+            </div>
+          <% end %>
+        </figcaption>
+      <% end %>
+    </figure>
   <% end %>
 
   <div class="body" itemprop="articleBody mainEntityOfPage">
@@ -42,28 +42,35 @@
   </div>
 
   <% if post.tags_cache.any? %>
-      <div class="tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
-        <%= post.tags_cache.join(', ') %>
-      </div>
+    <div class="tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
+      <%= post.tags_cache.join(', ') %>
+    </div>
   <% end %>
 
   <footer>
     <% if post.show_owner? %>
-        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name" aria-label="<%= t('activerecord.attributes.post.user') %>">
-            <%= user_link(post.user) %>
+            <% if post.author_name.blank? %>
+              <%= user_link(post.user) %>
+            <% else %>
+              <%= post_author_link(post) %>
+              <% unless post.author_title.blank? %>
+              <span class="author-title"><%= post.author_title %></span>
+              <% end %>
+            <% end %>
           </span>
-        </div>
+      </div>
     <% end %>
     <% if post.has_source_data? %>
-        <div class="source">
-          <span><%= t('.source') %>:</span>
-          <% if post.source_link.blank? %>
-              <span itemprop="isBasedOn"><%= post.source_name %></span>
-          <% else %>
-              <%= link_to(post.source_name, post.source_link, rel: 'external nofollow noopener noreferrer', itemprop: 'isBasedOn', target: '_blank') %>
-          <% end %>
-        </div>
+      <div class="source">
+        <span><%= t('.source') %>:</span>
+        <% if post.source_link.blank? %>
+          <span itemprop="isBasedOn"><%= post.source_name %></span>
+        <% else %>
+          <%= link_to(post.source_name, post.source_link, rel: 'external nofollow noopener noreferrer', itemprop: 'isBasedOn', target: '_blank') %>
+        <% end %>
+      </div>
     <% end %>
 
     <div class="time">

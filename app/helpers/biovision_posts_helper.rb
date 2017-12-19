@@ -41,6 +41,15 @@ module BiovisionPostsHelper
     link_to(text, PostManager.handler(entity).post_path)
   end
 
+  # @param [Post] entity
+  def post_author_link(entity)
+    if entity.author_url.blank?
+      entity.author_name
+    else
+      link_to(entity.author_name, entity.author_url, rel: 'external nofollow noopener noreferer')
+    end
+  end
+
   # Post image preview for displaying in "administrative" lists
   #
   # @param [Post] entity

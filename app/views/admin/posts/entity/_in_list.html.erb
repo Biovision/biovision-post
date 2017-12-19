@@ -13,10 +13,14 @@
     <div><%= t(:created_at) %>: <%= time_tag(entity.created_at) %></div>
     <div><%= t(:updated_at) %>: <%= time_tag(entity.updated_at) %></div>
     <% unless entity.post_category.nil? %>
-        <div>
-          <%= t('activerecord.attributes.post.post_category') %>:
-          <%= entity.post_category.full_title %>
-        </div>
+      <div>
+        <%= t('activerecord.attributes.post.post_category') %>:
+        <%= entity.post_category.full_title %>
+      </div>
+    <% end %>
+    <% unless entity.author_name.blank? %>
+      <%= t('activerecord.attributes.post.author_name') %>:
+      <%= entity.author_name %>
     <% end %>
   </div>
 

@@ -53,7 +53,7 @@ class PostsController < ApplicationController
 
   # delete /posts/:id
   def destroy
-    if @entity.update(deleted: true)
+    if @entity.destroy #@entity.update(deleted: true)
       flash[:notice] = t('posts.destroy.success')
     end
     redirect_to admin_posts_path
