@@ -1,0 +1,166 @@
+en:
+  post_count:
+    zero: "no posts"
+    one: "%{count} post"
+    few: "%{count} posts"
+    many: "%{count} posts"
+    other: "%{count} posts"
+  activerecord:
+    models:
+      post: "Post"
+      post_category: "Post category"
+      post_type: "Post type"
+    errors:
+      messages:
+        mismatches_post_type: "has other post type"
+      models:
+        post_category:
+          attributes:
+            parent_id:
+              is_too_deep: "is too deep"
+    attributes:
+      post:
+        allow_comments: "Allow comments"
+        approved: "Approved"
+        body: "Text"
+        created_at: "Created at"
+        image: "Image"
+        image_alt_text: "Alt text for image"
+        image_author_link: "Image author link"
+        image_author_name: "Image author name"
+        image_name: "Image name"
+        lead: "Lead"
+        meta_description: "Description for meta tag"
+        meta_keywords: "Keywords for meta tag"
+        meta_title: "Title for window"
+        original_post_id: "Original post"
+        privacy: "Privacy"
+        post_category: "Category"
+        post_category_id: "Category"
+        post_type: "Type"
+        post_type_id: "Type"
+        region_id: "Region"
+        show_owner: "Show author"
+        slug: "Slug for URL"
+        source_link: "Source link"
+        source_name: "Source name"
+        tags_cache: "Tags"
+        title: "Title"
+        translation: "Translation"
+        user: "Author"
+        uuid: "UUID"
+        video_url: "Video URL"
+        view_count: "View count"
+        visible: "Visible"
+      post_category:
+        children_cache: "Children cache"
+        name: "Name"
+        parent_id: "Parent category"
+        parents_cache: "Parents cache"
+        post_type: "Post type"
+        post_type_id: "Post type"
+        priority: "Sorting order"
+        slug: "Slug"
+        visible: "Visible"
+      post_type:
+        category_depth: "Category depth"
+        name: "Name"
+        slug: "Slug"
+  admin:
+    post_types:
+      nav_item:
+        description: "Managing post types and categories"
+        text: "Post types"
+      index:
+        heading: "Post types"
+        title: "Post types"
+      show:
+        title: "Post type \"%{name}\""
+        children: "Children types"
+      post_categories:
+        title: "Categories of post type \"%{name}\""
+        heading: "Post categories"
+      new_post:
+        title: "New post of type \"%{name}\""
+        heading: "Add post"
+    post_categories:
+      show:
+        title: "Post category \"%{name}\""
+        children: "Children"
+        new_child: "Add child category"
+    posts:
+      nav_item:
+        description: "Managing posts"
+        text: "Posts"
+      index:
+        heading: "Posts"
+        title: "Posts, page %{page}"
+      show:
+        title: "Post \"%{name}\""
+    index:
+      biovision_post:
+        heading: "Posts module"
+  post_categories:
+    new:
+      title: "New post category"
+      heading: "Adding post category"
+    edit:
+      title: "Editing post category"
+      heading: "Editing post category"
+      forbidden: "Editing this post category is forbidden"
+    update:
+      success: "Post category is updated successfully"
+    destroy:
+      success: "Post category is deleted successfully"
+    form:
+      guidelines:
+        name: "Maximum 50 chars."
+        slug: "Used in URL. Only latin letters, digits and dashes (except first and last char), maximum 50 chars."
+  posts:
+    edit:
+      title: "Editing post"
+      heading: "Editing post"
+    destroy:
+      success: "Post was successfully deleted"
+    form:
+      guidelines:
+        image: "Maximum dimensions is 3000×3000, format — JPG or PNG."
+        image_alt_text: "Brief description of image. Maximum 200 chars."
+        image_author_link: "Will be opened when one clicks on author name."
+        image_author_name: "Person or organization name. Will be shown near image."
+        image_name: "Will be shown as image caption."
+        lead: "Post essence, maximum 350 chars."
+        slug: "Only latin letters, digits, dots, dashes or underscores. Maximum 200 chars."
+        source: "Post source name (e.g. agency name)"
+        source_link: "Will be opened when one clicks on source name"
+        title: "Maximum 140 chars."
+      placeholders:
+        image_author_link: "https://example.com/user42"
+        source_link: "https://example.org/posts/123"
+    post:
+      source: "Source"
+  index:
+    index:
+      recent_posts:
+        heading: "Recent posts"
+  articles:
+    index:
+      title: "Articles, page %{page}"
+      heading: "Articles"
+      nav_text: "Articles"
+    category:
+      title: "Articles in category \"%{category}\", page %{page}"
+  blog_posts:
+    index:
+      title: "Blog posts, page %{page}"
+      heading: "Blog posts"
+      nav_text: "Blog"
+    category:
+      title: "Blog posts in category \"%{category}\", page %{page}"
+  news:
+    index:
+      title: "News, page %{page}"
+      heading: "News"
+      nav_text: "News"
+    category:
+      title: "News in category \"%{category}\", page %{page}"
