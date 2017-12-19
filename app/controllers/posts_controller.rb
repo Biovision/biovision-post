@@ -10,12 +10,6 @@ class PostsController < ApplicationController
     @collection = Post.page_for_visitors(current_page)
   end
 
-  # get /posts/:category_slug
-  def category
-    @category   = PostCategory.find_by! long_slug: params[:category_slug]
-    @collection = @category.posts.page_for_visitors(current_page)
-  end
-
   # post /posts
   def create
     @entity = Post.new(creation_parameters)
@@ -36,20 +30,6 @@ class PostsController < ApplicationController
     @entity = Post.find_by(id: params[:id], visible: true, deleted: false)
     if @entity.nil?
       handle_http_404("Cannot find non-deleted post #{params[:id]}")
-    end
-  end
-
-  # get /posts/:category_slug/:slug
-  def show_in_category
-    @category = PostCategory.find_by(slug: params[:category_slug])
-    @entity   = Post.find_by(slug: params[:slug], deleted: false)
-    if @entity.nil? || !@entity.visible_to?(current_user)
-      handle_http_404("Cannot show posts #{params[:slug]} to user #{current_user&.id}")
-    elsif @entity.posts_category == @category
-      @entity.increment! :view_count
-    else
-      parameters = { category_slug: @entity.posts_category.slug, slug: @entity.slug }
-      redirect_to posts_in_category_posts_index_path(parameters)
     end
   end
 
@@ -76,7 +56,7 @@ class PostsController < ApplicationController
     if @entity.update(deleted: true)
       flash[:notice] = t('posts.destroy.success')
     end
-    redirect_to admin_posts_index_path
+    redirect_to admin_posts_path
   end
 
   private
@@ -105,11 +85,5 @@ class PostsController < ApplicationController
   def creation_parameters
     parameters = params.require(:post).permit(Post.creation_parameters)
     parameters.merge(owner_for_entity(true))
-  end
-
-  def add_figures
-    params[:figures].values.reject { |f| f[:slug].blank? || f[:image].blank? }.each do |data|
-      @entity.figures.create!(data.select { |key, _| Figure.creation_parameters.include? key.to_sym })
-    end
   end
 end
