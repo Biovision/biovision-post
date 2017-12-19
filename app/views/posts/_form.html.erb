@@ -1,125 +1,127 @@
 <%= form_with model: entity, html: { id: 'post-form' } do |f| %>
-    <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
-    <dl>
-      <dt><%= f.label :title %></dt>
+  <dl>
+    <dt><%= f.label :title %></dt>
+    <dd>
+      <%= f.text_field :title, id: :post_title, size: nil, maxlength: Post::TITLE_LIMIT, required: true, data: { transliterate: :post_slug } %>
+      <div class="guideline"><%= t('.guidelines.title') %></div>
+    </dd>
+
+    <dt><%= f.label :slug %></dt>
+    <dd>
+      <%= f.text_field :slug, id: :post_slug, size: nil, maxlength: Post::SLUG_LIMIT, required: true %>
+      <div class="guideline"><%= t('.guidelines.slug') %></div>
+    </dd>
+
+    <% if entity.post_type.post_categories.any? %>
+      <dt><%= f.label :post_category_id %></dt>
       <dd>
-        <%= f.text_field :title, id: :post_title, size: nil, maxlength: Post::TITLE_LIMIT, required: true, data: { transliterate: :post_slug } %>
-        <div class="guideline"><%= t('.guidelines.title') %></div>
+        <%= f.select :post_category_id, post_categories_for_select(entity.post_type_id) %>
       </dd>
+    <% end %>
 
-      <dt><%= f.label :slug %></dt>
+    <% if Region.any? %>
+      <dt><%= f.label :region_id %></dt>
       <dd>
-        <%= f.text_field :slug, id: :post_slug, size: nil, maxlength: Post::SLUG_LIMIT, required: true %>
-        <div class="guideline"><%= t('.guidelines.slug') %></div>
+        <%# radio_button_tag 'post[region_id]', '', entity.region.nil?, id: 'post_region_0' %>
+        <%# label_tag 'post_region_0', t(:not_set) %><br/>
+        <% unless entity.region.nil? %>
+          <%# radio_button_tag 'post[region_id]', entity.region_id, true, id: 'post_region_default' %>
+          <%# label_tag 'post_region_default', entity.region.branch_name %>
+          <br/>
+        <% end %>
+        <%# render partial: 'admin/regions/post_form', locals: { form: f } %>
       </dd>
+    <% end %>
 
-      <% if entity.post_type.post_categories.any? %>
-          <dt><%= f.label :post_category_id %></dt>
-          <dd>
-            <%= f.select :post_category_id, post_categories_for_select(entity.post_type_id) %>
-          </dd>
-      <% end %>
+    <dt><%= f.label :lead %></dt>
+    <dd>
+      <%= f.text_area :lead, id: :post_lead, cols: 80, rows: 3, maxlength: Post::LEAD_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.lead') %></div>
+    </dd>
 
-      <% if Region.any? %>
-          <dt><%= f.label :region_id %></dt>
-          <dd>
-            <%# radio_button_tag 'post[region_id]', '', entity.region.nil?, id: 'post_region_0' %>
-            <%# label_tag 'post_region_0', t(:not_set) %><br/>
-            <% unless entity.region.nil? %>
-                <%# radio_button_tag 'post[region_id]', entity.region_id, true, id: 'post_region_default' %>
-                <%# label_tag 'post_region_default', entity.region.branch_name %>
-                <br/>
-            <% end %>
-            <%# render partial: 'admin/regions/post_form', locals: { form: f } %>
-          </dd>
-      <% end %>
+    <dt><%= f.label :body %></dt>
+    <dd>
+      <%= f.text_area :body, id: :post_body, cols: 20, rows: 25, required: true %>
+    </dd>
 
-      <dt><%= f.label :lead %></dt>
-      <dd>
-        <%= f.text_area :lead, id: :post_lead, cols: 80, rows: 3, maxlength: Post::LEAD_LIMIT %>
-        <div class="guideline"><%= t('.guidelines.lead') %></div>
-      </dd>
+    <dt><%= f.label :image %></dt>
+    <dd>
+      <figure class="preview" id="post-image">
+        <% if entity.image.blank? %>
+          <%= f.label :image, image_tag('biovision/base/placeholders/image.svg') %>
+        <% else %>
+          <%= f.label :image, image_tag(entity.image.big.url) %>
+        <% end %>
+        <figcaption>
+          <%= f.file_field :image, id: :post_image, accept: 'image/jpeg,image/png', data: { image: 'post-image' } %>
+        </figcaption>
+      </figure>
+      <div class="guideline"><%= t('.guidelines.image') %></div>
+    </dd>
 
-      <dt><%= f.label :body %></dt>
-      <dd>
-        <%= f.text_area :body, id: :post_body, cols: 20, rows: 25, required: true %>
-      </dd>
+    <dt><%= f.label :image_name %></dt>
+    <dd>
+      <%= f.text_field :image_name, id: :post_image_name, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.image_name') %></div>
+    </dd>
 
-      <dt><%= f.label :image %></dt>
-      <dd>
-        <figure class="preview" id="post-image">
-          <% if entity.image.blank? %>
-              <%= f.label :image, image_tag('biovision/base/placeholders/image.svg') %>
-          <% else %>
-              <%= f.label :image, image_tag(entity.image.big.url) %>
-          <% end %>
-          <figcaption>
-            <%= f.file_field :image, id: :post_image, accept: 'image/jpeg,image/png', data: { image: 'post-image' } %>
-          </figcaption>
-        </figure>
-        <div class="guideline"><%= t('.guidelines.image') %></div>
-      </dd>
+    <dt><%= f.label :image_alt_text %></dt>
+    <dd>
+      <%= f.text_field :image_alt_text, id: :post_image_alt_text, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.image_alt_text') %></div>
+    </dd>
 
-      <dt><%= f.label :image_name %></dt>
-      <dd>
-        <%= f.text_field :image_name, id: :post_image_name, size: nil, maxlength: Post::META_LIMIT %>
-        <div class="guideline"><%= t('.guidelines.image_name') %></div>
-      </dd>
+    <dt><%= f.label :image_author_name %></dt>
+    <dd>
+      <%= f.text_field :image_author_name, id: :post_image_author_name, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.image_author_name') %></div>
+    </dd>
 
-      <dt><%= f.label :image_alt_text %></dt>
-      <dd>
-        <%= f.text_field :image_alt_text, id: :post_image_alt_text, size: nil, maxlength: Post::META_LIMIT %>
-        <div class="guideline"><%= t('.guidelines.image_alt_text') %></div>
-      </dd>
+    <dt><%= f.label :image_author_link %></dt>
+    <dd>
+      <%= f.url_field :image_author_link, id: :post_image_author_link, size: nil, maxlength: Post::META_LIMIT, placeholder: t('.placeholders.image_author_link') %>
+      <div class="guideline"><%= t('.guidelines.image_author_link') %></div>
+    </dd>
 
-      <dt><%= f.label :image_author_name %></dt>
-      <dd>
-        <%= f.text_field :image_author_name, id: :post_image_author_name, size: nil, maxlength: Post::META_LIMIT %>
-        <div class="guideline"><%= t('.guidelines.image_author_name') %></div>
-      </dd>
+    <dt><%= f.label :source_name %></dt>
+    <dd>
+      <%= f.text_field :source_name, id: :post_source_name, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.source') %></div>
+    </dd>
 
-      <dt><%= f.label :image_author_link %></dt>
-      <dd>
-        <%= f.url_field :image_author_link, id: :post_image_author_link, size: nil, maxlength: Post::META_LIMIT, placeholder: t('.placeholders.image_author_link') %>
-        <div class="guideline"><%= t('.guidelines.image_author_link') %></div>
-      </dd>
+    <dt><%= f.label :source_link %></dt>
+    <dd>
+      <%= f.url_field :source_link, id: :post_source_link, size: nil, maxlength: Post::META_LIMIT, placeholder: t('.placeholders.source_link') %>
+      <div class="guideline"><%= t('.guidelines.source_link') %></div>
+    </dd>
 
-      <dt><%= f.label :source_name %></dt>
-      <dd>
-        <%= f.text_field :source_name, id: :post_source_name, size: nil, maxlength: Post::META_LIMIT %>
-        <div class="guideline"><%= t('.guidelines.source') %></div>
-      </dd>
-
-      <dt><%= f.label :source_link %></dt>
-      <dd>
-        <%= f.url_field :source_link, id: :post_source_link, size: nil, maxlength: Post::META_LIMIT, placeholder: t('.placeholders.source_link') %>
-        <div class="guideline"><%= t('.guidelines.source_link') %></div>
-      </dd>
-
-      <dt><%= t(:flags) %></dt>
-      <dd>
-        <ul class="flags">
-          <li>
-            <%= f.check_box :visible, id: :post_visible %>
-            <%= f.label :visible %>
-          </li>
-          <li>
-            <%= f.check_box :show_owner, id: :post_show_owner %>
-            <%= f.label :show_owner %>
-          </li>
+    <dt><%= t(:flags) %></dt>
+    <dd>
+      <ul class="flags">
+        <li>
+          <%= f.check_box :visible, id: :post_visible %>
+          <%= f.label :visible %>
+        </li>
+        <li>
+          <%= f.check_box :show_owner, id: :post_show_owner %>
+          <%= f.label :show_owner %>
+        </li>
+        <% if 'CommentableItem'.safe_constantize %>
           <li>
             <%= f.check_box :allow_comments, id: :post_allow_comments %>
             <%= f.label :allow_comments %>
           </li>
-        </ul>
-      </dd>
-    </dl>
+        <% end %>
+      </ul>
+    </dd>
+  </dl>
 
-    <div class="buttons">
-      <%= f.hidden_field :post_type_id if entity.id.nil? %>
-      <%= f.button t(:save), type: :submit %>
-    </div>
+  <div class="buttons">
+    <%= f.hidden_field :post_type_id if entity.id.nil? %>
+    <%= f.button t(:save), type: :submit %>
+  </div>
 <% end %>
 
 <%= render 'posts/form/wysiwyg' %>
