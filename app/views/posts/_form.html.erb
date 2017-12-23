@@ -115,6 +115,12 @@
       <div class="guideline"><%= t('.guidelines.source_link') %></div>
     </dd>
 
+    <dt><%= f.label :meta_title %></dt>
+    <dd>
+      <%= f.text_field :meta_title, id: :post_meta_title, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.meta_title') %></div>
+    </dd>
+
     <dt><%= t(:flags) %></dt>
     <dd>
       <ul class="flags">
