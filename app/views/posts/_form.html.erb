@@ -121,6 +121,18 @@
       <div class="guideline"><%= t('.guidelines.meta_title') %></div>
     </dd>
 
+    <dt><%= f.label :meta_description %></dt>
+    <dd>
+      <%= f.text_field :meta_description, id: :post_meta_description, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.meta_description') %></div>
+    </dd>
+
+    <dt><%= f.label :meta_keywords %></dt>
+    <dd>
+      <%= f.text_field :meta_keywords, id: :post_meta_keywords, size: nil, maxlength: Post::META_LIMIT %>
+      <div class="guideline"><%= t('.guidelines.meta_keywords') %></div>
+    </dd>
+
     <dt><%= t(:flags) %></dt>
     <dd>
       <ul class="flags">
