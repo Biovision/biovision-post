@@ -37,16 +37,22 @@ module BiovisionPostsHelper
   end
 
   # @param [Post] entity
-  def post_link(entity, text = entity.title)
-    link_to(text, PostManager.handler(entity).post_path)
+  # @param [String] text
+  # @param [Hash] options
+  def post_link(entity, text = entity.title, options = {})
+    link_to(text, PostManager.handler(entity).post_path, options)
   end
 
   # @param [Post] entity
-  def post_author_link(entity)
+  # @param [Hash] options
+  def post_author_link(entity, options = {})
     if entity.author_url.blank?
       entity.author_name
     else
-      link_to(entity.author_name, entity.author_url, rel: 'external nofollow noopener noreferer')
+      link_options = {
+        rel: 'external nofollow noopener noreferrer'
+      }
+      link_to(entity.author_name, entity.author_url, link_options.merge(options))
     end
   end
 
