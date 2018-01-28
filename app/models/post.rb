@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   include HasOwner
-  include CommentableItem if 'CommentableItem'.safe_constantize
-  include VotableItem if 'VotableItem'.safe_constantize
+  include CommentableItem if Gem.loaded_specs.key?('biovision-comment')
+  include VotableItem if Gem.loaded_specs.key?('biovision-vote')
   include Toggleable
 
   TITLE_LIMIT  = 140
@@ -18,7 +18,7 @@ class Post < ApplicationRecord
   mount_uploader :image, PostImageUploader
 
   belongs_to :user
-  belongs_to :region, optional: true if 'Region'.safe_constantize
+  belongs_to :region, optional: true if Gem.loaded_specs.key?('biovision-regions')
   belongs_to :post_type, counter_cache: true
   belongs_to :post_category, counter_cache: true, optional: true
   belongs_to :language, optional: true
