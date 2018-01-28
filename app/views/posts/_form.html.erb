@@ -21,7 +21,7 @@
       </dd>
     <% end %>
 
-    <% if Region.any? %>
+    <% if Gem.loaded_specs.key?('biovision-regions') && Region.any? %>
       <dt><%= f.label :region_id %></dt>
       <dd>
         <%# radio_button_tag 'post[region_id]', '', entity.region.nil?, id: 'post_region_0' %>
@@ -144,7 +144,7 @@
           <%= f.check_box :show_owner, id: :post_show_owner %>
           <%= f.label :show_owner %>
         </li>
-        <% if 'CommentableItem'.safe_constantize %>
+        <% if Gem.loaded_specs.key?('biovision-comment') %>
           <li>
             <%= f.check_box :allow_comments, id: :post_allow_comments %>
             <%= f.label :allow_comments %>
