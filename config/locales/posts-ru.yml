@@ -32,6 +32,7 @@ ru:
         image_author_link: "Ссылка на автора изображения"
         image_author_name: "Автор изображения"
         image_name: "Название изображения"
+        language_id: "Язык"
         lead: "Аннотация"
         meta_description: "Описание для метатэга"
         meta_keywords: "Ключевые слова для метатэга"

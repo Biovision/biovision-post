@@ -6,7 +6,8 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.references :user, foreign_key: { on_update: :cascade, on_delete: :cascade }
         t.references :post_type, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
         t.references :post_category, foreign_key: { on_update: :cascade, on_delete: :cascade }
-        t.references :region, foreign_key: { on_update: :cascade, on_delete: :nullify }
+        t.references :language, foreign_key: { on_update: :cascade, on_delete: :nullify }
+        t.integer :region_id
         t.integer :original_post_id
         t.references :agent, foreign_key: { on_update: :cascade, on_delete: :nullify }
         t.inet :ip

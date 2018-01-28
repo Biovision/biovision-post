@@ -11,16 +11,17 @@ class Post < ApplicationRecord
   BODY_LIMIT   = 50000
   META_LIMIT   = 250
   ALT_LIMIT    = 200
-  PER_PAGE     = 10
+  PER_PAGE     = 12
 
   toggleable :visible, :show_owner, :allow_comments
 
   mount_uploader :image, PostImageUploader
 
   belongs_to :user
-  belongs_to :region, optional: true
+  belongs_to :region, optional: true if 'Region'.safe_constantize
   belongs_to :post_type, counter_cache: true
   belongs_to :post_category, counter_cache: true, optional: true
+  belongs_to :language, optional: true
   belongs_to :agent, optional: true
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }

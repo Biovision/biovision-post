@@ -32,6 +32,7 @@ en:
         image_author_link: "Image author link"
         image_author_name: "Image author name"
         image_name: "Image name"
+        language_id: "Language"
         lead: "Lead"
         meta_description: "Description for meta tag"
         meta_keywords: "Keywords for meta tag"
