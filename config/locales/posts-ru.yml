@@ -102,8 +102,9 @@ ru:
       show:
         title: "Публикация «%{name}»"
     index:
-      biovision_post:
-        heading: "Модуль публикаций"
+      dashboard:
+        biovision_post:
+          heading: "Модуль публикаций"
   post_categories:
     new:
       title: "Новая категория публикаций"
