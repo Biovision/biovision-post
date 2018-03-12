@@ -151,8 +151,8 @@ ru:
     post:
       source: "Источник"
   index:
-    index:
-      recent_posts:
+    dashboard:
+      biovision_post:
         heading: "Недавние публикации"
   articles:
     index:

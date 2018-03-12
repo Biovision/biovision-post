@@ -151,8 +151,8 @@ en:
     post:
       source: "Source"
   index:
-    index:
-      recent_posts:
+    dashboard:
+      biovision_post:
         heading: "Recent posts"
   articles:
     index:
