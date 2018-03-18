@@ -14,20 +14,15 @@ class PostsController < ApplicationController
   def create
     @entity = Post.new(creation_parameters)
     if @entity.save
-      next_page = PostManager.handler(@entity).post_path
-      respond_to do |format|
-        format.html { redirect_to next_page }
-        format.json { render json: { links: { self: next_page } } }
-        format.js { render js: "document.location.href = '#{next_page}'" }
-      end
+      form_processed_ok(PostManager.handler(@entity).post_path)
     else
-      render :new, status: :bad_request
+      form_processed_with_error(:new)
     end
   end
 
   # get /posts/:id
   def show
-    @entity = Post.find_by(id: params[:id], visible: true, deleted: false)
+    @entity = Post.list_for_visitors.find_by(id: params[:id])
     if @entity.nil?
       handle_http_404("Cannot find non-deleted post #{params[:id]}")
     end
@@ -40,14 +35,9 @@ class PostsController < ApplicationController
   # patch /posts/:id
   def update
     if @entity.update(entity_parameters)
-      next_page = PostManager.handler(@entity).post_path
-      respond_to do |format|
-        format.html { redirect_to next_page }
-        format.json { render json: { links: { self: next_page } } }
-        format.js { render js: "document.location.href = '#{next_page}'" }
-      end
+      form_processed_ok(PostManager.handler(@entity).post_path)
     else
-      render :edit, status: :bad_request
+      form_processed_with_error(:edit)
     end
   end
 

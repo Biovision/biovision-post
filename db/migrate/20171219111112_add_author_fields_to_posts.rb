@@ -6,6 +6,6 @@ class AddAuthorFieldsToPosts < ActiveRecord::Migration[5.1]
   end
 
   def down
-  #   no rollback
+    # no rollback
   end
 end

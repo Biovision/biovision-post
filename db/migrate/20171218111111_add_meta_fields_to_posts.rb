@@ -10,6 +10,6 @@ class AddMetaFieldsToPosts < ActiveRecord::Migration[5.1]
   end
 
   def down
-  #   No need to rollback
+    # No need to rollback
   end
 end

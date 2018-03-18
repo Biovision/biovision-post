@@ -15,7 +15,9 @@ class PostType < ApplicationRecord
   validates_format_of :slug, with: SLUG_PATTERN
   validates_inclusion_of :category_depth, in: DEPTH_RANGE
 
+  scope :active, -> { where(active: true) }
+
   def self.page_for_administration
-    ordered_by_name
+    active.ordered_by_name
   end
 end

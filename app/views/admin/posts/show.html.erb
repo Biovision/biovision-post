@@ -78,8 +78,10 @@
       <dd><%= @entity.image_author_link %></dd>
     <% end %>
 
-    <dt><%= t('activerecord.attributes.post.lead') %></dt>
-    <dd><%= @entity.lead %></dd>
+    <% unless @entity.lead.blank? %>
+      <dt><%= t('activerecord.attributes.post.lead') %></dt>
+      <dd><%= @entity.lead %></dd>
+    <% end %>
 
     <dt><%= t('activerecord.attributes.post.body') %></dt>
     <dd><%= simple_format(strip_tags(@entity.body)) %></dd>

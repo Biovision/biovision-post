@@ -1,4 +1,4 @@
-<%= form_with model: entity, html: { id: 'post-form' } do |f| %>
+<%= form_with model: entity, html: { id: "#{entity.class.to_s.underscore}-form" } do |f| %>
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
   <dl>
@@ -43,7 +43,16 @@
 
     <dt><%= f.label :body %></dt>
     <dd>
-      <%= f.text_area :body, id: :post_body, cols: 20, rows: 25, required: true %>
+      <%=
+        f.text_area(
+            :body,
+            id:       :post_body,
+            cols:     20,
+            rows:     25,
+            required: true,
+            data:     { wysiwyg: 1 }
+        )
+      %>
     </dd>
 
     <dt><%= f.label :author_name %></dt>
@@ -156,8 +165,8 @@
 
   <div class="buttons">
     <%= f.hidden_field :post_type_id if entity.id.nil? %>
-    <%= f.button t(:save), type: :submit %>
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
   </div>
 <% end %>
 
-<%= render 'posts/form/wysiwyg' %>
+<%= render partial: 'shared/forms/wysiwyg' %>
