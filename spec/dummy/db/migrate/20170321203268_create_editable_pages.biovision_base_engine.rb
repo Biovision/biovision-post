@@ -4,6 +4,7 @@ class CreateEditablePages < ActiveRecord::Migration[5.1]
     unless EditablePage.table_exists?
       create_table :editable_pages do |t|
         t.timestamps
+        t.references :language, foreign_key: { on_update: :cascade, on_delete: :cascade }
         t.integer :priority, limit: 2, default: 1, null: false
         t.string :slug, null: false
         t.string :name, null: false
@@ -16,9 +17,17 @@ class CreateEditablePages < ActiveRecord::Migration[5.1]
         t.text :body, default: '', null: false
       end
 
-      EditablePage.create(slug: 'index', name: 'Главная страница')
-      EditablePage.create(slug: 'about', name: 'О проекте')
-      EditablePage.create(slug: 'tos', name: 'Пользовательское соглашение')
+      pages = {
+        index: { ru: 'Главная страница', en: 'Main page' },
+        about: { ru: 'О проекте', en: 'About' },
+        tos: { ru: 'Пользовательское соглашение', en: 'Terms of service' },
+      }
+
+      pages.each do |slug, names|
+        Language.all.each do |language|
+          EditablePage.create(slug: slug, name: names[language.code.to_sym], language: language)
+        end
+      end
     end
   end
 

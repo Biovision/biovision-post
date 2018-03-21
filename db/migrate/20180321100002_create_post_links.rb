@@ -5,7 +5,6 @@ class CreatePostLinks < ActiveRecord::Migration[5.1]
         t.timestamps
         t.references :post, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
         t.integer :other_post_id, null: false
-        t.integer :link_type, limit: 2
         t.integer :priority, limit: 2, default: 1, null: false
       end
 

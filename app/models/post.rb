@@ -14,7 +14,7 @@ class Post < ApplicationRecord
   ALT_LIMIT         = 200
   PER_PAGE          = 12
 
-  toggleable :visible, :show_owner, :allow_comments
+  toggleable :visible, :show_owner
 
   mount_uploader :image, PostImageUploader
 
@@ -24,6 +24,9 @@ class Post < ApplicationRecord
   belongs_to :post_category, counter_cache: true, optional: true
   belongs_to :language, optional: true
   belongs_to :agent, optional: true
+  has_many :post_references, dependent: :delete_all
+  has_many :post_notes, dependent: :delete_all
+  has_many :post_links, dependent: :delete_all
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
@@ -51,13 +54,14 @@ class Post < ApplicationRecord
   validates_format_of :slug, with: SLUG_PATTERN
   validate :category_consistency
 
-  scope :recent, -> { order('id desc') }
+  scope :recent, -> { order('created_at desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :list_for_visitors, -> { visible.recent }
+  scope :list_for_administration, -> { order('id desc') }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
-    recent.page(page).per(PER_PAGE)
+    list_for_administration.page(page).per(PER_PAGE)
   end
 
   # @param [Integer] page
@@ -66,10 +70,10 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i(post_category_id title slug lead body visible translation region_id)
+    main_data   = %i(post_category_id title slug lead body region_id)
     image_data  = %i(image image_alt_text image_name image_author_name image_author_link)
     meta_data   = %i(source_name source_link meta_title meta_description meta_keywords)
-    flags_data  = %i(show_owner allow_comments)
+    flags_data  = %i(show_owner allow_comments visible translation)
     author_data = %i(author_name author_title author_url)
 
     main_data + image_data + meta_data + author_data + flags_data

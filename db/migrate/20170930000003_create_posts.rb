@@ -47,6 +47,8 @@ class CreatePosts < ActiveRecord::Migration[5.1]
       execute "create index posts_created_at_month_idx on posts using btree (date_trunc('month', created_at), post_type_id, user_id);"
 
       add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
+
+      add_index :posts, :created_at
     end
   end
 

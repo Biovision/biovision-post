@@ -14,6 +14,11 @@ module PostChildWithPriority
       (1..32767)
     end
 
+    # @param [User] user
+    def editable_by?(user)
+      post.editable_by?(user)
+    end
+
     # @param [Integer] delta
     def change_priority(delta)
       new_priority = priority + delta

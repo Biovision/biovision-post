@@ -6,10 +6,8 @@ class PostNote < ApplicationRecord
   validates_presence_of :text
   validates_length_of :text, maximum: TEXT_LIMIT
 
-  scope :list_for_administration, -> { ordered_by_priority }
-
   def self.entity_parameters
-    %i(text)
+    %i(priority text)
   end
 
   def self.creation_parameters

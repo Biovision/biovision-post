@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321114851) do
+ActiveRecord::Schema.define(version: 20180321100002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20180321114851) do
   create_table "editable_pages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "language_id"
     t.integer "priority", limit: 2, default: 1, null: false
     t.string "slug", null: false
     t.string "name", null: false
@@ -76,7 +77,6 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.string "keywords", default: "", null: false
     t.string "description", default: "", null: false
     t.text "body", default: "", null: false
-    t.bigint "language_id"
     t.index ["language_id"], name: "index_editable_pages_on_language_id"
   end
 
@@ -222,7 +222,6 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.datetime "updated_at", null: false
     t.bigint "post_id", null: false
     t.integer "other_post_id", null: false
-    t.integer "link_type", limit: 2
     t.integer "priority", limit: 2, default: 1, null: false
     t.index ["post_id"], name: "index_post_links_on_post_id"
   end
@@ -251,11 +250,11 @@ ActiveRecord::Schema.define(version: 20180321114851) do
   create_table "post_types", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
     t.integer "posts_count", default: 0, null: false
     t.integer "category_depth", limit: 2, default: 0
     t.string "name", null: false
     t.string "slug", null: false
-    t.boolean "active", default: true, null: false
     t.index ["name"], name: "index_post_types_on_name", unique: true
     t.index ["slug"], name: "index_post_types_on_slug", unique: true
   end
@@ -266,7 +265,8 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.bigint "user_id"
     t.bigint "post_type_id", null: false
     t.bigint "post_category_id"
-    t.bigint "region_id"
+    t.bigint "language_id"
+    t.integer "region_id"
     t.integer "original_post_id"
     t.bigint "agent_id"
     t.inet "ip"
@@ -276,6 +276,7 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.boolean "approved", default: true, null: false
     t.boolean "show_owner", default: true, null: false
     t.boolean "allow_comments", default: true, null: false
+    t.boolean "translation", default: false, null: false
     t.integer "privacy", limit: 2, default: 0
     t.integer "comments_count", default: 0, null: false
     t.integer "view_count", default: 0, null: false
@@ -293,24 +294,21 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.string "image_author_link"
     t.string "source_name"
     t.string "source_link"
+    t.string "meta_title"
+    t.string "meta_keywords"
+    t.string "meta_description"
     t.text "lead"
     t.text "body", null: false
     t.text "parsed_body"
     t.string "tags_cache", default: [], null: false, array: true
-    t.boolean "translation", default: false, null: false
-    t.string "meta_title"
-    t.string "meta_keywords"
-    t.string "meta_description"
     t.string "author_name"
     t.string "author_title"
     t.string "author_url"
-    t.bigint "language_id"
     t.index "date_trunc('month'::text, created_at), post_type_id, user_id", name: "posts_created_at_month_idx"
     t.index ["agent_id"], name: "index_posts_on_agent_id"
     t.index ["language_id"], name: "index_posts_on_language_id"
     t.index ["post_category_id"], name: "index_posts_on_post_category_id"
     t.index ["post_type_id"], name: "index_posts_on_post_type_id"
-    t.index ["region_id"], name: "index_posts_on_region_id"
     t.index ["slug"], name: "index_posts_on_slug"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -350,30 +348,6 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.index ["slug"], name: "index_privileges_on_slug", unique: true
   end
 
-  create_table "regions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "parent_id"
-    t.integer "users_count", default: 0, null: false
-    t.boolean "visible", default: true, null: false
-    t.boolean "locked", default: false, null: false
-    t.float "latitude"
-    t.float "longitude"
-    t.string "slug", null: false
-    t.string "long_slug", null: false
-    t.string "name", null: false
-    t.string "short_name"
-    t.string "locative"
-    t.string "image"
-    t.string "header_image"
-    t.string "image_url"
-    t.text "map_geometry"
-    t.text "svg_geometry"
-    t.string "parents_cache", default: "", null: false
-    t.integer "children_cache", default: [], null: false, array: true
-    t.index ["long_slug"], name: "index_regions_on_long_slug"
-  end
-
   create_table "stored_values", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -410,11 +384,10 @@ ActiveRecord::Schema.define(version: 20180321114851) do
   create_table "user_privileges", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "region_id"
+    t.integer "region_id"
     t.bigint "user_id", null: false
     t.bigint "privilege_id", null: false
     t.index ["privilege_id"], name: "index_user_privileges_on_privilege_id"
-    t.index ["region_id"], name: "index_user_privileges_on_region_id"
     t.index ["user_id"], name: "index_user_privileges_on_user_id"
   end
 
@@ -433,7 +406,8 @@ ActiveRecord::Schema.define(version: 20180321114851) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "region_id"
+    t.integer "region_id"
+    t.bigint "language_id"
     t.bigint "agent_id"
     t.inet "ip"
     t.integer "inviter_id"
@@ -463,11 +437,9 @@ ActiveRecord::Schema.define(version: 20180321114851) do
     t.string "image"
     t.string "notice"
     t.string "search_string"
-    t.bigint "language_id"
     t.index ["agent_id"], name: "index_users_on_agent_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["language_id"], name: "index_users_on_language_id"
-    t.index ["region_id"], name: "index_users_on_region_id"
     t.index ["screen_name"], name: "index_users_on_screen_name"
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
@@ -492,33 +464,29 @@ ActiveRecord::Schema.define(version: 20180321114851) do
   add_foreign_key "media_folders", "users", on_update: :cascade, on_delete: :nullify
   add_foreign_key "metric_values", "metrics", on_update: :cascade, on_delete: :cascade
   add_foreign_key "post_categories", "post_categories", column: "parent_id", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "post_categories", "post_types"
+  add_foreign_key "post_categories", "post_types", on_update: :cascade, on_delete: :cascade
   add_foreign_key "post_links", "posts", column: "other_post_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "post_links", "posts", on_update: :cascade, on_delete: :cascade
   add_foreign_key "post_notes", "posts", on_update: :cascade, on_delete: :cascade
   add_foreign_key "post_references", "posts", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "posts", "agents"
+  add_foreign_key "posts", "agents", on_update: :cascade, on_delete: :nullify
   add_foreign_key "posts", "languages", on_update: :cascade, on_delete: :nullify
-  add_foreign_key "posts", "post_categories"
-  add_foreign_key "posts", "post_types"
+  add_foreign_key "posts", "post_categories", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "posts", "post_types", on_update: :cascade, on_delete: :cascade
   add_foreign_key "posts", "posts", column: "original_post_id", on_update: :cascade, on_delete: :nullify
-  add_foreign_key "posts", "regions"
-  add_foreign_key "posts", "users"
+  add_foreign_key "posts", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "privilege_group_privileges", "privilege_groups", on_update: :cascade, on_delete: :cascade
   add_foreign_key "privilege_group_privileges", "privileges", on_update: :cascade, on_delete: :cascade
   add_foreign_key "privileges", "privileges", column: "parent_id", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "regions", "regions", column: "parent_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "tokens", "agents", on_update: :cascade, on_delete: :nullify
   add_foreign_key "tokens", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "user_languages", "languages", on_update: :cascade, on_delete: :cascade
   add_foreign_key "user_languages", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "user_privileges", "privileges", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "user_privileges", "regions"
   add_foreign_key "user_privileges", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "user_profiles", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "users", "agents", on_update: :cascade, on_delete: :nullify
   add_foreign_key "users", "languages", on_update: :cascade, on_delete: :nullify
-  add_foreign_key "users", "regions"
   add_foreign_key "users", "users", column: "inviter_id", on_update: :cascade, on_delete: :nullify
   add_foreign_key "users", "users", column: "native_id", on_update: :cascade, on_delete: :nullify
 end
