@@ -9,6 +9,8 @@ RSpec.describe PostCategory, type: :model do
     expect(subject).to be_valid
   end
 
+  it_behaves_like 'normalizes_priority', (1..100)
+
   describe 'after initialize' do
     it 'sets next priority' do
       subject.save!
@@ -35,18 +37,6 @@ RSpec.describe PostCategory, type: :model do
   end
 
   describe 'before validation' do
-    it 'normalizes too low priority' do
-      subject.priority = 0
-      subject.valid?
-      expect(subject.priority).to eq(1)
-    end
-
-    it 'normalizes too high priority' do
-      subject.priority = 101
-      subject.valid?
-      expect(subject.priority).to eq(100)
-    end
-
     it 'normalizes blank slug' do
       subject.name = 'TEST'
       subject.slug = ''

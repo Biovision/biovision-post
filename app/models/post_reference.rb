@@ -1,3 +1,3 @@
 class PostReference < ApplicationRecord
-  belongs_to :post
+  include PostChildWithPriority
 end
