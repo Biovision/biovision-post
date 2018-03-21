@@ -4,14 +4,15 @@ class Post < ApplicationRecord
   include VotableItem if Gem.loaded_specs.key?('biovision-vote')
   include Toggleable
 
-  TITLE_LIMIT  = 140
-  SLUG_LIMIT   = 200
-  SLUG_PATTERN = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
-  LEAD_LIMIT   = 350
-  BODY_LIMIT   = 50000
-  META_LIMIT   = 250
-  ALT_LIMIT    = 200
-  PER_PAGE     = 12
+  TITLE_LIMIT       = 140
+  SLUG_LIMIT        = 200
+  SLUG_PATTERN      = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
+  SLUG_PATTERN_HTML = '^[a-zA-Z0-9]+[-_.a-zA-Z0-9]*[a-zA-Z0-9]+$'
+  LEAD_LIMIT        = 350
+  BODY_LIMIT        = 50000
+  META_LIMIT        = 250
+  ALT_LIMIT         = 200
+  PER_PAGE          = 12
 
   toggleable :visible, :show_owner, :allow_comments
 
