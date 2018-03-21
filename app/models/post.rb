@@ -103,7 +103,7 @@ class Post < ApplicationRecord
 
   def prepare_source_names
     if image_author_name.blank? && !image_author_link.blank?
-      self.image_author_name = URI.parse(image_author_name).host
+      self.image_author_name = URI.parse(image_author_link).host
     end
     if source_name.blank? && !source_link.blank?
       self.source_name = URI.parse(source_link).host

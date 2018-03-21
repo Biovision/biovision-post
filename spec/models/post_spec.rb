@@ -103,13 +103,40 @@ RSpec.describe Post, type: :model do
       expect(subject.errors.messages).to have_key(:post_category)
     end
 
-    it 'fails with too long author name'
-    it 'fails with too long author title'
-    it 'fails with too long author url'
-    it 'fails with malformed author url'
-    it 'fails with too long image name'
-    it 'fails with too long image author name'
-    it 'fails with too long image author link'
-    it 'fails with malformed image author link'
+    it 'fails with too long author name' do
+      subject.author_name = 'A' * 251
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:author_name)
+    end
+
+    it 'fails with too long author title' do
+      subject.author_title = 'A' * 251
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:author_title)
+    end
+
+    it 'fails with too long author url' do
+      subject.author_url = 'http://' + 'a' * 244
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:author_url)
+    end
+
+    it 'fails with too long image name' do
+      subject.image_name = 'A' * 251
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:image_name)
+    end
+
+    it 'fails with too long image author name' do
+      subject.image_author_name = 'A' * 251
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:image_author_name)
+    end
+
+    it 'fails with too long image author link' do
+      subject.image_author_link = 'http://' + 'a' * 244
+      expect(subject).not_to be_valid
+      expect(subject.errors.messages).to have_key(:image_author_link)
+    end
   end
 end
