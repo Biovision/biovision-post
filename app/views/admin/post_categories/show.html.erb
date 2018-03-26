@@ -5,7 +5,7 @@
   <% @entity.parents.each do |parent| %>
     <%= admin_post_category_link(parent) %>
   <% end %>
-  <%= link_to(t('admin.post_types.post_categories.heading'), post_categories_admin_post_type_path(@entity.post_type_id)) %>
+  <%= link_to(t('admin.post_types.post_categories.heading'), post_categories_admin_post_type_path(id: @entity.post_type_id)) %>
   <span><%= @entity.name %></span>
 <% end %>
 
@@ -13,9 +13,9 @@
   <h1><%= @entity.name %></h1>
 
   <ul class="actions">
-    <li><%= return_icon(admin_post_type_path(@entity.post_type_id)) %></li>
+    <li><%= return_icon(admin_post_type_path(id: @entity.post_type_id)) %></li>
     <% unless @entity.locked? %>
-      <li><%= edit_icon(edit_post_category_path(@entity.id)) %></li>
+      <li><%= edit_icon(edit_post_category_path(id: @entity.id)) %></li>
     <% end %>
   </ul>
 

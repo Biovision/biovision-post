@@ -5,12 +5,12 @@ class BlogPostsController < ApplicationController
   # get /blog_posts
   def index
     post_type   = PostType.find_by(slug: 'blog_post')
-    @collection = post_type.posts.page_for_visitors(current_page)
+    @collection = post_type.posts.for_language(current_language).page_for_visitors(current_page)
   end
 
   # get /blog_posts/:category_slug
   def category
-    @collection = @category.posts.page_for_visitors(current_page)
+    @collection = @category.posts.for_language(current_language).page_for_visitors(current_page)
   end
 
   # get /blog_posts/:post_id-:post_slug

@@ -4,7 +4,7 @@
   <h1><%= t('.heading') %></h1>
 
   <ul class="actions">
-    <li><%= back_icon(admin_post_path(@entity.id)) %></li>
+    <li><%= back_icon(admin_post_path(id: @entity.id)) %></li>
     <li class="danger"><%= destroy_icon(@entity) %></li>
   </ul>
 

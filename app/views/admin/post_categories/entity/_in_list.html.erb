@@ -7,10 +7,10 @@
 
   <ul class="actions">
     <li class="lockable <%= entity.locked? ? 'hidden' : '' %>">
-      <%= edit_icon edit_post_category_path(entity.id) %>
+      <%= edit_icon edit_post_category_path(id: entity.id) %>
     </li>
-    <%= render partial: 'shared/actions/priority_changer', locals: { path: priority_admin_post_category_path(entity.id) } %>
-    <%= render partial: 'shared/actions/locks', locals: { entity: entity, path: lock_admin_post_category_path(entity.id) } %>
+    <%= render partial: 'shared/actions/priority_changer', locals: { path: priority_admin_post_category_path(id: entity.id) } %>
+    <%= render partial: 'shared/actions/locks', locals: { entity: entity, path: lock_admin_post_category_path(id: entity.id) } %>
   </ul>
   
   <% if entity.child_categories.any? %>

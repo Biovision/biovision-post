@@ -11,7 +11,7 @@ class PostCategoriesController < AdminController
   def create
     @entity = PostCategory.new(creation_parameters)
     if @entity.save
-      next_page = admin_post_category_path(@entity.id)
+      next_page = admin_post_category_path(id: @entity.id)
       respond_to do |format|
         format.html { redirect_to(next_page) }
         format.json { render json: { links: { self: next_page } } }
@@ -29,7 +29,7 @@ class PostCategoriesController < AdminController
   # patch /post_categories/:id
   def update
     if @entity.update entity_parameters
-      next_page = admin_post_category_path(@entity)
+      next_page = admin_post_category_path(id: @entity.id)
       respond_to do |format|
         format.html { redirect_to(next_page, notice: t('post_categories.update.success')) }
         format.json { render json: { links: { self: next_page } } }
@@ -45,7 +45,7 @@ class PostCategoriesController < AdminController
     if @entity.destroy
       flash[:notice] = t('post_categories.destroy.success')
     end
-    redirect_to(post_categories_admin_post_type_path(@entity.post_type_id))
+    redirect_to(post_categories_admin_post_type_path(id: @entity.post_type_id))
   end
 
   protected
@@ -56,7 +56,7 @@ class PostCategoriesController < AdminController
 
   def restrict_editing
     if @entity.locked?
-      redirect_to admin_post_category_path(@entity.id), alert: t('post_categories.edit.forbidden')
+      redirect_to admin_post_category_path(id: @entity.id), alert: t('post_categories.edit.forbidden')
     end
   end
 

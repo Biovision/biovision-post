@@ -5,12 +5,12 @@ class ArticlesController < ApplicationController
   # get /articles
   def index
     post_type   = PostType.find_by(slug: 'article')
-    @collection = post_type.posts.page_for_visitors(current_page)
+    @collection = post_type.posts.for_language(current_language).page_for_visitors(current_page)
   end
 
   # get /articles/:category_slug
   def category
-    @collection = @category.posts.page_for_visitors(current_page)
+    @collection = @category.posts.for_language(current_language).page_for_visitors(current_page)
   end
 
   # get /articles/:post_id-:post_slug

@@ -1,10 +1,10 @@
 class PostManager::NewsHandler < PostManager
   def post_path
-    "/news/#{@entity.id}-#{@entity.slug}"
+    "#{@prefix}/news/#{@entity.id}-#{@entity.slug}"
   end
 
   # @param [PostCategory] category
   def category_path(category)
-    "/news/#{category.long_slug}"
+    "#{@prefix}/news/#{category.long_slug}"
   end
 end

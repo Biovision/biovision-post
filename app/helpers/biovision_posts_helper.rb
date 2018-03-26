@@ -2,19 +2,19 @@ module BiovisionPostsHelper
   # @param [PostType] entity
   # @param [String] text
   def admin_post_type_link(entity, text = entity.name)
-    link_to(text, admin_post_type_path(entity.id))
+    link_to(text, admin_post_type_path(id: entity.id))
   end
 
   # @param [PostCategory] entity
   # @param [String] text
   def admin_post_category_link(entity, text = entity.name)
-    link_to(text, admin_post_category_path(entity.id))
+    link_to(text, admin_post_category_path(id: entity.id))
   end
 
   # @param [Post] entity
   # @param [String] text
   def admin_post_link(entity, text = entity.title)
-    link_to(text, admin_post_path(entity.id))
+    link_to(text, admin_post_path(id: entity.id))
   end
 
   # @param [Integer] post_type_id
@@ -40,7 +40,7 @@ module BiovisionPostsHelper
   # @param [String] text
   # @param [Hash] options
   def post_link(entity, text = entity.title, options = {})
-    link_to(text, PostManager.handler(entity).post_path, options)
+    link_to(text, PostManager.handler(entity, locale).post_path, options)
   end
 
   # @param [Post] entity

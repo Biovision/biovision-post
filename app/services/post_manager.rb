@@ -1,15 +1,18 @@
 class PostManager
   # @param [Post] entity
-  def initialize(entity)
+  # @param [Symbol|String] locale
+  def initialize(entity, locale = I18n.locale)
     @entity = entity
     @body   = entity.body.to_s
+    @prefix = locale.nil? ? '' : "/#{locale}"
   end
 
   # @param [Post] entity
-  def self.handler(entity)
+  # @param [Symbol|String] locale
+  def self.handler(entity, locale = I18n.locale)
     handler_name  = "post_manager/#{entity.post_type.slug}_handler".classify
     handler_class = handler_name.safe_constantize || PostManager
-    handler_class.new(entity)
+    handler_class.new(entity, locale)
   end
 
   def parsed_body
@@ -17,15 +20,15 @@ class PostManager
   end
 
   def post_path
-    "/posts/#{@entity.id}"
+    "#{@prefix}/posts/#{@entity.id}"
   end
 
   def edit_path
-    "/posts/#{@entity.id}/edit"
+    "#{@prefix}/posts/#{@entity.id}/edit"
   end
 
   # @param [PostCategory] category
   def category_path(category)
-    "posts/#{category.long_slug}"
+    "#{@prefix}/posts/#{category.long_slug}"
   end
 end

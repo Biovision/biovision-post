@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   category_slug_pattern = /[a-z]+[-_0-9a-z]*[0-9a-z]/
   post_slug_pattern     = /[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+/
 
-  scope '(:locale)', constraints: { locale: /[a-z]{2}/ } do
-    resources :post_categories, except: [:index, :show]
-    resources :posts, except: [:new]
+  resources :post_categories, :posts, only: [:update, :destroy]
+
+  scope '/(:locale)', constraints: { locale: /[a-z]{2}/ } do
+    resources :post_categories, except: [:index, :show, :update, :destroy]
+    resources :posts, except: [:new, :update, :destroy]
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles

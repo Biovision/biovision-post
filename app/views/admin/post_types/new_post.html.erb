@@ -9,7 +9,7 @@
   <h1><%= t('.heading') %></h1>
 
   <ul class="actions">
-    <li><%= return_icon(admin_post_type_path(@entity.id)) %></li>
+    <li><%= return_icon(admin_post_type_path(id: @entity.id)) %></li>
   </ul>
 
   <%= render partial: 'posts/form', locals: { entity: Post.new(post_type: @entity) } %>

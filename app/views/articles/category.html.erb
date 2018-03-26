@@ -2,7 +2,7 @@
 <% content_for :breadcrumbs do %>
     <%= link_to(t('articles.index.nav_text'), articles_path) %>
     <% @category.parents.each do |parent| %>
-        <%= link_to(parent.name, articles_category_path(parent.long_slug)) %>
+        <%= link_to(parent.name, articles_category_path(category_slug: parent.long_slug)) %>
     <% end %>
     <span><%= @category.name %></span>
 <% end %>

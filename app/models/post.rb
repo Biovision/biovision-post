@@ -56,6 +56,7 @@ class Post < ApplicationRecord
 
   scope :recent, -> { order('created_at desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
+  scope :for_language, -> (language) { where(language: language) }
   scope :list_for_visitors, -> { visible.recent }
   scope :list_for_administration, -> { order('id desc') }
 
@@ -70,7 +71,7 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i(post_category_id title slug lead body region_id)
+    main_data   = %i(post_category_id title slug lead body region_id language_id)
     image_data  = %i(image image_alt_text image_name image_author_name image_author_link)
     meta_data   = %i(source_name source_link meta_title meta_description meta_keywords)
     flags_data  = %i(show_owner allow_comments visible translation)
