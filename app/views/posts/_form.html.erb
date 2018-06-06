@@ -1,4 +1,5 @@
-<%= form_with model: entity, html: { id: "#{entity.class.to_s.underscore}-form" } do |f| %>
+<% model_name = entity.class.to_s.underscore %>
+<%= form_with model: entity, html: { id: "#{model_name}-form" } do |f| %>
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
   <dl>
@@ -10,11 +11,11 @@
       <%=
         f.text_field(
             :title,
-            id: :post_title,
+            id: "#{model_name}_title",
             size: nil,
             maxlength: Post::TITLE_LIMIT,
             required: true,
-            data: { transliterate: :post_slug }
+            data: { transliterate: "#{model_name}_slug" }
         )
       %>
       <div class="guideline"><%= t('.guidelines.title') %></div>
@@ -25,7 +26,7 @@
       <%=
         f.text_field(
             :slug,
-            id: :post_slug,
+            id: "#{model_name}_slug",
             size: nil,
             maxlength: Post::SLUG_LIMIT,
             required: true,
@@ -67,7 +68,7 @@
       <%=
         f.text_area(
             :lead,
-            id: :post_lead,
+            id: "#{model_name}_lead",
             cols: 80,
             rows: 3,
             maxlength: Post::LEAD_LIMIT
@@ -81,7 +82,7 @@
       <%=
         f.text_area(
             :body,
-            id:       :post_body,
+            id:       "#{model_name}_body",
             cols:     20,
             rows:     25,
             required: true,
@@ -95,7 +96,7 @@
       <%=
         f.text_field(
             :author_name,
-            id: :post_author_name,
+            id: "#{model_name}_author_name",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -108,7 +109,7 @@
       <%=
         f.text_field(
             :author_title,
-            id: :post_author_title,
+            id: "#{model_name}_author_title",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -121,7 +122,7 @@
       <%=
         f.url_field(
             :author_url,
-            id: :post_author_url,
+            id: "#{model_name}_author_url",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -131,7 +132,7 @@
 
     <dt><%= f.label :image %></dt>
     <dd>
-      <% figure_id = "#{entity.class.to_s.underscore}-image" %>
+      <% figure_id = "#{model_name}-image" %>
       <figure role="group" class="preview" id="<%= figure_id %>">
         <% if entity.image.blank? %>
           <%= f.label :image, image_tag('biovision/base/placeholders/image.svg') %>
@@ -142,7 +143,7 @@
           <%=
             f.file_field(
                 :image,
-                id: :post_image,
+                id: "#{model_name}_image",
                 accept: 'image/jpeg,image/png',
                 data: { image: figure_id }
             )
@@ -157,7 +158,7 @@
       <%=
         f.text_field(
             :image_name,
-            id: :post_image_name,
+            id: "#{model_name}_image_name",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -170,7 +171,7 @@
       <%=
         f.text_field(
             :image_alt_text,
-            id: :post_image_alt_text,
+            id: "#{model_name}_image_alt_text",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -183,7 +184,7 @@
       <%=
         f.text_field(
             :image_author_name,
-            id: :post_image_author_name,
+            id: "#{model_name}_image_author_name",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -196,7 +197,7 @@
       <%=
         f.url_field(
             :image_author_link,
-            id: :post_image_author_link,
+            id: "#{model_name}_image_author_link",
             size: nil,
             maxlength: Post::META_LIMIT,
             placeholder: t('.placeholders.image_author_link')
@@ -210,7 +211,7 @@
       <%=
         f.text_field(
             :source_name,
-            id: :post_source_name,
+            id: "#{model_name}_source_name",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -218,12 +219,25 @@
       <div class="guideline"><%= t('.guidelines.source') %></div>
     </dd>
 
+    <dt><%= f.label :original_title %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :original_title,
+            id: "#{model_name}_original_title",
+            size: nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.original_title') %></div>
+    </dd>
+
     <dt><%= f.label :source_link %></dt>
     <dd>
       <%=
         f.url_field(
             :source_link,
-            id: :post_source_link,
+            id: "#{model_name}_source_link",
             size: nil,
             maxlength: Post::META_LIMIT,
             placeholder: t('.placeholders.source_link')
@@ -237,7 +251,7 @@
       <%=
         f.text_field(
             :meta_title,
-            id: :post_meta_title,
+            id: "#{model_name}_meta_title",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -250,7 +264,7 @@
       <%=
         f.text_field(
             :meta_description,
-            id: :post_meta_description,
+            id: "#{model_name}_meta_description",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -263,7 +277,7 @@
       <%=
         f.text_field(
             :meta_keywords,
-            id: :post_meta_keywords,
+            id: "#{model_name}_meta_keywords",
             size: nil,
             maxlength: Post::META_LIMIT
         )
@@ -275,12 +289,16 @@
     <dd>
       <ul class="flags">
         <li>
-          <%= f.check_box :visible, id: :post_visible %>
+          <%= f.check_box :visible, id: "#{model_name}_visible" %>
           <%= f.label :visible %>
         </li>
         <li>
-          <%= f.check_box :show_owner, id: :post_show_owner %>
+          <%= f.check_box :show_owner, id: "#{model_name}_show_owner" %>
           <%= f.label :show_owner %>
+        </li>
+        <li>
+          <%= f.check_box :translation, id: "#{model_name}_translation" %>
+          <%= f.label :translation %>
         </li>
         <% if Gem.loaded_specs.key?('biovision-comment') %>
           <li>

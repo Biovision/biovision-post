@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :post_categories, :posts, only: [:update, :destroy]
 
-  scope '/(:locale)', constraints: { locale: /[a-z]{2}/ } do
+  scope '/(:locale)', constraints: { locale: /ru|en/ } do
     resources :post_categories, except: [:index, :show, :update, :destroy]
     resources :posts, except: [:new, :update, :destroy]
 

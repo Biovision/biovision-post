@@ -33,6 +33,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :image_name
         t.string :image_author_name
         t.string :image_author_link
+        t.string :original_title
         t.string :source_name
         t.string :source_link
         t.string :meta_title

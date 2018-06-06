@@ -71,7 +71,7 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i(post_category_id title slug lead body region_id language_id)
+    main_data   = %i(body language_id lead original_title post_category_id region_id slug title)
     image_data  = %i(image image_alt_text image_name image_author_name image_author_link)
     meta_data   = %i(source_name source_link meta_title meta_description meta_keywords)
     flags_data  = %i(show_owner allow_comments visible translation)
