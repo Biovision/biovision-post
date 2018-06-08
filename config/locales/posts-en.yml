@@ -9,6 +9,8 @@ en:
     models:
       post: "Post"
       post_category: "Post category"
+      post_post_tag: "Tag in post"
+      post_tag: "Tag"
       post_type: "Post type"
     errors:
       messages:
@@ -50,6 +52,7 @@ en:
         source_link: "Source link"
         source_name: "Source name"
         tags_cache: "Tags"
+        time_required: "Time required for reading"
         title: "Title"
         translation: "Translation"
         user: "Author"
@@ -67,6 +70,12 @@ en:
         priority: "Sorting order"
         slug: "Slug"
         visible: "Visible"
+      post_tag:
+        name: "Name"
+        post_type: "Post type"
+        post_type_id: "Post type"
+        posts_count: "Post count"
+        slug: "Slug"
       post_type:
         category_depth: "Category depth"
         name: "Name"
@@ -122,6 +131,22 @@ en:
       guidelines:
         name: "Maximum 50 chars."
         slug: "Used in URL. Only latin letters, digits and dashes (except first and last char), maximum 50 chars."
+  post_tags:
+    new:
+      heading: "New post tag"
+      nav_text: "Create"
+      title: "Adding post tag"
+    edit:
+      heading: "Editing post tag"
+      nav_text: "Edit"
+      title: "Editing post tag"
+    update:
+      success: "Post tag has been updated"
+    destroy:
+      success: "Post tag has been deleted"
+    form:
+      guidelines:
+        name: "Maximum 50 characters."
   posts:
     edit:
       title: "Editing post"
@@ -147,6 +172,7 @@ en:
         slug: "Only latin letters, digits, dots, dashes or underscores. Maximum 200 chars."
         source: "Post source name (e.g. agency name)"
         source_link: "Will be opened when one clicks on source name"
+        time_required: "In minutes"
         title: "Maximum 140 chars."
       placeholders:
         image_author_link: "https://example.com/user42"

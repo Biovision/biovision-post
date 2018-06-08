@@ -24,6 +24,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.integer :upvote_count, default: 0, null: false
         t.integer :downvote_count, default: 0, null: false
         t.integer :vote_result, default: 0, null: false
+        t.integer :time_required, limit: 2
         t.string :uuid, null: false
         t.string :title, null: false
         t.string :slug, null: false, index: true
@@ -39,6 +40,9 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :meta_title
         t.string :meta_keywords
         t.string :meta_description
+        t.string :author_name
+        t.string :author_title
+        t.string :author_url
         t.text :lead
         t.text :body, null: false
         t.text :parsed_body

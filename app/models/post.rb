@@ -4,15 +4,17 @@ class Post < ApplicationRecord
   include VotableItem if Gem.loaded_specs.key?('biovision-vote')
   include Toggleable
 
-  TITLE_LIMIT       = 140
+  ALT_LIMIT         = 255
+  BODY_LIMIT        = 50000
+  LEAD_LIMIT        = 350
+  META_LIMIT        = 250
   SLUG_LIMIT        = 200
   SLUG_PATTERN      = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
   SLUG_PATTERN_HTML = '^[a-zA-Z0-9]+[-_.a-zA-Z0-9]*[a-zA-Z0-9]+$'
-  LEAD_LIMIT        = 350
-  BODY_LIMIT        = 50000
-  META_LIMIT        = 250
-  ALT_LIMIT         = 200
-  PER_PAGE          = 12
+  TIME_RANGE        = (0..1440)
+  TITLE_LIMIT       = 255
+
+  PER_PAGE = 12
 
   toggleable :visible, :show_owner
 
@@ -27,6 +29,8 @@ class Post < ApplicationRecord
   has_many :post_references, dependent: :delete_all
   has_many :post_notes, dependent: :delete_all
   has_many :post_links, dependent: :delete_all
+  has_many :post_post_tags, dependent: :destroy
+  has_many :post_tags, through: :post_post_tags
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
@@ -45,6 +49,7 @@ class Post < ApplicationRecord
   validates_length_of :image_author_link, maximum: META_LIMIT
   validates_length_of :source_link, maximum: META_LIMIT
   validates_length_of :source_name, maximum: META_LIMIT
+  validates_length_of :original_title, maximum: META_LIMIT
   validates_length_of :meta_title, maximum: TITLE_LIMIT
   validates_length_of :meta_description, maximum: META_LIMIT
   validates_length_of :meta_keywords, maximum: META_LIMIT
@@ -52,6 +57,7 @@ class Post < ApplicationRecord
   validates_length_of :author_title, maximum: META_LIMIT
   validates_length_of :author_url, maximum: META_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
+  validates_numericality_of :time_required, in: TIME_RANGE, allow_nil: true
   validate :category_consistency
 
   scope :recent, -> { order('created_at desc') }
@@ -95,6 +101,23 @@ class Post < ApplicationRecord
 
   def has_source_data?
     !source_name.blank? || !source_link.blank?
+  end
+
+  def tags_string
+    post_tags.ordered_by_slug.map(&:name).join(', ')
+  end
+
+  # @param [String] input
+  def tags_string=(input)
+    list = []
+    input.split(/,\s*/).reject { |tag_name| tag_name.blank? }.each do |tag_name|
+      list << PostTag.match_or_create_by_name(post_type_id, tag_name.squish)
+    end
+    self.post_tags = list.uniq
+  end
+
+  def cache_tags!
+    update! tags_cache: post_tags.order('slug asc').map(&:name)
   end
 
   private
