@@ -46,6 +46,7 @@ ru:
         post_category_id: "Категория"
         post_type: "Тип"
         post_type_id: "Тип"
+        publication_time: "Время публикации"
         region_id: "Регион"
         show_owner: "Показывать автора"
         slug: "Идентификатор для URL"
@@ -55,6 +56,7 @@ ru:
         time_required: "Время на прочтение"
         title: "Название"
         translation: "Перевод"
+        translator_name: "Имя переводчика"
         user: "Автор"
         uuid: "UUID"
         video_url: "URL видео"
@@ -179,6 +181,10 @@ ru:
         source_link: "https://example.org/posts/123"
     post:
       source: "Источник"
+    index:
+      title: "Публикации, страница %{page}"
+      heading: "Публикации"
+      nav_text: "Публикации"
   index:
     dashboard:
       biovision_post:

@@ -6,22 +6,29 @@ Rails.application.routes.draw do
 
   scope '/(:locale)', constraints: { locale: /ru|en/ } do
     resources :post_categories, except: [:index, :show, :update, :destroy]
-    resources :posts, except: [:new, :update, :destroy]
+    resources :posts, except: [:new, :update, :destroy] do
+      collection do
+        get 'tagged/:tag_name' => :tagged
+      end
+    end
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
+      get 'tagged/(:tag_name)' => :tagged, as: :tagged_articles, constraints: { tag_name: /[^\/]+/ }
       get '/:category_slug' => :category, as: :articles_category, constraints: { category_slug: category_slug_pattern }
       get '/:post_id-:post_slug' => :show, as: :show_article, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end
 
     scope :news, controller: :news do
       get '/' => :index, as: :news_index
+      get 'tagged/(:tag_name)' => :tagged, as: :tagged_news, constraints: { tag_name: /[^\/]+/ }
       get '/:category_slug' => :category, as: :news_category, constraints: { category_slug: category_slug_pattern }
       get '/:post_id-:post_slug' => :show, as: :show_news, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end
 
     scope :blog_posts, controller: :blog_posts do
       get '/' => :index, as: :blog_posts
+      get 'tagged/(:tag_name)' => :tagged, as: :tagged_blog_posts, constraints: { tag_name: /[^\/]+/ }
       get '/:category_slug' => :category, as: :blog_posts_category, constraints: { category_slug: category_slug_pattern }
       get '/:post_id-:post_slug' => :show, as: :show_blog_post, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end

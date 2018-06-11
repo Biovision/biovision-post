@@ -25,6 +25,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.integer :downvote_count, default: 0, null: false
         t.integer :vote_result, default: 0, null: false
         t.integer :time_required, limit: 2
+        t.datetime :publication_time
         t.string :uuid, null: false
         t.string :title, null: false
         t.string :slug, null: false, index: true
@@ -43,6 +44,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :author_name
         t.string :author_title
         t.string :author_url
+        t.string :translator_name
         t.text :lead
         t.text :body, null: false
         t.text :parsed_body
@@ -50,6 +52,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
       end
 
       execute "create index posts_created_at_month_idx on posts using btree (date_trunc('month', created_at), post_type_id, user_id);"
+      execute "create index posts_pubdate_month_idx on posts using btree (date_trunc('month', publication_time), post_type_id, user_id);"
 
       add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
 

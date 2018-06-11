@@ -33,6 +33,7 @@ class Post < ApplicationRecord
   has_many :post_tags, through: :post_post_tags
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
+  after_initialize { self.publication_time = Time.now if publication_time.nil? }
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
   before_validation { self.slug = slug.downcase }
   before_validation :prepare_source_names
@@ -56,14 +57,16 @@ class Post < ApplicationRecord
   validates_length_of :author_name, maximum: META_LIMIT
   validates_length_of :author_title, maximum: META_LIMIT
   validates_length_of :author_url, maximum: META_LIMIT
+  validates_length_of :translator_name, maximum: META_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validates_numericality_of :time_required, in: TIME_RANGE, allow_nil: true
   validate :category_consistency
 
-  scope :recent, -> { order('created_at desc') }
+  scope :recent, -> { order('publication_time desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
+  scope :published, -> { where('publication_time <= current_timestamp') }
   scope :for_language, -> (language) { where(language: language) }
-  scope :list_for_visitors, -> { visible.recent }
+  scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
 
   # @param [Integer] page
@@ -77,11 +80,11 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i(body language_id lead original_title post_category_id region_id slug title)
-    image_data  = %i(image image_alt_text image_name image_author_name image_author_link)
+    main_data   = %i(body language_id lead original_title post_category_id publication_time region_id slug title)
+    image_data  = %i(image image_alt_text image_author_link image_author_name image_name)
     meta_data   = %i(source_name source_link meta_title meta_description meta_keywords)
     flags_data  = %i(show_owner allow_comments visible translation)
-    author_data = %i(author_name author_title author_url)
+    author_data = %i(author_name author_title author_url translator_name)
 
     main_data + image_data + meta_data + author_data + flags_data
   end

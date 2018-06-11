@@ -46,6 +46,7 @@ en:
         post_category_id: "Category"
         post_type: "Type"
         post_type_id: "Type"
+        publication_time: "Publication time"
         region_id: "Region"
         show_owner: "Show author"
         slug: "Slug for URL"
@@ -55,6 +56,7 @@ en:
         time_required: "Time required for reading"
         title: "Title"
         translation: "Translation"
+        translator_name: "Translator name"
         user: "Author"
         uuid: "UUID"
         video_url: "Video URL"
@@ -179,6 +181,10 @@ en:
         source_link: "https://example.org/posts/123"
     post:
       source: "Source"
+    index:
+      title: "Posts, page %{page}"
+      nav_text: "Posts"
+      heading: "Posts"
   index:
     dashboard:
       biovision_post:

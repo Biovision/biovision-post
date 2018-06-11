@@ -6,6 +6,17 @@
     <dt><%= f.label :language_id %></dt>
     <dd><%= f.select :language_id, languages_for_select(false) %></dd>
 
+    <dt><%= f.label :publication_time %></dt>
+    <dd>
+      <%=
+        f.datetime_local_field(
+            :publication_time,
+            id: "#{model_name}_publication_time",
+            required: true
+        )
+      %>
+    </dd>
+
     <dt><%= f.label :title %></dt>
     <dd>
       <%=
@@ -312,6 +323,17 @@
         <li>
           <%= f.check_box :translation, id: "#{model_name}_translation" %>
           <%= f.label :translation %>
+          <div>
+            <%= f.label :translator_name %><br/>
+            <%=
+              f.text_field(
+                  :translator_name,
+                  id: "#{model_name}_translator_name",
+                  size: nil,
+                  maxlength: Post::META_LIMIT
+              )
+            %>
+          </div>
         </li>
         <% if Gem.loaded_specs.key?('biovision-comment') %>
           <li>
@@ -329,4 +351,4 @@
   </div>
 <% end %>
 
-<%= render partial: 'shared/forms/wysiwyg' %>
+<%= render partial: 'posts/wysiwyg' %>
