@@ -74,7 +74,7 @@
     <% end %>
 
     <div class="time">
-      <%= time_tag post.created_at, itemProp: 'datePublished', aria: { label: t('activerecord.attributes.post.created_at') } %>
+      <%= time_tag post.publication_time, itemProp: 'datePublished', aria: { label: t('activerecord.attributes.post.created_at') } %>
     </div>
 
     <meta itemprop="commentCount" content="<%= post.comments_count %>"/>

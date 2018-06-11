@@ -22,6 +22,11 @@
     <dt><%= t('activerecord.attributes.post.post_type') %></dt>
     <dd><%= admin_post_type_link(@entity.post_type) %></dd>
 
+    <% unless @entity.original_title.blank? %>
+      <dt><%= t('activerecord.attributes.post.original_title') %></dt>
+      <dd><%= @entity.original_title %></dd>
+    <% end %>
+
     <dt><%= t('activerecord.attributes.post.slug') %></dt>
     <dd><%= @entity.slug %></dd>
 
@@ -35,6 +40,15 @@
         <% end %>
       </dd>
     <% end %>
+
+    <dt><%= t(:created_at) %></dt>
+    <dd><%= time_tag(@entity.created_at) %></dd>
+
+    <dt><%= t(:updated_at) %></dt>
+    <dd><%= time_tag(@entity.updated_at) %></dd>
+
+    <dt><%= t('activerecord.attributes.post.publication_time') %></dt>
+    <dd><%= time_tag(@entity.publication_time) %></dd>
 
     <dt><%= t('activerecord.attributes.post.user') %></dt>
     <dd><%= admin_user_link(@entity.user) %></dd>
@@ -95,7 +109,24 @@
       <dt><%= t('activerecord.attributes.post.source_link') %></dt>
       <dd><%= @entity.source_link %></dd>
     <% end %>
+
+    <% if @entity.translation? %>
+      <dt><%= t('activerecord.attributes.post.translation') %></dt>
+      <dd>
+        <%= @entity.translator_name.blank? ? '✓' : @entity.translator_name %>
+      </dd>
+    <% end %>
   </dl>
+
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals:  {
+            entity: @entity,
+            url:    toggle_admin_post_path(id: @entity.id)
+        }
+    )
+  %>
 
   <%= render partial: 'shared/track', locals: { item: @entity } %>
 </article>
