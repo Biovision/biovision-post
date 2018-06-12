@@ -25,6 +25,8 @@ class PostsController < ApplicationController
     @entity = Post.list_for_visitors.find_by(id: params[:id])
     if @entity.nil?
       handle_http_404("Cannot find non-deleted post #{params[:id]}")
+    else
+      @entity.increment! :view_count
     end
   end
 
