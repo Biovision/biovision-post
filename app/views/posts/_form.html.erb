@@ -177,19 +177,6 @@
       <div class="guideline"><%= t('.guidelines.image') %></div>
     </dd>
 
-    <dt><%= f.label :image_name %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :image_name,
-            id:        "#{model_name}_image_name",
-            size:      nil,
-            maxlength: Post::META_LIMIT
-        )
-      %>
-      <div class="guideline"><%= t('.guidelines.image_name') %></div>
-    </dd>
-
     <dt><%= f.label :image_alt_text %></dt>
     <dd>
       <%=
@@ -201,6 +188,19 @@
         )
       %>
       <div class="guideline"><%= t('.guidelines.image_alt_text') %></div>
+    </dd>
+
+    <dt><%= f.label :image_name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :image_name,
+            id:        "#{model_name}_image_name",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.image_name') %></div>
     </dd>
 
     <dt><%= f.label :image_author_name %></dt>

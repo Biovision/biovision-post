@@ -71,8 +71,9 @@
     <% unless @entity.image.blank? %>
       <dt><%= t('activerecord.attributes.post.image') %></dt>
       <dd>
-        <figure>
-          <%= post_image_small(@entity) %>
+        <figure role="group" class="preview">
+          <%= link_to(post_image_small(@entity), @entity.image.url) %>
+          <figcaption><%= @entity.image_alt_text %></figcaption>
         </figure>
       </dd>
     <% end %>
@@ -95,6 +96,11 @@
     <% unless @entity.lead.blank? %>
       <dt><%= t('activerecord.attributes.post.lead') %></dt>
       <dd><%= @entity.lead %></dd>
+    <% end %>
+
+    <% unless @entity.time_required.blank? %>
+      <dt><%= t('activerecord.attributes.post.time_required') %></dt>
+      <dd><%= @entity.time_required %> min</dd>
     <% end %>
 
     <dt><%= t('activerecord.attributes.post.body') %></dt>

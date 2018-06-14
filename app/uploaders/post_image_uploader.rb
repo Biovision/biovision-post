@@ -48,7 +48,7 @@ class PostImageUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg png)
   end
 
-  def filename
-    "#{model.uuid}.#{file.extension}" if original_filename
-  end
+  # def filename
+  #   "#{model.uuid}.#{file.extension}" if original_filename
+  # end
 end

@@ -15,7 +15,7 @@
   <% unless post.image.blank? %>
     <figure itemprop="image" itemscope itemtype="http://schema.org/ImageObject" role="group">
       <%= post_image_medium(post, { itemprop: 'about' }) %>
-      <meta itemprop="url" content="<%= request.protocol + request.host_with_port + entity.image.url %>" />
+      <meta itemprop="url" content="<%= request.protocol + request.host_with_port + entity.image.url %>"/>
       <% if post.has_image_data? %>
         <figcaption>
           <% unless post.image_name.blank? %>
@@ -78,6 +78,9 @@
       <%= time_tag post.publication_time, itemProp: 'datePublished', aria: { label: t('activerecord.attributes.post.created_at') } %>
     </div>
 
+    <% unless post.time_required.blank? %>
+      <meta itemprop="timeRequired" content="P<%= post.time_required %>M"/>
+    <% end %>
     <meta itemprop="commentCount" content="<%= post.comments_count %>"/>
     <meta itemprop="dateModified" content="<%= post.updated_at.strftime('%Y-%m-%d') %>"/>
     <%= render partial: 'posts/entity/publisher', locals: { entity: post } %>
