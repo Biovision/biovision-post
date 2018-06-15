@@ -38,7 +38,7 @@ class PostParser
     if src.blank?
       url
     else
-      "<iframe src=\"#{src}\"></iframe>"
+      "<iframe src=\"#{src}\" allowfullscreen></iframe>"
     end
   end
 
