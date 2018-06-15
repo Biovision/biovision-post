@@ -62,6 +62,12 @@ module BiovisionPostsHelper
     end
   end
 
+  # @param [String] tag_name
+  # @param [Post] entity
+  def tagged_posts_link(tag_name, entity = nil)
+    link_to(tag_name, tagged_posts_path(tag_name: tag_name), rel: 'tag')
+  end
+
   # Post image preview for displaying in "administrative" lists
   #
   # @param [Post] entity

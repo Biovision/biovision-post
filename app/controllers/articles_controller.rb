@@ -18,6 +18,12 @@ class ArticlesController < ApplicationController
     @entity.increment!(:view_count)
   end
 
+  # get /articles/tagged/:tag_name
+  def tagged
+    post_type   = PostType.find_by(slug: 'article')
+    @collection = post_type.posts.tagged(params[:tag_name]).page_for_visitors(current_page)
+  end
+
   private
 
   def set_category

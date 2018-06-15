@@ -13,9 +13,11 @@ class PostTag < ApplicationRecord
   validates_length_of :name, maximum: NAME_LIMIT
 
   scope :ordered_by_slug, -> { order('slug asc') }
+  scope :popular, -> { order('posts_count desc, slug asc') }
   scope :with_posts, -> { where('posts_count > 0') }
   scope :list_for_administration, -> { ordered_by_slug }
   scope :list_for_visitors, -> { with_posts.ordered_by_slug }
+  scope :ids_for_name, -> (name) { where(slug: Canonizer.canonize(name)).pluck(:id) }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)

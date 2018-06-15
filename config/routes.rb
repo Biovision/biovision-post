@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :post_categories, except: [:index, :show, :update, :destroy]
     resources :posts, except: [:new, :update, :destroy] do
       collection do
-        get 'tagged/:tag_name' => :tagged
+        get 'tagged/(:tag_name)' => :tagged, as: :tagged
       end
     end
     resources :post_tags, only: [:edit]

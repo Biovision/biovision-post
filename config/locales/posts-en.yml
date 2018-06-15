@@ -204,6 +204,8 @@ en:
       title: "Posts, page %{page}"
       nav_text: "Posts"
       heading: "Posts"
+    tagged:
+      title: "Posts tagged '%{tag_name}', page %{page}"
   index:
     dashboard:
       biovision_post:
@@ -215,6 +217,8 @@ en:
       nav_text: "Articles"
     category:
       title: "Articles in category '%{category}', page %{page}"
+    tagged:
+      title: "Articles tagged '%{tag_name}', page %{page}"
   blog_posts:
     index:
       title: "Blog posts, page %{page}"
@@ -222,6 +226,8 @@ en:
       nav_text: "Blog"
     category:
       title: "Blog posts in category '%{category}', page %{page}"
+    tagged:
+      title: "Blog posts tagged '%{tag_name}', page %{page}"
   news:
     index:
       title: "News, page %{page}"
@@ -229,3 +235,5 @@ en:
       nav_text: "News"
     category:
       title: "News in category '%{category}', page %{page}"
+    tagged:
+      title: "News tagged '%{tag_name}', page %{page}"

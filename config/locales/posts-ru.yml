@@ -204,6 +204,8 @@ ru:
       title: "Публикации, страница %{page}"
       heading: "Публикации"
       nav_text: "Публикации"
+    tagged:
+      title: "Публикации с меткой «%{tag_name}», страница %{page}"
   index:
     dashboard:
       biovision_post:
@@ -215,6 +217,8 @@ ru:
       nav_text: "Статьи"
     category:
       title: "Статьи в категории «%{category}», страница %{page}"
+    tagged:
+      title: "Статьи с меткой «%{tag_name}», страница %{page}"
   blog_posts:
     index:
       title: "Записи в блоге, страница %{page}"
@@ -222,6 +226,8 @@ ru:
       nav_text: "Блог"
     category:
       title: "Записи в блоге в категории «%{category}», страница %{page}"
+    tagged:
+      title: "Записи в блоге с меткой «%{tag_name}», страница %{page}"
   news:
     index:
       title: "Новости, страница %{page}"
@@ -229,3 +235,5 @@ ru:
       nav_text: "Новости"
     category:
       title: "Новости в категории «%{category}», страница %{page}"
+    tagged:
+      title: "Новости с меткой «%{tag_name}», страница %{page}"

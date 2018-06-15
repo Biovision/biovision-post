@@ -53,6 +53,11 @@ class PostsController < ApplicationController
     redirect_to admin_posts_path
   end
 
+  # get /posts/tagged/:tag_name
+  def tagged
+    @collection = Post.tagged(params[:tag_name]).page_for_visitors(current_page)
+  end
+
   private
 
   def set_entity

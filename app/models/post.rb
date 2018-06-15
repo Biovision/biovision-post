@@ -68,6 +68,7 @@ class Post < ApplicationRecord
   scope :for_language, -> (language) { where(language: language) }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
+  scope :tagged, -> (tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)

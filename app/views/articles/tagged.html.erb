@@ -1,0 +1,16 @@
+<% content_for :meta_title, t('.title', tag_name: params[:tag_name], page: current_page) %>
+<% content_for :breadcrumbs do %>
+  <span><%= t('articles.index.nav_text') %></span>
+<% end %>
+
+<article>
+  <header>
+    <h1><%= params[:tag_name] %></h1>
+  </header>
+
+  <section class="recent-posts">
+    <%= paginate @collection %>
+    <%= render partial: 'posts/list', locals: { collection: @collection } %>
+    <%= paginate @collection %>
+  </section>
+</article>
