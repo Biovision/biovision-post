@@ -1,0 +1,24 @@
+<% model_name = entity.class.to_s.underscore %>
+<%= form_with model: entity, html: { id: "#{model_name}-form" } do |f| %>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+  <dl>
+    <dt><%= f.label :name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :name,
+            id:        "#{model_name}_name",
+            size:      nil,
+            maxlength: PostTag::NAME_LIMIT,
+            required:  true
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.name') %></div>
+    </dd>
+  </dl>
+
+  <div class="buttons">
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
+  </div>
+<% end %>

@@ -11,7 +11,9 @@
 
   <ul class="actions">
     <li><%= back_icon(admin_posts_path) %></li>
-    <li><%= world_icon(handler.post_path) %></li>
+    <% if @entity.visible? %>
+      <li><%= world_icon(handler.post_path) %></li>
+    <% end %>
     <% if @entity.editable_by?(current_user) && !@entity.locked? %>
       <li><%= edit_icon(handler.edit_path) %></li>
       <li class="danger"><%= destroy_icon(@entity) %></li>
