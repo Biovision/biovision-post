@@ -94,9 +94,13 @@ en:
         text: "Post tags"
       index:
         heading: "Post tags"
-        title: "Post tags, pagw %{page}"
+        title: "Post tags, page %{page}"
       show:
         title: "Post tag '%{name}'"
+      posts:
+        heading: "Posts"
+        nav_text: "Posts"
+        title: "Posts tagged '%{name}', page %{page}"
     post_types:
       nav_item:
         description: "Managing post types and categories"

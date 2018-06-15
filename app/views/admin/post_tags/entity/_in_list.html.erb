@@ -5,10 +5,15 @@
   </div>
   <div class="secondary info">
     <%= t('activerecord.attributes.post_tag.post_type') %>:
-    <%= admin_post_type_link(entity.post_type) %>
+    <%= entity.post_type.name %>
   </div>
   <div class="secondary info">
-    <%= t(:post_count, count: entity.posts_count) %>
+    <%=
+      link_to(
+          t(:post_count, count: entity.posts_count),
+          posts_admin_post_tag_path(id: entity.id)
+      )
+    %>
   </div>
 
   <ul class="actions">

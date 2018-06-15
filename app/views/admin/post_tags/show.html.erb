@@ -11,6 +11,16 @@
     <li><%= back_icon(admin_post_tags_path) %></li>
   </ul>
 
+  <nav>
+    <%=
+      link_to(
+          t('admin.post_tags.posts.nav_text'),
+          posts_admin_post_tag_path(id: @entity.id),
+          class: 'button-nav'
+      )
+    %>
+  </nav>
+
   <dl>
     <dt><%= t('activerecord.attributes.post_tag.post_type') %></dt>
     <dd><%= admin_post_type_link(@entity.post_type) %></dd>

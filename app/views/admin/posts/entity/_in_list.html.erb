@@ -33,13 +33,18 @@
       <%= entity.author_name %>
     <% end %>
   </div>
+  <% if entity.tags_cache.any? %>
+    <div class="secondary info">
+      <%= t('posts.form.tags') %>: <%= entity.tags_cache.join(', ') %>
+    </div>
+  <% end %>
 
   <%=
     render(
         partial: 'shared/admin/toggleable',
-        locals: {
+        locals:  {
             entity: entity,
-            url: toggle_admin_post_path(id: entity.id)
+            url:    toggle_admin_post_path(id: entity.id)
         }
     )
   %>
@@ -48,9 +53,9 @@
     <%=
       render(
           partial: 'shared/actions/locks',
-          locals: {
+          locals:  {
               entity: entity,
-              path: (current_user_has_privilege?(:chief_editor) ? lock_admin_post_path(id: entity.id) : '')
+              path:   (current_user_has_privilege?(:chief_editor) ? lock_admin_post_path(id: entity.id) : '')
           }
       )
     %>

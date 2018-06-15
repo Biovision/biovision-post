@@ -10,6 +10,11 @@ class Admin::PostTagsController < AdminController
   def show
   end
 
+  # get /admin/post_tags/:id/posts
+  def posts
+    @collection = @entity.posts.page_for_administration(current_page)
+  end
+
   private
 
   def set_entity

@@ -57,7 +57,11 @@ Rails.application.routes.draw do
           post 'toggle', defaults: { format: :json }
         end
       end
-      resources :post_tags, only: [:index, :show]
+      resources :post_tags, only: [:index, :show] do
+        member do
+          get 'posts'
+        end
+      end
     end
   end
 end

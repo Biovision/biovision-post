@@ -117,6 +117,7 @@ class Post < ApplicationRecord
       list << PostTag.match_or_create_by_name(post_type_id, tag_name.squish)
     end
     self.post_tags = list.uniq
+    cache_tags!
   end
 
   def cache_tags!

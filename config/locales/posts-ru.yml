@@ -97,6 +97,10 @@ ru:
         title: "Метки публикаций, страница %{page}"
       show:
         title: "Метка публикаций «%{name}»"
+      posts:
+        heading: "Публикации"
+        nav_text: "Публикации"
+        title: "Публикации с меткой «%{name}», страница %{page}"
     post_types:
       nav_item:
         description: "Управление типами и категориями публикаций"

@@ -8,6 +8,10 @@
 <article>
   <h1><%= t('.title', name: @entity.name) %></h1>
 
+  <ul class="actions">
+    <li><%= return_icon(admin_post_type_path(id: @entity.id)) %></li>
+  </ul>
+
   <%= render partial: 'shared/admin/list_with_priority', locals: { collection: PostCategory.siblings(@entity.id, nil).ordered_by_priority } %>
 
   <section>
