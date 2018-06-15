@@ -16,7 +16,7 @@ class PostManager
   end
 
   def parsed_body
-    @body.gsub(/<script/, '&lt;script')
+    PostParser.new(@entity).parsed_body
   end
 
   def post_path
