@@ -12,11 +12,22 @@
     <li><%= create_icon(new_post_admin_post_type_path(id: @entity.id)) %></li>
   </ul>
 
-  <% if current_user_has_privilege?(:chief_editor) %>
-      <nav>
-        <%= link_to(t('admin.post_types.post_categories.heading'), post_categories_admin_post_type_path(id: @entity.id)) %>
-      </nav>
-  <% end %>
+  <nav>
+    <%=
+      link_to(
+          t('admin.post_types.post_categories.nav_text'),
+          post_categories_admin_post_type_path(id: @entity.id),
+          class: 'button-nav'
+      )
+    %>
+    <%=
+      link_to(
+          t('admin.post_types.post_tags.nav_text'),
+          post_tags_admin_post_type_path(id: @entity.id),
+          class: 'button-nav'
+      )
+    %>
+  </nav>
 
   <dl>
     <dt><%= t('activerecord.attributes.post_type.slug') %></dt>

@@ -122,6 +122,17 @@
         <%= @entity.translator_name.blank? ? '✓' : @entity.translator_name %>
       </dd>
     <% end %>
+
+    <% if @entity.post_tags.any? %>
+      <dt><%= t('posts.form.tags') %></dt>
+      <dd>
+        <ul>
+          <% @entity.post_tags.each do |post_tag| %>
+            <li><%= admin_post_tag_link(post_tag) %></li>
+          <% end %>
+        </ul>
+      </dd>
+    <% end %>
   </dl>
 
   <%=

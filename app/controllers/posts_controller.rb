@@ -14,6 +14,7 @@ class PostsController < ApplicationController
   def create
     @entity = Post.new(creation_parameters)
     if @entity.save
+      apply_post_tags
       form_processed_ok(PostManager.handler(@entity).post_path)
     else
       form_processed_with_error(:new)
@@ -37,6 +38,7 @@ class PostsController < ApplicationController
   # patch /posts/:id
   def update
     if @entity.update(entity_parameters)
+      apply_post_tags
       form_processed_ok(PostManager.handler(@entity).post_path)
     else
       form_processed_with_error(:edit)
@@ -77,5 +79,9 @@ class PostsController < ApplicationController
   def creation_parameters
     parameters = params.require(:post).permit(Post.creation_parameters)
     parameters.merge(owner_for_entity(true))
+  end
+
+  def apply_post_tags
+    @entity.tags_string = param_from_request(:tags_string)
   end
 end

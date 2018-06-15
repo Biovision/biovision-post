@@ -17,6 +17,11 @@ class PostTag < ApplicationRecord
   scope :list_for_administration, -> { ordered_by_slug }
   scope :list_for_visitors, -> { with_posts.ordered_by_slug }
 
+  # @param [Integer] page
+  def self.page_for_administration(page = 1)
+    list_for_administration.page(page)
+  end
+
   def self.entity_parameters
     %i(name)
   end

@@ -15,6 +15,11 @@ class Admin::PostTypesController < AdminController
   def post_categories
   end
 
+  # get /admin/post_types/:id/post_tags
+  def post_tags
+    @collection = @entity.post_tags.page_for_administration(current_page)
+  end
+
   private
 
   def set_entity

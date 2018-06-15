@@ -83,6 +83,20 @@ ru:
         name: "Название"
         slug: "Идентификатор"
   admin:
+    post_categories:
+      show:
+        title: "Категория публикаций «%{name}»"
+        children: "Дочерние категории"
+        new_child: "Добавить дочернюю категорию"
+    post_tags:
+      nav_item:
+        description: "Управление метками публикаций"
+        text: "Метки публикаций"
+      index:
+        heading: "Метки публикаций"
+        title: "Метки публикаций, страница %{page}"
+      show:
+        title: "Метка публикаций «%{name}»"
     post_types:
       nav_item:
         description: "Управление типами и категориями публикаций"
@@ -94,16 +108,16 @@ ru:
         title: "Тип публикаций «%{name}»"
         children: "Дочерние типы"
       post_categories:
-        title: "Категории типа публикаций «%{name}»"
         heading: "Категории публикаций"
+        nav_text: "Категории"
+        title: "Категории типа публикаций «%{name}»"
+      post_tags:
+        heading: "Метки публикаций"
+        nav_text: "Метки"
+        title: "Метки публикаций типа «%{name}», страница %{page}"
       new_post:
         title: "Новая публикация типа «%{name}»"
         heading: "Добавить публикацию"
-    post_categories:
-      show:
-        title: "Категория публикаций «%{name}»"
-        children: "Дочерние категории"
-        new_child: "Добавить дочернюю категорию"
     posts:
       nav_item:
         description: "Управление публикациями"
@@ -179,6 +193,7 @@ ru:
       placeholders:
         image_author_link: "https://example.com/user42"
         source_link: "https://example.org/posts/123"
+      tags: "Метки"
     post:
       source: "Источник"
     index:

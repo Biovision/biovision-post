@@ -83,6 +83,20 @@ en:
         name: "Name"
         slug: "Slug"
   admin:
+    post_categories:
+      show:
+        title: "Post category '%{name}'"
+        children: "Children"
+        new_child: "Add child category"
+    post_tags:
+      nav_item:
+        description: "Manage post tags"
+        text: "Post tags"
+      index:
+        heading: "Post tags"
+        title: "Post tags, pagw %{page}"
+      show:
+        title: "Post tag '%{name}'"
     post_types:
       nav_item:
         description: "Managing post types and categories"
@@ -91,19 +105,19 @@ en:
         heading: "Post types"
         title: "Post types"
       show:
-        title: "Post type \"%{name}\""
+        title: "Post type '%{name}'"
         children: "Children types"
       post_categories:
-        title: "Categories of post type \"%{name}\""
         heading: "Post categories"
+        nav_text: "Categories"
+        title: "Categories of post type '%{name}'"
+      post_tags:
+        heading: "Post tags"
+        nav_text: "Tags"
+        title: "Tags of post type '%{name}', page %{page}"
       new_post:
-        title: "New post of type \"%{name}\""
+        title: "New post of type '%{name}'"
         heading: "Add post"
-    post_categories:
-      show:
-        title: "Post category \"%{name}\""
-        children: "Children"
-        new_child: "Add child category"
     posts:
       nav_item:
         description: "Managing posts"
@@ -112,7 +126,7 @@ en:
         heading: "Posts"
         title: "Posts, page %{page}"
       show:
-        title: "Post \"%{name}\""
+        title: "Post '%{name}'"
     index:
       dashboard:
         biovision_post:
@@ -179,6 +193,7 @@ en:
       placeholders:
         image_author_link: "https://example.com/user42"
         source_link: "https://example.org/posts/123"
+      tags: "Tags"
     post:
       source: "Source"
     index:
@@ -195,18 +210,18 @@ en:
       heading: "Articles"
       nav_text: "Articles"
     category:
-      title: "Articles in category \"%{category}\", page %{page}"
+      title: "Articles in category '%{category}', page %{page}"
   blog_posts:
     index:
       title: "Blog posts, page %{page}"
       heading: "Blog posts"
       nav_text: "Blog"
     category:
-      title: "Blog posts in category \"%{category}\", page %{page}"
+      title: "Blog posts in category '%{category}', page %{page}"
   news:
     index:
       title: "News, page %{page}"
       heading: "News"
       nav_text: "News"
     category:
-      title: "News in category \"%{category}\", page %{page}"
+      title: "News in category '%{category}', page %{page}"

@@ -1,0 +1,17 @@
+<div class="data">
+  <div><%= admin_post_tag_link(entity) %></div>
+  <div class="info">
+    <%= entity.slug %>
+  </div>
+  <div class="secondary info">
+    <%= t('activerecord.attributes.post_tag.post_type') %>:
+    <%= admin_post_type_link(entity.post_type) %>
+  </div>
+  <div class="secondary info">
+    <%= t(:post_count, count: entity.posts_count) %>
+  </div>
+
+  <ul class="actions">
+    <li><%= edit_icon(edit_post_tag_path(id: entity.id)) %></li>
+  </ul>
+</div>

@@ -17,6 +17,12 @@ module BiovisionPostsHelper
     link_to(text, admin_post_path(id: entity.id))
   end
 
+  # @param [PostTag] entity
+  # @param [String] text
+  def admin_post_tag_link(entity, text = entity.name)
+    link_to(text, admin_post_tag_path(id: entity.id))
+  end
+
   # @param [Integer] post_type_id
   def post_categories_for_select(post_type_id)
     options = [[t(:not_set), '']]

@@ -102,6 +102,13 @@
       %>
     </dd>
 
+    <dt><%= label_tag(:tags_string, t('.tags')) %></dt>
+    <dd>
+      <%=
+        text_field_tag(:tags_string, entity.tags_string)
+      %>
+    </dd>
+
     <dt><%= f.label :time_required %></dt>
     <dd>
       <%=

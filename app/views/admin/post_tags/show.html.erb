@@ -1,0 +1,27 @@
+<% content_for :meta_title, t('.title', name: @entity.name) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.post_tags.nav_item.text'), admin_post_tags_path) %>
+    <span><%= @entity.name %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.name %></h1>
+
+  <ul class="actions">
+    <li><%= back_icon(admin_post_tags_path) %></li>
+  </ul>
+
+  <dl>
+    <dt><%= t('activerecord.attributes.post_tag.post_type') %></dt>
+    <dd><%= admin_post_type_link(@entity.post_type) %></dd>
+
+    <dt><%= t('activerecord.attributes.post_tag.name') %></dt>
+    <dd><%= @entity.name %></dd>
+
+    <dt><%= t('activerecord.attributes.post_tag.slug') %></dt>
+    <dd><%= @entity.slug %></dd>
+
+    <dt><%= t('activerecord.attributes.post_tag.posts_count') %></dt>
+    <dd><%= @entity.posts_count %></dd>
+  </dl>
+</article>
