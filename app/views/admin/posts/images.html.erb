@@ -1,0 +1,22 @@
+<% content_for :meta_title, t('.title', post: @entity.title) %>
+<% content_for :breadcrumbs do %>
+  <%= link_to(t('admin.posts.nav_item.text'), admin_posts_path) %>
+  <%= admin_post_link(@entity) %>
+  <span><%= t('.nav_text') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.heading') %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(admin_post_path(id: @entity.id)) %></li>
+  </ul>
+
+  <%= render partial: 'shared/admin/list_with_priority', locals: { collection: @collection } %>
+
+  <section>
+    <h2><%= t('post_images.new.nav_text') %></h2>
+
+    <%= render partial: 'post_images/form', locals: { entity: @entity.post_images.new} %>
+  </section>
+</article>

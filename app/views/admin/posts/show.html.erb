@@ -9,6 +9,16 @@
 <article>
   <h1><%= @entity.title %></h1>
 
+  <nav>
+    <%=
+      link_to(
+          t('admin.posts.images.nav_text'),
+          images_admin_post_path(id: @entity.id),
+          class: 'button-nav'
+      )
+    %>
+  </nav>
+
   <ul class="actions">
     <li><%= back_icon(admin_posts_path) %></li>
     <% if @entity.visible? %>
@@ -131,6 +141,17 @@
         <ul>
           <% @entity.post_tags.each do |post_tag| %>
             <li><%= admin_post_tag_link(post_tag) %></li>
+          <% end %>
+        </ul>
+      </dd>
+    <% end %>
+
+    <% if @entity.post_images.any? %>
+      <dt><%= link_to(t('.images'), images_admin_post_path(id: @entity.id)) %></dt>
+      <dd>
+        <ul class="image-previews">
+          <% @entity.post_images.list_for_administration.each do |post_image| %>
+            <li><%= post_image_preview(post_image) %></li>
           <% end %>
         </ul>
       </dd>

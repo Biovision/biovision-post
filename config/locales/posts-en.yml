@@ -82,6 +82,8 @@ en:
         owner_name: "Image author name"
         post: "Post"
         post_id: "Post"
+        priority: "Sorting order"
+        visible: "Visible"
       post_tag:
         name: "Name"
         post_type: "Post type"
@@ -106,7 +108,7 @@ en:
         heading: "Post images"
         title: "Post images, page %{page}"
       show:
-        title: "Post image «%{caption}»"
+        title: "Post image '%{caption}'"
     post_tags:
       nav_item:
         description: "Manage post tags"
@@ -150,6 +152,11 @@ en:
         title: "Posts, page %{page}"
       show:
         title: "Post '%{name}'"
+        images: "Images"
+      images:
+        heading: "Images"
+        nav_text: "Images"
+        title: "Images for post '%{post}'"
     index:
       dashboard:
         biovision_post:
@@ -187,6 +194,10 @@ en:
       guidelines:
         name: "Maximum 50 characters."
   post_images:
+    new:
+      heading: "New post image"
+      nav_text: "Add image"
+      title: "New post image"
     edit:
       heading: "Editing post image"
       nav_text: "Edit"
@@ -203,6 +214,8 @@ en:
         image_alt_text: "Brief description of image. Maximum 200 chars."
         owner_link: "Will be opened when one clicks on author name."
         owner_name: "Person or organization name. Will be shown near image."
+      placeholders:
+        owner_link: "https://example.org/user42"
   posts:
     edit:
       title: "Editing post"

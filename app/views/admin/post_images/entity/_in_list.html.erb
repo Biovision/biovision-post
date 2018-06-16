@@ -1,0 +1,30 @@
+<div class="image">
+  <%= post_image_preview(entity) %>
+</div>
+<div class="data">
+  <div><%= admin_post_image_link(entity) %></div>
+  <div class="info">
+    <%= t('activerecord.attributes.post_image.post') %>:
+    <%= admin_post_link(entity.post) %>
+  </div>
+
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals: {
+            entity: entity,
+            url: toggle_admin_post_image_path(id: entity.id)
+        }
+    )
+  %>
+
+  <ul class="actions">
+    <li><%= edit_icon(edit_post_image_path(id: entity.id)) %></li>
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: priority_admin_post_category_path(id: entity.id) }
+      )
+    %>
+  </ul>
+</div>

@@ -12,7 +12,8 @@ Rails.application.routes.draw do
         get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+/ }
       end
     end
-    resources :post_tags, :post_images, only: [:edit]
+    resources :post_tags, only: [:edit]
+    resources :post_images, only: [:edit, :create]
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
@@ -62,6 +63,12 @@ Rails.application.routes.draw do
       resources :post_tags, only: [:index, :show] do
         member do
           get 'posts'
+        end
+      end
+      resources :post_images, only: [:index, :show] do
+        member do
+          post 'priority', defaults: { format: :json }
+          post 'toggle', defaults: { format: :json }
         end
       end
     end

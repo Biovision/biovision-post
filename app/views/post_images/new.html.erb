@@ -1,0 +1,18 @@
+<% content_for :meta_title, t('.title') %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.post_types.nav_item.text'), admin_post_types_path) %>
+    <%= admin_post_type_link(@entity.post_type) unless @entity.post_type.nil? %>
+    <span><%= t('.heading') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.title') %></h1>
+
+  <% unless @entity.post_type.nil? %>
+      <ul class="actions">
+        <li><%= back_icon(admin_post_types_path) %></li>
+      </ul>
+  <% end %>
+
+  <%= render partial: 'form', locals: { entity: @entity } %>
+</article>

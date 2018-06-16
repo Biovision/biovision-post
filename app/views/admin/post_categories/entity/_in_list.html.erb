@@ -9,13 +9,33 @@
     <li class="lockable <%= entity.locked? ? 'hidden' : '' %>">
       <%= edit_icon edit_post_category_path(id: entity.id) %>
     </li>
-    <%= render partial: 'shared/actions/priority_changer', locals: { path: priority_admin_post_category_path(id: entity.id) } %>
-    <%= render partial: 'shared/actions/locks', locals: { entity: entity, path: lock_admin_post_category_path(id: entity.id) } %>
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: priority_admin_post_category_path(id: entity.id) }
+      )
+    %>
+    <%=
+      render(
+          partial: 'shared/actions/locks',
+          locals: {
+              entity: entity,
+              path: lock_admin_post_category_path(id: entity.id)
+          }
+      )
+    %>
   </ul>
   
   <% if entity.child_categories.any? %>
       <div class="children">
-        <%= render partial: 'shared/admin/list_with_priority', locals: { collection: PostCategory.for_tree(entity.post_type_id, entity.id) } %>
+        <%=
+          render(
+              partial: 'shared/admin/list_with_priority',
+              locals: {
+                  collection: PostCategory.for_tree(entity.post_type_id, entity.id)
+              }
+          )
+        %>
       </div>
   <% end %>
 </div>

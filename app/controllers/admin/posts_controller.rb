@@ -14,7 +14,7 @@ class Admin::PostsController < AdminController
 
   # get /admin/posts/:id/images
   def images
-    @collection = Post.post_images.list_for_administration
+    @collection = @entity.post_images.list_for_administration
   end
 
   private

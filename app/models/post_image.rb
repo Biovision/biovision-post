@@ -34,7 +34,7 @@ class PostImage < ApplicationRecord
   end
 
   def self.entity_parameters
-    %i(caption description image image_alt_text owner_link owner_name)
+    %i(caption description image image_alt_text owner_link owner_name visible)
   end
 
   def self.creation_parameters

@@ -1,0 +1,19 @@
+<% content_for :meta_title, t('.title') %>
+<% content_for :breadcrumbs do %>
+  <%= link_to(t('admin.posts.nav_item.text'), admin_posts_path) %>
+  <%= admin_post_link(@entity.post) %>
+  <%= link_to(t('admin.posts.images.nav_text'), images_admin_post_path(id: @entity.id)) %>
+  <%= admin_post_image_link(@entity) %>
+  <span><%= t('.nav_text') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.heading') %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(admin_post_image_path(id: @entity.id)) %></li>
+    <li class="danger"><%= destroy_icon(@entity) %></li>
+  </ul>
+
+  <%= render partial: 'form', locals: { entity: @entity } %>
+</article>

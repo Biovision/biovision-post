@@ -82,6 +82,8 @@ ru:
         owner_name: "Автор изображения"
         post: "Публикация"
         post_id: "Публикация"
+        priority: "Порядок сортировки"
+        visible: "Показывать"
       post_tag:
         name: "Название"
         post_type: "Тип публикации"
@@ -150,6 +152,11 @@ ru:
         title: "Публикации, страница %{page}"
       show:
         title: "Публикация «%{name}»"
+        images: "Картинки"
+      images:
+        heading: "Картинки"
+        nav_text: "Картинки"
+        title: "Картинки к публикации «%{post}»"
     index:
       dashboard:
         biovision_post:
@@ -187,6 +194,10 @@ ru:
       guidelines:
         name: "Максимум 50 символов."
   post_images:
+    new:
+      heading: "Добавление картинки к публикации"
+      nav_text: "Добавить картинку"
+      title: "Новая картинка публикации"
     edit:
       heading: "Редактирование изображения публикации"
       nav_text: "Редактировать"
@@ -203,6 +214,8 @@ ru:
         image_alt_text: "Краткое описание того, что происходит на картинке. До 200 символов."
         owner_link: "Будет открываться при нажатии на имя автора картинки."
         owner_name: "ФИО или название организации. Будет отображаться в подписи к картинке."
+      placeholders:
+        owner_link: "https://example.org/user42"
   posts:
     edit:
       title: "Редактирование публикации"

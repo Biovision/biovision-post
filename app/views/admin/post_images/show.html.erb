@@ -1,0 +1,49 @@
+<% content_for :meta_title, t('.title', caption: @entity.caption) %>
+<% content_for :breadcrumbs do %>
+  <%= link_to(t('admin.posts.nav_item.text'), admin_posts_path) %>
+  <%= admin_post_link(@entity.post) %>
+  <%= link_to(t('admin.posts.images.nav_text'), images_admin_post_path(id: @entity.post_id)) %>
+  <span><%= @entity.caption %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.caption %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(admin_post_path(id: @entity.post_id)) %></li>
+    <li><%= back_icon(admin_post_images_path) %></li>
+  </ul>
+
+  <dl>
+    <dt><%= t('activerecord.attributes.post_image.image') %></dt>
+    <dd>
+      <figure class="preview" role="group">
+        <%= post_image_medium(@entity) %>
+        <figcaption><%= @entity.caption %></figcaption>
+      </figure>
+    </dd>
+
+    <% unless @entity.image_alt_text.blank? %>
+      <dt><%= t('activerecord.attributes.post_image.image_alt_text') %></dt>
+      <dd><%= @entity.image_alt_text %></dd>
+    <% end %>
+
+    <dt><%= t('activerecord.attributes.post_image.post') %></dt>
+    <dd><%= admin_post_link(@entity.post) %></dd>
+
+    <% unless @entity.owner_name.blank? %>
+      <dt><%= t('activerecord.attributes.post_image.owner_name') %></dt>
+      <dd><%= @entity.owner_name %></dd>
+    <% end %>
+
+    <% unless @entity.owner_link.blank? %>
+      <dt><%= t('activerecord.attributes.post_image.owner_link') %></dt>
+      <dd><%= @entity.owner_link %></dd>
+    <% end %>
+
+    <% unless @entity.description.blank? %>
+      <dt><%= t('activerecord.attributes.post_image.description') %></dt>
+      <dd><%= simple_format(@entity.description) %></dd>
+    <% end %>
+  </dl>
+</article>
