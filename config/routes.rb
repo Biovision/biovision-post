@@ -2,16 +2,17 @@ Rails.application.routes.draw do
   category_slug_pattern = /[a-z]+[-_0-9a-z]*[0-9a-z]/
   post_slug_pattern     = /[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+/
 
-  resources :post_categories, :posts, :post_tags, only: [:update, :destroy]
+  resources :post_categories, :posts, :post_tags, :post_images, only: [:update, :destroy]
 
   scope '/(:locale)', constraints: { locale: /ru|en/ } do
     resources :post_categories, except: [:index, :show, :update, :destroy]
     resources :posts, except: [:new, :update, :destroy] do
       collection do
-        get 'tagged/(:tag_name)' => :tagged, as: :tagged
+        get 'categories/:category_slug' => :category, as: :posts_category, constraints: { category_slug: category_slug_pattern }
+        get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+/ }
       end
     end
-    resources :post_tags, only: [:edit]
+    resources :post_tags, :post_images, only: [:edit]
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
@@ -55,6 +56,7 @@ Rails.application.routes.draw do
           put 'lock', defaults: { format: :json }
           delete 'lock', action: :unlock, defaults: { format: :json }
           post 'toggle', defaults: { format: :json }
+          get 'images'
         end
       end
       resources :post_tags, only: [:index, :show] do

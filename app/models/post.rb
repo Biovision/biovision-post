@@ -31,6 +31,7 @@ class Post < ApplicationRecord
   has_many :post_links, dependent: :delete_all
   has_many :post_post_tags, dependent: :destroy
   has_many :post_tags, through: :post_post_tags
+  has_many :post_images, dependent: :destroy
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize { self.publication_time = Time.now if publication_time.nil? }
@@ -69,6 +70,7 @@ class Post < ApplicationRecord
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
   scope :tagged, -> (tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
+  scope :in_category, -> (slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)

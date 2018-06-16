@@ -23,6 +23,12 @@ module BiovisionPostsHelper
     link_to(text, admin_post_tag_path(id: entity.id))
   end
 
+  # @param [PostImage] entity
+  # @param [String] text
+  def admin_post_image_link(entity, text = entity.name)
+    link_to(text, admin_post_image_path(id: entity.id))
+  end
+
   # @param [Integer] post_type_id
   def post_categories_for_select(post_type_id)
     options = [[t(:not_set), '']]
@@ -74,8 +80,9 @@ module BiovisionPostsHelper
   def post_image_preview(entity)
     return '' if entity.image.blank?
 
+    alt_text = entity.image_alt_text
     versions = "#{entity.image.preview_2x.url} 2x"
-    image_tag(entity.image.preview.url, alt: entity.title, srcset: versions)
+    image_tag(entity.image.preview.url, alt: alt_text, srcset: versions)
   end
 
   # Small post image for displaying in lists of posts and feeds

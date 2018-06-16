@@ -12,6 +12,11 @@ class Admin::PostsController < AdminController
   def show
   end
 
+  # get /admin/posts/:id/images
+  def images
+    @collection = Post.post_images.list_for_administration
+  end
+
   private
 
   def set_entity

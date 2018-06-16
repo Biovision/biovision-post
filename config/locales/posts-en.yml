@@ -9,6 +9,7 @@ en:
     models:
       post: "Post"
       post_category: "Post category"
+      post_image: "Post image"
       post_post_tag: "Tag in post"
       post_tag: "Tag"
       post_type: "Post type"
@@ -72,6 +73,15 @@ en:
         priority: "Sorting order"
         slug: "Slug"
         visible: "Visible"
+      post_image:
+        caption: "Caption"
+        description: "Description"
+        image: "Image"
+        image_alt_text: "Alt text for image"
+        owner_link: "Image author link"
+        owner_name: "Image author name"
+        post: "Post"
+        post_id: "Post"
       post_tag:
         name: "Name"
         post_type: "Post type"
@@ -88,6 +98,15 @@ en:
         title: "Post category '%{name}'"
         children: "Children"
         new_child: "Add child category"
+    post_images:
+      nav_item:
+        description: "Manage post images"
+        text: "Post images"
+      index:
+        heading: "Post images"
+        title: "Post images, page %{page}"
+      show:
+        title: "Post image «%{caption}»"
     post_tags:
       nav_item:
         description: "Manage post tags"
@@ -167,6 +186,23 @@ en:
     form:
       guidelines:
         name: "Maximum 50 characters."
+  post_images:
+    edit:
+      heading: "Editing post image"
+      nav_text: "Edit"
+      title: "Editing post image"
+    update:
+      success: "Post image has been updated"
+    destroy:
+      success: "Post image has been deleted"
+    form:
+      guidelines:
+        caption: "Maximum 255 characters."
+        description: "Maximum 5000 characters."
+        image: "Maximum dimensions are 3000×3000, format — JPG or PNG."
+        image_alt_text: "Brief description of image. Maximum 200 chars."
+        owner_link: "Will be opened when one clicks on author name."
+        owner_name: "Person or organization name. Will be shown near image."
   posts:
     edit:
       title: "Editing post"
@@ -193,7 +229,7 @@ en:
         source: "Post source name (e.g. agency name)"
         source_link: "Will be opened when one clicks on source name"
         time_required: "In minutes"
-        title: "Maximum 140 chars."
+        title: "Maximum 255 chars."
       placeholders:
         image_author_link: "https://example.com/user42"
         source_link: "https://example.org/posts/123"

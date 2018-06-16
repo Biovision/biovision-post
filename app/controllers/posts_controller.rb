@@ -58,6 +58,11 @@ class PostsController < ApplicationController
     @collection = Post.tagged(params[:tag_name]).page_for_visitors(current_page)
   end
 
+  # get /posts/:category_slug
+  def category
+    @collection = Post.in_category(params[:category_slug]).page_for_visitors(current_page)
+  end
+
   private
 
   def set_entity
