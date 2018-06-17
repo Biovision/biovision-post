@@ -259,6 +259,7 @@ en:
     dashboard:
       biovision_post:
         heading: "Recent posts"
+        more: "More"
   articles:
     index:
       title: "Articles, page %{page}"

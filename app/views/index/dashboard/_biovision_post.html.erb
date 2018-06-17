@@ -1,5 +1,18 @@
-<section class="recent-posts">
+<section class="recent-posts" id="recent-posts-container">
   <h2><%= t('.heading') %></h2>
 
   <%= render partial: 'posts/list', locals: { collection: Post.visible.page_for_visitors(1) } %>
+
+  <div class="more-posts">
+    <%=
+      link_to(
+          t('.more'),
+          posts_path(page: 2, format: :json),
+          class: 'button-nav posts-loader',
+          data: {
+              container: 'recent-posts-container'
+          }
+      )
+    %>
+  </div>
 </section>

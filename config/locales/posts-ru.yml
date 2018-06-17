@@ -259,6 +259,7 @@ ru:
     dashboard:
       biovision_post:
         heading: "Недавние публикации"
+        more: "Ещё"
   articles:
     index:
       title: "Статьи, страница %{page}"
