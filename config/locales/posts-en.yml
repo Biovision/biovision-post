@@ -92,6 +92,7 @@ en:
         slug: "Slug"
       post_type:
         category_depth: "Category depth"
+        default_category_name: "Default category name"
         name: "Name"
         slug: "Slug"
   admin:

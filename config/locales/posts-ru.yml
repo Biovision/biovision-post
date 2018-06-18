@@ -92,6 +92,7 @@ ru:
         slug: "Идентификатор"
       post_type:
         category_depth: "Глубина категорий"
+        default_category_name: "Название категории по умолчанию"
         name: "Название"
         slug: "Идентификатор"
   admin:
