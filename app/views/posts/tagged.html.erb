@@ -4,13 +4,7 @@
 <% end %>
 
 <article>
-  <header>
-    <h1><%= params[:tag_name] %></h1>
-  </header>
+  <h1><%= params[:tag_name] %></h1>
 
-  <section class="recent-posts">
-    <%= paginate @collection %>
-    <%= render partial: 'posts/list', locals: { collection: @collection } %>
-    <%= paginate @collection %>
-  </section>
+  <%= render partial: 'posts/collection', locals: { collection: @collection } %>
 </article>

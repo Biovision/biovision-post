@@ -41,6 +41,11 @@ Rails.application.routes.draw do
       get '/:post_id-:post_slug' => :show, as: :show_blog_post, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end
 
+    scope :authors, controller: 'authors' do
+      get '/' => :index, as: :authors
+      get ':slug' => :show, as: :author
+    end
+
     namespace :admin do
       resources :post_types, only: [:index, :show] do
         member do

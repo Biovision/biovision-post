@@ -71,6 +71,7 @@ class Post < ApplicationRecord
   scope :list_for_administration, -> { order('id desc') }
   scope :tagged, -> (tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
   scope :in_category, -> (slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
+  scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
@@ -94,6 +95,10 @@ class Post < ApplicationRecord
 
   def self.creation_parameters
     entity_parameters + %i(post_type_id)
+  end
+
+  def self.author_ids
+    visible.pluck(:user_id).uniq
   end
 
   # @param [User] user

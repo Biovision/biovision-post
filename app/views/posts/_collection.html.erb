@@ -1,0 +1,5 @@
+<section class="recent-posts">
+  <%= paginate collection %>
+  <%= render partial: 'posts/list', locals: { collection: collection } %>
+  <%= paginate collection %>
+</section>

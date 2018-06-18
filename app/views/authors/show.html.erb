@@ -1,0 +1,22 @@
+<% content_for :meta_title, @entity.screen_name %>
+<% content_for :breadcrumbs do %>
+  <%= link_to(t('authors.index.nav_text'), authors_path) %>
+  <span><%= @entity.screen_name %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.heading') %></h1>
+
+  <section class="post-author">
+    <figure role="group">
+      <%= profile_avatar(@entity) %>
+      <figcaption><%= @entity.screen_name %></figcaption>
+    </figure>
+
+    <div class="about">
+      <%= simple_format(@entity.profile_data[:about]) %>
+    </div>
+  </section>
+
+  <%= render partial: 'posts/collection', locals: { collection: @collection } %>
+</article>

@@ -288,3 +288,12 @@ ru:
       title: "Новости в категории «%{category}», страница %{page}"
     tagged:
       title: "Новости с меткой «%{tag_name}», страница %{page}"
+  authors:
+    index:
+      nav_text: "Авторы"
+      title: "Авторы"
+      heading: "Авторы"
+    list:
+      no_authors: "Список авторов пуст"
+    show:
+      heading: "Авторы"

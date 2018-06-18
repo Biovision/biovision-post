@@ -61,6 +61,10 @@ class PostsController < ApplicationController
   # get /posts/:category_slug
   def category
     @collection = Post.in_category(params[:category_slug]).page_for_visitors(current_page)
+    respond_to do |format|
+      format.html
+      format.json { render('posts/index') }
+    end
   end
 
   private

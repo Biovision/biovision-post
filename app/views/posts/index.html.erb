@@ -6,9 +6,5 @@
 <article>
   <h1><%= t('.heading') %></h1>
 
-  <section class="recent-posts">
-    <%= paginate @collection %>
-    <%= render partial: 'posts/list', locals: { collection: @collection } %>
-    <%= paginate @collection %>
-  </section>
+  <%= render partial: 'posts/collection', locals: { collection: @collection } %>
 </article>

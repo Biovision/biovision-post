@@ -1,0 +1,18 @@
+<% if collection.any? %>
+  <ul class="post-authors" id="post-authors-list">
+    <% collection.each do |entity| %>
+      <li data-id="<%= entity.id %>">
+        <%=
+          render(
+              partial: 'authors/entity/in_list',
+              locals: { entity: entity }
+          )
+        %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="message-box-warning">
+    <%= t('.no_authors') %>
+  </div>
+<% end %>

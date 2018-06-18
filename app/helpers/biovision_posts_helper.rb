@@ -29,6 +29,11 @@ module BiovisionPostsHelper
     link_to(text, admin_post_image_path(id: entity.id))
   end
 
+  # @param [User] entity
+  def author_link(entity)
+    link_to(entity.screen_name, author_path(slug: entity.screen_name))
+  end
+
   # @param [Integer] post_type_id
   def post_categories_for_select(post_type_id)
     options = [[t(:not_set), '']]

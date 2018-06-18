@@ -32,7 +32,7 @@ const BiovisionPosts = {
                     if (nextLink) {
                         button.setAttribute('href', nextLink);
                     } else {
-                        button.classList.add('hide');
+                        button.classList.add('hidden');
                     }
                 });
 

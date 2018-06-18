@@ -6,11 +6,19 @@ class ArticlesController < ApplicationController
   def index
     post_type   = PostType.find_by(slug: 'article')
     @collection = post_type.posts.for_language(current_language).page_for_visitors(current_page)
+    respond_to do |format|
+      format.html
+      format.json { render('posts/index') }
+    end
   end
 
   # get /articles/:category_slug
   def category
     @collection = @category.posts.for_language(current_language).page_for_visitors(current_page)
+    respond_to do |format|
+      format.html
+      format.json { render('posts/index') }
+    end
   end
 
   # get /articles/:post_id-:post_slug
