@@ -30,8 +30,9 @@ module BiovisionPostsHelper
   end
 
   # @param [User] entity
-  def author_link(entity)
-    link_to(entity.screen_name, author_path(slug: entity.screen_name))
+  # @param [String] text
+  def author_link(entity, text = entity.profile_name)
+    link_to(text, author_path(slug: entity.screen_name))
   end
 
   # @param [Integer] post_type_id

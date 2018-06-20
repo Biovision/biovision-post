@@ -8,13 +8,16 @@
   <h1><%= t('.heading') %></h1>
 
   <section class="post-author">
-    <figure role="group">
-      <%= profile_avatar(@entity) %>
-      <figcaption><%= @entity.screen_name %></figcaption>
-    </figure>
+    <h2><%= @entity.profile_name %></h2>
+    <div>
+      <figure role="group">
+        <%= profile_avatar(@entity) %>
+        <figcaption><%= @entity.screen_name %></figcaption>
+      </figure>
 
-    <div class="about">
-      <%= simple_format(@entity.profile_data[:about]) %>
+      <div class="about">
+        <%= simple_format(@entity.profile_data['about']) %>
+      </div>
     </div>
   </section>
 
