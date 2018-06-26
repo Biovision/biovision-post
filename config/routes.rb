@@ -82,5 +82,9 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    namespace :my do
+      resources :posts, only: [:index, :new, :create, :show]
+    end
   end
 end
