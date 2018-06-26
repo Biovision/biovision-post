@@ -84,6 +84,12 @@ class Post < ApplicationRecord
     list_for_visitors.page(page).per(PER_PAGE)
   end
 
+  # @param [User] user
+  # @param [Integer] page
+  def self.page_for_owner(user, page = 1)
+    list_for_owner(user).page(page)
+  end
+
   def self.entity_parameters
     main_data   = %i(body language_id lead original_title post_category_id publication_time region_id slug title)
     image_data  = %i(image image_alt_text image_author_link image_author_name image_name)
