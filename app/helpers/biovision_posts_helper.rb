@@ -31,8 +31,9 @@ module BiovisionPostsHelper
 
   # @param [Post] entity
   # @param [String] text
-  def my_post_link(entity, text = entity.title)
-    link_to(text, my_post_path(id: entity.id))
+  # @param [Hash] options
+  def my_post_link(entity, text = entity.title, options = {})
+    link_to(text, my_post_path(id: entity.id), options)
   end
 
   # @param [User] entity
