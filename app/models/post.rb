@@ -73,6 +73,7 @@ class Post < ApplicationRecord
   scope :tagged, -> (tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
   scope :in_category, -> (slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
+  scope :of_type, -> (slug) { where(post_type: PostType.find_by(slug: slug)) }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)

@@ -15,6 +15,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.1]
       add_index :post_types, :name, unique: true
 
       create_default_types
+      create_privileges
     end
   end
 
@@ -28,5 +29,23 @@ class CreatePostTypes < ActiveRecord::Migration[5.1]
     PostType.create(slug: 'blog_post', name: 'Запись в блоге', default_category_name: 'Блог')
     PostType.create(slug: 'article', name: 'Статья', default_category_name: 'Статьи')
     PostType.create(slug: 'news', name: 'Новость', default_category_name: 'Новости')
+  end
+
+  def create_privileges
+    group        = PrivilegeGroup.find_by!(slug: 'editors')
+    chief_editor = Privilege.find_by!(slug: 'chief_editor')
+    children     = {
+      editor:   'Редактор',
+      reporter: 'Репортёр',
+      blogger:  'Блогер'
+    }
+
+    children.each do |slug, name|
+      child = Privilege.new(parent: chief_editor, slug: slug, name: name, administrative: false)
+
+      if child.save
+        group.add_privilege(child)
+      end
+    end
   end
 end

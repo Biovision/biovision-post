@@ -29,6 +29,12 @@ module BiovisionPostsHelper
     link_to(text, admin_post_image_path(id: entity.id))
   end
 
+  # @param [Post] entity
+  # @param [String] text
+  def my_post_link(entity, text = entity.title)
+    link_to(text, my_post_path(id: entity.id))
+  end
+
   # @param [User] entity
   # @param [String] text
   def author_link(entity, text = entity.profile_name)

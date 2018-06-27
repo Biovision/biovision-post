@@ -288,3 +288,11 @@ en:
       title: "News in category '%{category}', page %{page}"
     tagged:
       title: "News tagged '%{tag_name}', page %{page}"
+  my:
+    index:
+      dashboard:
+        biovision_post:
+          heading: "My posts"
+    posts:
+      index:
+        nav_text: "All posts"

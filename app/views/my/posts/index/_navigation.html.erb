@@ -1,0 +1,29 @@
+<nav>
+  <% if current_user_has_privilege?(:editor) %>
+    <%=
+      link_to(
+          t('my.posts.new_article.nav_text'),
+          my_new_article_path,
+          class: 'button-nav'
+      )
+    %>
+  <% end %>
+  <% if current_user_has_privilege?(:reporter) %>
+    <%=
+      link_to(
+          t('my.posts.new_news.nav_text'),
+          my_new_news_path,
+          class: 'button-nav'
+      )
+    %>
+  <% end %>
+  <% if current_user_has_privilege?(:blogger) %>
+      <%=
+        link_to(
+            t('my.posts.new_blog_post.nav_text'),
+            my_new_blog_post_path,
+            class: 'button-nav'
+        )
+      %>
+  <% end %>
+</nav>

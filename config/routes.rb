@@ -84,7 +84,14 @@ Rails.application.routes.draw do
     end
 
     namespace :my do
-      resources :posts, only: [:index, :new, :create, :show]
+      get 'articles' => 'posts#articles'
+      get 'news' => 'posts#news_index'
+      get 'blog' => 'posts#blog_posts'
+      get 'articles/new' => 'posts#new_article', as: :new_article
+      get 'news/new' => 'posts#new_news', as: :new_news
+      get 'blog_posts/new' => 'posts#new_blog_post', as: :new_blog_post
+
+      resources :posts, except: [:new]
     end
   end
 end

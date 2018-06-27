@@ -1,0 +1,24 @@
+<% content_for :meta_title, t('.title', page: current_page) %>
+<% content_for :breadcrumbs do %>
+  <span><%= t('.nav_text') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.heading') %></h1>
+
+  <% if current_user_has_privilege?(:reporter) %>
+    <nav>
+      <%=
+        link_to(
+            t('my.posts.new_news.nav_text'),
+            my_new_news_path,
+            class: 'button-nav'
+        )
+      %>
+    </nav>
+  <% end %>
+
+  <%= paginate @collection %>
+  <%= render partial: 'my/posts/list', locals: { collection: @collection } %>
+  <%= paginate @collection %>
+</article>

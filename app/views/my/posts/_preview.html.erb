@@ -1,0 +1,35 @@
+<div class="post-preview" role="group">
+  <div class="image">
+    <%= post_image_small(entity) %>
+  </div>
+  <div class="title">
+    <%= my_post_link(entity) %>
+  </div>
+  <div class="info">
+    <% if entity.show_owner? %>
+      <% if entity.author_name.blank? %>
+        <%= user_link(entity.user) %>
+      <% else %>
+        <%= post_author_link(entity) %>
+        <% unless entity.author_title.blank? %>
+          <div class="author-title"><%= entity.author_title %></div>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= time_tag(entity.created_at) %>
+  </div>
+  <div class="lead"><%= entity.lead %></div>
+  <% unless entity.post_category.nil? %>
+    <div class="category" aria-label="<%= t('activerecord.attributes.post.post_category_id') %>">
+      <%= entity.post_category.full_title %>
+    </div>
+  <% end %>
+  <div class="counters">
+    <% if entity.allow_comments? && 'CommentableItem'.safe_constantize %>
+      <span class="comment_count"><%= entity.comments_count %></span>
+    <% end %>
+    <span class="view_count" aria-label="<%= t('activerecord.attributes.post.view_count') %>">
+      <%= entity.view_count %>
+    </span>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<% content_for :meta_title, @entity.title %>
+<% content_for :breadcrumbs do %>
+  <%= link_to(t('my.posts.index.nav_text'), my_posts_path) %>
+  <span><%= @entity.title %></span>
+<% end %>
+
+<%= render @entity %>

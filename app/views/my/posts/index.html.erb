@@ -1,0 +1,14 @@
+<% content_for :meta_title, t('.title', page: current_page) %>
+<% content_for :breadcrumbs do %>
+  <span><%= t('.nav_text') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.heading') %></h1>
+
+  <%= render 'my/posts/index/navigation' %>
+
+  <%= paginate @collection %>
+  <%= render partial: 'my/posts/list', locals: { collection: @collection } %>
+  <%= paginate @collection %>
+</article>

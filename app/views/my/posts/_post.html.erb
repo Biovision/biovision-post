@@ -1,14 +1,9 @@
 <% handler = PostManager.handler(post) %>
 <article class="post" itemscope itemtype="http://schema.org/Article" itemprop="mainEntityOfPage">
   <h1 itemprop="headline"><%= post.title %></h1>
-  <% if post.editable_by? current_user %>
+  <% unless post.locked? %>
     <ul class="actions">
-      <% if UserPrivilege.user_in_group?(current_user, :editors) %>
-        <li><%= gear_icon(admin_post_path(id: post.id)) %></li>
-      <% end %>
-      <% unless post.locked? %>
-        <li><%= edit_icon(handler.edit_path) %></li>
-      <% end %>
+      <li><%= edit_icon(edit_my_post_path(id: post.id)) %></li>
     </ul>
   <% end %>
 
@@ -77,13 +72,5 @@
     <div class="time">
       <%= time_tag post.publication_time, itemProp: 'datePublished', aria: { label: t('activerecord.attributes.post.created_at') } %>
     </div>
-
-    <% unless post.time_required.blank? %>
-      <meta itemprop="timeRequired" content="P<%= post.time_required %>M"/>
-    <% end %>
-    <meta itemprop="commentCount" content="<%= post.comments_count %>"/>
-    <meta itemprop="dateModified" content="<%= post.updated_at.strftime('%Y-%m-%d') %>"/>
-    <%= render partial: 'posts/entity/publisher', locals: { entity: post } %>
   </footer>
 </article>
-<%= render partial: 'shared/track', locals: { item: post } %>

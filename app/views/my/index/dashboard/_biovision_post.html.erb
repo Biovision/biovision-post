@@ -1,0 +1,43 @@
+<% if current_user_in_group?(:editors) %>
+  <section class="dashboard" id="biovision-post-my-dashboard">
+    <h2><%= t('.heading') %></h2>
+
+    <nav>
+      <% if current_user_has_privilege?(:editor) %>
+        <div>
+          <%= link_to(t('my.posts.new_article.nav_text'), my_new_article_path) %>
+        </div>
+      <% end %>
+      <% if current_user_has_privilege?(:reporter) %>
+        <div>
+          <%= link_to(t('my.posts.new_news.nav_text'), my_new_news_path) %>
+        </div>
+      <% end %>
+      <% if current_user_has_privilege?(:blogger) %>
+        <div>
+          <%= link_to(t('my.posts.new_blog_post.nav_text'), my_new_blog_post_path) %>
+        </div>
+      <% end %>
+      <% if Post.owned_by(current_user).exists? %>
+        <div>
+          <%= link_to(t('my.posts.index.nav_text'), my_posts_path) %>
+        </div>
+      <% end %>
+      <% if Post.of_type(:article).owned_by(current_user).exists? %>
+        <div>
+          <%= link_to(t('my.posts.articles.nav_text'), my_articles_path) %>
+        </div>
+      <% end %>
+      <% if Post.of_type(:news).owned_by(current_user).exists? %>
+        <div>
+          <%= link_to(t('my.posts.news_index.nav_text'), my_news_path) %>
+        </div>
+      <% end %>
+      <% if Post.of_type(:blog_post).owned_by(current_user).exists? %>
+        <div>
+          <%= link_to(t('my.posts.blog_posts.nav_text'), my_blog_path) %>
+        </div>
+      <% end %>
+    </nav>
+  </section>
+<% end %>

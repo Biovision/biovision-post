@@ -297,3 +297,44 @@ ru:
       no_authors: "Список авторов пуст"
     show:
       heading: "Авторы"
+  my:
+    index:
+      dashboard:
+        biovision_post:
+          heading: "Мои публикации"
+    posts:
+      articles:
+        heading: "Мои статьи"
+        nav_text: "Статьи"
+        title: "Мои статьи, страница %{page}"
+      blog_posts:
+        heading: "Мой блог"
+        nav_text: "Блог"
+        title: "Мой блог, страница %{page}"
+      index:
+        heading: "Мои публикации"
+        nav_text: "Все публикации"
+        title: "Мои публикации, страница %{page}"
+      new_article:
+        heading: "Новая статья"
+        nav_text: "Написать статью"
+        title: "Добавление статьи"
+      new_blog_post:
+        heading: "Новая запись в блоге"
+        nav_text: "Написать в блоге"
+        title: "Добавление записи в блоге"
+      new_news:
+        heading: "Новая новость"
+        nav_text: "Добавить новость"
+        title: "Добавление новости"
+      news_index:
+        heading: "Мои новости"
+        nav_text: "Новости"
+        title: "Мои новости, страница %{page}"
+      new:
+        title: "Добавление публикации"
+        heading: "Добавление публикации"
+      edit:
+        title: "Редактирование моей публикации"
+        nav_text: "Редактировать"
+        heading: "Редактирование публикации"
