@@ -14,7 +14,8 @@ class Post < ApplicationRecord
   TIME_RANGE        = (0..1440)
   TITLE_LIMIT       = 255
 
-  PER_PAGE = 12
+  URL_PATTERN = /https?:\/\/([^\/]+)\/?.*/
+  PER_PAGE    = 12
 
   toggleable :visible, :show_owner
 
@@ -151,10 +152,18 @@ class Post < ApplicationRecord
 
   def prepare_source_names
     if image_author_name.blank? && !image_author_link.blank?
-      self.image_author_name = URI.parse(image_author_link).host
+      begin
+        self.image_author_name = URI.parse(image_author_link).host
+      rescue URI::InvalidURIError
+        self.image_author_name = URL_PATTERN.match(image_author_link)[1]
+      end
     end
     if source_name.blank? && !source_link.blank?
-      self.source_name = URI.parse(source_link).host
+      begin
+        self.source_name = URI.parse(source_link).host
+      rescue URI::InvalidURIError
+        self.source_name = URL_PATTERN.match(source_link)[1]
+      end
     end
   end
 end
