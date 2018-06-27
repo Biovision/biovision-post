@@ -1,0 +1,355 @@
+<% model_name = entity.class.to_s.underscore %>
+<%=
+  form_with(
+      model: entity,
+      url: entity.id.nil? ? my_posts_path : my_post_path(id: entity.id),
+      html: {
+          id: "#{model_name}-form"
+      }
+  ) do |f|
+%>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+  <dl>
+    <dt><%= f.label :language_id %></dt>
+    <dd><%= f.select :language_id, languages_for_select(false) %></dd>
+
+    <dt><%= f.label :publication_time %></dt>
+    <dd>
+      <%=
+        f.datetime_local_field(
+            :publication_time,
+            id: "#{model_name}_publication_time",
+            required: true
+        )
+      %>
+    </dd>
+
+    <dt><%= f.label :title %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :title,
+            id:        "#{model_name}_title",
+            size:      nil,
+            maxlength: Post::TITLE_LIMIT,
+            required:  true,
+            data:      { transliterate: "#{model_name}_slug" }
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.title') %></div>
+    </dd>
+
+    <dt><%= f.label :slug %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :slug,
+            id:        "#{model_name}_slug",
+            size:      nil,
+            maxlength: Post::SLUG_LIMIT,
+            required:  true,
+            pattern:   Post::SLUG_PATTERN_HTML,
+            title:     t('posts.form.guidelines.slug')
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.slug') %></div>
+    </dd>
+
+    <% if entity.post_type.post_categories.any? %>
+      <dt><%= f.label :post_category_id %></dt>
+      <dd>
+        <%=
+          f.select(
+              :post_category_id,
+              post_categories_for_select(entity.post_type_id)
+          )
+        %>
+      </dd>
+    <% end %>
+
+    <dt><%= f.label :lead %></dt>
+    <dd>
+      <%=
+        f.text_area(
+            :lead,
+            id:        "#{model_name}_lead",
+            cols:      80,
+            rows:      3,
+            maxlength: Post::LEAD_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.lead') %></div>
+    </dd>
+
+    <dt><%= f.label :body %></dt>
+    <dd>
+      <%=
+        f.text_area(
+            :body,
+            id:       "#{model_name}_body",
+            cols:     20,
+            rows:     25,
+            required: true,
+            data:     { wysiwyg: 1 }
+        )
+      %>
+    </dd>
+
+    <dt><%= label_tag(:tags_string, t('posts.form.tags')) %></dt>
+    <dd>
+      <%=
+        text_field_tag(:tags_string, entity.tags_string)
+      %>
+    </dd>
+
+    <dt><%= f.label :time_required %></dt>
+    <dd>
+      <%=
+        f.number_field(
+            :time_required,
+            id:   "#{model_name}_time_required",
+            size: nil,
+            in:   Post::TIME_RANGE
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.time_required') %></div>
+    </dd>
+
+    <dt><%= f.label :author_name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :author_name,
+            id:        "#{model_name}_author_name",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.author_name') %></div>
+    </dd>
+
+    <dt><%= f.label :author_title %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :author_title,
+            id:        "#{model_name}_author_title",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.author_title') %></div>
+    </dd>
+
+    <dt><%= f.label :author_url %></dt>
+    <dd>
+      <%=
+        f.url_field(
+            :author_url,
+            id:        "#{model_name}_author_url",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.author_url') %></div>
+    </dd>
+
+    <dt><%= f.label :image %></dt>
+    <dd>
+      <% figure_id = "#{model_name}-image" %>
+      <figure role="group" class="preview" id="<%= figure_id %>">
+        <% if entity.image.blank? %>
+          <%= f.label :image, image_tag('biovision/base/placeholders/image.svg') %>
+        <% else %>
+          <%= f.label :image, image_tag(entity.image.big.url) %>
+        <% end %>
+        <figcaption>
+          <%=
+            f.file_field(
+                :image,
+                id:     "#{model_name}_image",
+                accept: 'image/jpeg,image/png',
+                data:   { image: figure_id }
+            )
+          %>
+        </figcaption>
+      </figure>
+      <div class="guideline"><%= t('posts.form.guidelines.image') %></div>
+    </dd>
+
+    <dt><%= f.label :image_alt_text %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :image_alt_text,
+            id:        "#{model_name}_image_alt_text",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.image_alt_text') %></div>
+    </dd>
+
+    <dt><%= f.label :image_name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :image_name,
+            id:        "#{model_name}_image_name",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.image_name') %></div>
+    </dd>
+
+    <dt><%= f.label :image_author_name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :image_author_name,
+            id:        "#{model_name}_image_author_name",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.image_author_name') %></div>
+    </dd>
+
+    <dt><%= f.label :image_author_link %></dt>
+    <dd>
+      <%=
+        f.url_field(
+            :image_author_link,
+            id:          "#{model_name}_image_author_link",
+            size:        nil,
+            maxlength:   Post::META_LIMIT,
+            placeholder: t('posts.form.placeholders.image_author_link')
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.image_author_link') %></div>
+    </dd>
+
+    <dt><%= f.label :source_name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :source_name,
+            id:        "#{model_name}_source_name",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.source') %></div>
+    </dd>
+
+    <dt><%= f.label :original_title %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :original_title,
+            id:        "#{model_name}_original_title",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.original_title') %></div>
+    </dd>
+
+    <dt><%= f.label :source_link %></dt>
+    <dd>
+      <%=
+        f.url_field(
+            :source_link,
+            id:          "#{model_name}_source_link",
+            size:        nil,
+            maxlength:   Post::META_LIMIT,
+            placeholder: t('posts.form.placeholders.source_link')
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.source_link') %></div>
+    </dd>
+
+    <dt><%= f.label :meta_title %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :meta_title,
+            id:        "#{model_name}_meta_title",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.meta_title') %></div>
+    </dd>
+
+    <dt><%= f.label :meta_description %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :meta_description,
+            id:        "#{model_name}_meta_description",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.meta_description') %></div>
+    </dd>
+
+    <dt><%= f.label :meta_keywords %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :meta_keywords,
+            id:        "#{model_name}_meta_keywords",
+            size:      nil,
+            maxlength: Post::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('posts.form.guidelines.meta_keywords') %></div>
+    </dd>
+
+    <dt><%= t(:flags) %></dt>
+    <dd>
+      <ul class="flags">
+        <li>
+          <%= f.check_box :visible, id: "#{model_name}_visible" %>
+          <%= f.label :visible %>
+        </li>
+        <li>
+          <%= f.check_box :show_owner, id: "#{model_name}_show_owner" %>
+          <%= f.label :show_owner %>
+        </li>
+        <li>
+          <%= f.check_box :translation, id: "#{model_name}_translation" %>
+          <%= f.label :translation %>
+          <div>
+            <%= f.label :translator_name %><br/>
+            <%=
+              f.text_field(
+                  :translator_name,
+                  id: "#{model_name}_translator_name",
+                  size: nil,
+                  maxlength: Post::META_LIMIT
+              )
+            %>
+          </div>
+        </li>
+        <% if Gem.loaded_specs.key?('biovision-comment') %>
+          <li>
+            <%= f.check_box :allow_comments, id: :post_allow_comments %>
+            <%= f.label :allow_comments %>
+          </li>
+        <% end %>
+      </ul>
+    </dd>
+  </dl>
+
+  <div class="buttons">
+    <%= f.hidden_field :post_type_id if entity.id.nil? %>
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
+  </div>
+<% end %>
+
+<%= render partial: 'posts/wysiwyg' %>

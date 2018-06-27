@@ -1,5 +1,6 @@
 class My::PostsController < ProfileController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
+  before_action :restrict_editing, only: [:edit, :update, :destroy]
 
   # get /my/posts
   def index
@@ -43,6 +44,13 @@ class My::PostsController < ProfileController
 
   # post /my/posts
   def create
+    @entity = Post.new(creation_parameters)
+    if @entity.save
+      apply_post_tags
+      form_processed_ok(my_post_path(id: @entity.id))
+    else
+      form_processed_with_error(:new)
+    end
   end
 
   # get /my/posts/:id
@@ -55,10 +63,20 @@ class My::PostsController < ProfileController
 
   # patch /my/posts/:id
   def update
+    if @entity.update(entity_parameters)
+      apply_post_tags
+      form_processed_ok(my_post_path(id: @entity.id))
+    else
+      form_processed_with_error(:edit)
+    end
   end
 
   # delete /my/posts/:id
   def destroy
+    if @entity.destroy
+      flash[:notice] = t('posts.destroy.success')
+    end
+    redirect_to my_posts_path
   end
 
   # get /my/articles
@@ -83,5 +101,24 @@ class My::PostsController < ProfileController
     if @entity.nil?
       handle_http_404('Cannot find post')
     end
+  end
+
+  def restrict_editing
+    if @entity.locked?
+      handle_http_403('Entity is locked')
+    end
+  end
+
+  def entity_parameters
+    params.require(:post).permit(Post.entity_parameters)
+  end
+
+  def creation_parameters
+    parameters = params.require(:post).permit(Post.creation_parameters)
+    parameters.merge(owner_for_entity(true))
+  end
+
+  def apply_post_tags
+    @entity.tags_string = param_from_request(:tags_string)
   end
 end

@@ -7,4 +7,13 @@
 
 <article>
   <h1><%= t('.heading') %></h1>
+
+  <% unless @entity.locked? %>
+    <ul class="actions">
+      <li><%= return_icon(my_post_path(id: @entity.id)) %></li>
+      <li class="danger"><%= destroy_path_icon(my_post_path(id: @entity.id)) %></li>
+    </ul>
+  <% end %>
+
+  <%= render partial: 'form', locals: { entity: @entity } %>
 </article>

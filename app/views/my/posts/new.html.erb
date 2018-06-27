@@ -5,4 +5,10 @@
 
 <article>
   <h1><%= t('.heading') %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(my_posts_path) %></li>
+  </ul>
+
+  <%= render partial: 'form', locals: { entity: @entity } %>
 </article>
