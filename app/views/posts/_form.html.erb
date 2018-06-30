@@ -3,6 +3,38 @@
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
   <dl>
+    <% if current_user_has_privilege?(:chief_editor) %>
+      <dt><%= t('activerecord.attributes.post.user') %></dt>
+      <dd>
+        <div>
+          <%=
+            radio_button_tag(
+                :user_for_entity,
+                current_user.id,
+                entity.id.nil? || entity.user_id == current_user.id,
+                id: "user_for_entity_#{current_user.id}"
+            )
+          %>
+          <%= label_tag("user_for_entity_#{current_user.id}", current_user.profile_name) %>
+        </div>
+        <% PrivilegeGroup.users(:editors).each do |user| %>
+          <% next if user.id == current_user.id %>
+          <div>
+            <% element_id = "user_for_entity_#{user.id}" %>
+            <%=
+              radio_button_tag(
+                  :user_for_entity,
+                  user.id,
+                  entity.user_id == user.id,
+                  id: element_id
+              )
+            %>
+            <%= label_tag(element_id, user.profile_name) %>
+          </div>
+        <% end %>
+      </dd>
+    <% end %>
+
     <dt><%= f.label :language_id %></dt>
     <dd><%= f.select :language_id, languages_for_select(false) %></dd>
 
@@ -11,7 +43,7 @@
       <%=
         f.datetime_local_field(
             :publication_time,
-            id: "#{model_name}_publication_time",
+            id:       "#{model_name}_publication_time",
             required: true
         )
       %>
@@ -335,8 +367,8 @@
             <%=
               f.text_field(
                   :translator_name,
-                  id: "#{model_name}_translator_name",
-                  size: nil,
+                  id:        "#{model_name}_translator_name",
+                  size:      nil,
                   maxlength: Post::META_LIMIT
               )
             %>

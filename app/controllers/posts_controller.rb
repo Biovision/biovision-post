@@ -82,20 +82,29 @@ class PostsController < ApplicationController
 
   def restrict_editing
     if @entity.locked? || !@entity.editable_by?(current_user)
-       handle_http_403('Post is locked or not editable by current user')
+      handle_http_403('Post is locked or not editable by current user')
     end
   end
 
   def entity_parameters
-    params.require(:post).permit(Post.entity_parameters)
+    params.require(:post).permit(Post.entity_parameters).merge(owner_for_post)
   end
 
   def creation_parameters
     parameters = params.require(:post).permit(Post.creation_parameters)
-    parameters.merge(owner_for_entity(true))
+    parameters.merge(owner_for_entity(true)).merge(owner_for_post)
   end
 
   def apply_post_tags
     @entity.tags_string = param_from_request(:tags_string)
+  end
+
+  def owner_for_post
+    key    = :user_for_entity
+    result = {}
+    if current_user_has_privilege?(:chief_editor) && params.key?(key)
+      result[:user_id] = param_from_request(key)
+    end
+    result
   end
 end
