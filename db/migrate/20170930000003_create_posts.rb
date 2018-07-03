@@ -59,6 +59,10 @@ class CreatePosts < ActiveRecord::Migration[5.1]
       add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
 
       add_index :posts, :created_at
+
+      if Gem.loaded_specs.key?('elasticsearch-model')
+        Post.__elasticsearch__.create_index!
+      end
     end
   end
 
