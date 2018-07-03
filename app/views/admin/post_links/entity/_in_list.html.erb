@@ -1,0 +1,43 @@
+<% post = entity.other_post %>
+<div class="image">
+  <%= post_image_preview(post) %>
+</div>
+<div class="data">
+  <div>
+    <%= post.post_type.name %> <cite><%= admin_post_link(post) %></cite>
+  </div>
+  <div class="info">
+    <%= admin_user_link(post.user) %>,
+    <%= time_tag(post.created_at) %>
+  </div>
+  <% unless post.language.nil? %>
+    <div class="secondary info">
+      <%= t('activerecord.attributes.post.language_id') %>:
+      <%= language_name(post.language) %>
+    </div>
+  <% end %>
+  <div class="secondaty info">
+    <div>
+      <%= t('activerecord.attributes.post.publication_time') %>:
+      <%= time_tag(post.publication_time) %>
+    </div>
+    <% unless post.post_category.nil? %>
+      <div>
+        <%= t('activerecord.attributes.post.post_category') %>:
+        <%= post.post_category.full_title %>
+      </div>
+    <% end %>
+  </div>
+
+  <ul class="actions">
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: admin_priority_post_link_path(id: entity.id) }
+      )
+    %>
+    <li class="danger">
+      <button class="destroy" data-url="<%= post_link_path(id: entity.id) %>">&times;</button>
+    </li>
+  </ul>
+</div>

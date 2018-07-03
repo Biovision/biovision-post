@@ -169,4 +169,14 @@
   %>
 
   <%= render partial: 'shared/track', locals: { item: @entity } %>
+
+  <%=
+    render(
+        partial: 'admin/posts/entity/links',
+        locals: {
+            post: @entity,
+            collection: @entity.post_links.list_for_administration
+        }
+    )
+  %>
 </article>

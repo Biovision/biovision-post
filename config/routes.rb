@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   archive_constraints   = { year: /19\d\d|2[01]\d\d/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12]\d|3[01]/ }
 
   resources :post_categories, :posts, :post_tags, :post_images, only: %i[update destroy]
+  resources :post_links, only: :destroy
 
   scope '/(:locale)', constraints: { locale: /ru|en/ } do
     resources :post_categories, except: %i[index show update destroy]
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :post_tags, only: :edit
     resources :post_images, only: %i[edit create]
+    resources :post_links, only: :create
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
@@ -63,6 +65,9 @@ Rails.application.routes.draw do
         end
       end
       resources :posts, only: %i[index show] do
+        collection do
+          get 'search'
+        end
         member do
           put 'lock', defaults: { format: :json }
           delete 'lock', action: :unlock, defaults: { format: :json }
@@ -80,6 +85,10 @@ Rails.application.routes.draw do
           post 'priority', defaults: { format: :json }
           post 'toggle', defaults: { format: :json }
         end
+      end
+
+      scope 'post_links', controller: :post_links do
+        post ':id/priority' => :priority, as: :priority_post_link, defaults: { format: :json }
       end
     end
 

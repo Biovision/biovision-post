@@ -11,7 +11,7 @@ const BiovisionPosts = {
 
             if (list && !button.classList.contains('loading')) {
                 const url = button.getAttribute('href');
-                const request = Biovision.new_ajax_request('get', url, function () {
+                const request = Biovision.newAjaxRequest('get', url, function () {
                     button.classList.remove('loading');
 
                     const response = JSON.parse(this.responseText);

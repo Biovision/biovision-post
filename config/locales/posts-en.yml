@@ -160,6 +160,10 @@ en:
         heading: "Images"
         nav_text: "Images"
         title: "Images for post '%{post}'"
+      entity:
+        links:
+          heading: "Linked posts"
+          search: "Search"
     index:
       dashboard:
         biovision_post:

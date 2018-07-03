@@ -1,0 +1,120 @@
+<section>
+  <h2><%= t('.heading') %></h2>
+
+  <div
+    class="list-container"
+    id="post-link-list-container"
+    data-url="<%= post_links_path(format: :json) %>"
+    data-post-id="<%= @entity.id %>"
+  >
+    <%=
+      render(
+          partial: 'shared/admin/list_with_priority',
+          locals:  { collection: collection }
+      )
+    %>
+  </div>
+
+  <%=
+    form_with(
+        url:    search_admin_posts_path(format: :json),
+        local:  true,
+        method: :get,
+        id:     'post-link-search'
+    ) do
+  %>
+    <div>
+      <%= label_tag(:q, t('.search')) %>
+      <%= text_field_tag(:q) %>
+      <%= button_tag t(:submit), type: :submit, class: 'button-action' %>
+    </div>
+    <div class="results">
+
+    </div>
+  <% end %>
+</section>
+
+<script>
+    'use strict';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchForm = document.getElementById('post-link-search');
+        const listContainer = document.getElementById('post-link-list-container');
+        if (searchForm && listContainer) {
+            const linkUrl = listContainer.getAttribute('data-url');
+            const postId = listContainer.getAttribute('data-post-id');
+
+            const searchResultContainer = searchForm.querySelector('.results');
+            searchForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const addLinkToList = function (data) {
+                    let list = listContainer.querySelector('ol.list-of-entities');
+                    if (!list) {
+                        listContainer.innerHTML = '';
+                        list = document.createElement('ol');
+                        list.classList.add('list-of-entities');
+                        listContainer.append(list);
+                    }
+
+                    const li = document.createElement('li');
+                    li.setAttribute('data-id', data.id);
+                    li.setAttribute('data-number', data.attributes.priority);
+                    li.innerHTML = data.meta.html;
+
+                    list.append(li);
+                };
+                const createLink = function () {
+                    const button = this;
+                    const data = {
+                        post_link: {
+                            post_id: postId,
+                            other_post_id: button.getAttribute('data-post-id')
+                        }
+                    };
+
+                    const request = Biovision.jsonAjaxRequest('post', linkUrl, function () {
+                        const response = JSON.parse(this.responseText);
+
+                        if (response.hasOwnProperty('data')) {
+                            addLinkToList(response.data);
+                        } else {
+                            console.log('No data in response');
+                        }
+                    });
+
+                    request.send(JSON.stringify(data));
+                    button.parentNode.remove();
+                };
+
+                const query = document.getElementById('q').value;
+                const url = `${this.getAttribute('action')}?q=${query}`;
+                const request = Biovision.newAjaxRequest('get', url, function () {
+                    const response = JSON.parse(this.responseText);
+                    searchResultContainer.innerHTML = '';
+
+                    if (response.hasOwnProperty('data')) {
+                        const data = response.data;
+                        data.forEach(function (item) {
+                            const div = document.createElement('div');
+                            const button = document.createElement('button');
+                            const span = document.createElement('span');
+
+                            div.setAttribute('data-id', item['id']);
+                            span.innerHTML = item.attributes.title;
+                            button.classList.add('button-save');
+                            button.setAttribute('data-post-id', item.id);
+                            button.innerHTML = '&plus;';
+                            div.append(button);
+                            div.append(span);
+                            searchResultContainer.append(div);
+                            button.addEventListener('click', createLink);
+                        })
+                    }
+                });
+
+                request.send();
+            });
+        }
+    });
+</script>

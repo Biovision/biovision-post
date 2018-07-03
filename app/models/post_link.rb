@@ -5,6 +5,8 @@ class PostLink < ApplicationRecord
 
   validates_uniqueness_of :other_post_id, scope: [:post_id]
 
+  scope :list_for_administration, -> { ordered_by_priority }
+
   def self.entity_parameters
     %i(priority)
   end

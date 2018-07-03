@@ -160,6 +160,10 @@ ru:
         heading: "Картинки"
         nav_text: "Картинки"
         title: "Картинки к публикации «%{post}»"
+      entity:
+        links:
+          heading: "Связанные публикации"
+          search: "Искать"
     index:
       dashboard:
         biovision_post:
