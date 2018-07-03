@@ -3,19 +3,19 @@ Rails.application.routes.draw do
   post_slug_pattern     = /[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+/
   archive_constraints   = { year: /19\d\d|2[01]\d\d/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12]\d|3[01]/ }
 
-  resources :post_categories, :posts, :post_tags, :post_images, only: [:update, :destroy]
+  resources :post_categories, :posts, :post_tags, :post_images, only: %i[update destroy]
 
   scope '/(:locale)', constraints: { locale: /ru|en/ } do
-    resources :post_categories, except: [:index, :show, :update, :destroy]
-    resources :posts, except: [:new, :update, :destroy] do
+    resources :post_categories, except: %i[index show update destroy]
+    resources :posts, except: %i[new update destroy] do
       collection do
         get 'categories/:category_slug' => :category, as: :posts_category, constraints: { category_slug: category_slug_pattern }
         get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+/ }
         get 'archive/(:year)(-:month)(-:day)' => :archive, as: :archive, constraints: archive_constraints
       end
     end
-    resources :post_tags, only: [:edit]
-    resources :post_images, only: [:edit, :create]
+    resources :post_tags, only: :edit
+    resources :post_images, only: %i[edit create]
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
@@ -47,14 +47,14 @@ Rails.application.routes.draw do
     end
 
     namespace :admin do
-      resources :post_types, only: [:index, :show] do
+      resources :post_types, only: %i[index show] do
         member do
           get :post_categories
           get :new_post
           get :post_tags
         end
       end
-      resources :post_categories, only: [:show] do
+      resources :post_categories, only: :show do
         member do
           put 'lock', defaults: { format: :json }
           delete 'lock', action: :unlock, defaults: { format: :json }
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
           post 'toggle', defaults: { format: :json }
         end
       end
-      resources :posts, only: [:index, :show] do
+      resources :posts, only: %i[index show] do
         member do
           put 'lock', defaults: { format: :json }
           delete 'lock', action: :unlock, defaults: { format: :json }
@@ -70,12 +70,12 @@ Rails.application.routes.draw do
           get 'images'
         end
       end
-      resources :post_tags, only: [:index, :show] do
+      resources :post_tags, only: %i[index show] do
         member do
           get 'posts'
         end
       end
-      resources :post_images, only: [:index, :show] do
+      resources :post_images, only: %i[index show] do
         member do
           post 'priority', defaults: { format: :json }
           post 'toggle', defaults: { format: :json }
@@ -91,7 +91,7 @@ Rails.application.routes.draw do
       get 'news/new' => 'posts#new_news', as: :new_news
       get 'blog_posts/new' => 'posts#new_blog_post', as: :new_blog_post
 
-      resources :posts, except: [:new]
+      resources :posts, except: :new
     end
   end
 end

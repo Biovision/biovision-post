@@ -24,6 +24,7 @@ ru:
     attributes:
       post:
         allow_comments: "Разрешить комментарии"
+        allow_votes: "Разрешить голосовать"
         approved: "Одобрено к показу"
         author_name: "Имя автора"
         author_title: "Титул автора"
@@ -48,6 +49,7 @@ ru:
         post_type: "Тип"
         post_type_id: "Тип"
         publication_time: "Время публикации"
+        rating: "Рейтинг"
         region_id: "Регион"
         show_owner: "Показывать автора"
         slug: "Идентификатор для URL"

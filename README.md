@@ -1,5 +1,18 @@
-# Biovision::Post
-Short description and motivation.
+Biovision::Post
+===============
+
+Модуль публикаций для сайтов на базе `biovision-base`. Используйте на свой
+страх и риск без каких-либо гарантий.
+
+Если используется elasticsearch
+-------------------------------
+
+В конфигурацию (например, в `config/initializers/biovision.rb`) нужно добавить
+название индекса:
+
+```ruby
+  config.post_index_name = 'example_post'
+```
 
 ## Usage
 How to use my plugin.

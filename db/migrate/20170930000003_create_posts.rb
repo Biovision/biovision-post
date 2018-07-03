@@ -17,7 +17,9 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.boolean :approved, default: true, null: false
         t.boolean :show_owner, default: true, null: false
         t.boolean :allow_comments, default: true, null: false
+        t.boolean :allow_votes, default: true, null: false
         t.boolean :translation, default: false, null: false
+        t.float :rating, default: 0.0, null: false
         t.integer :privacy, limit: 2, default: 0
         t.integer :comments_count, default: 0, null: false
         t.integer :view_count, default: 0, null: false

@@ -4,6 +4,13 @@ class Post < ApplicationRecord
   include VotableItem if Gem.loaded_specs.key?('biovision-vote')
   include Toggleable
 
+  if Gem.loaded_specs.key?('elasticsearch-model')
+    include Elasticsearch::Model
+    include Elasticsearch::Model::Callbacks
+
+    index_name Rails.configuration.post_index_name
+  end
+
   ALT_LIMIT         = 255
   BODY_LIMIT        = 50000
   LEAD_LIMIT        = 350
@@ -93,11 +100,11 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i(body language_id lead original_title post_category_id publication_time region_id slug title)
-    image_data  = %i(image image_alt_text image_author_link image_author_name image_name)
-    meta_data   = %i(source_name source_link meta_title meta_description meta_keywords time_required)
-    flags_data  = %i(show_owner allow_comments visible translation)
-    author_data = %i(author_name author_title author_url translator_name)
+    main_data   = %i[body language_id lead original_title post_category_id publication_time region_id slug title]
+    image_data  = %i[image image_alt_text image_author_link image_author_name image_name]
+    meta_data   = %i[source_name source_link meta_title meta_description meta_keywords time_required]
+    flags_data  = %i[allow_comments allow_votes show_owner visible translation]
+    author_data = %i[author_name author_title author_url translator_name]
 
     main_data + image_data + meta_data + author_data + flags_data
   end

@@ -24,6 +24,7 @@ en:
     attributes:
       post:
         allow_comments: "Allow comments"
+        allow_votes: "Allow votes"
         approved: "Approved"
         author_name: "Author name"
         author_title: "Author title"
@@ -48,6 +49,7 @@ en:
         post_type: "Type"
         post_type_id: "Type"
         publication_time: "Publication time"
+        rating: "Rating"
         region_id: "Region"
         show_owner: "Show author"
         slug: "Slug for URL"
