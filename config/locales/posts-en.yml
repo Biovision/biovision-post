@@ -262,6 +262,9 @@ en:
       heading: "Posts"
     tagged:
       title: "Posts tagged '%{tag_name}', page %{page}"
+    entity:
+      linked_posts:
+        heading: "Read also"
   index:
     dashboard:
       biovision_post:

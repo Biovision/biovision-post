@@ -262,6 +262,9 @@ ru:
       nav_text: "Публикации"
     tagged:
       title: "Публикации с меткой «%{tag_name}», страница %{page}"
+    entity:
+      linked_posts:
+        heading: "Читайте также"
   index:
     dashboard:
       biovision_post:

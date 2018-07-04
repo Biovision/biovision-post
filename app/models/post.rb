@@ -117,6 +117,19 @@ class Post < ApplicationRecord
     visible.pluck(:user_id).uniq
   end
 
+  # List of linked posts for visitors
+  def linked_posts
+    result = []
+    post_links.ordered_by_priority.each do |link|
+      result << link.other_post if link.other_post.visible_to_visitors?
+    end
+    result
+  end
+
+  def visible_to_visitors?
+    visible? && !deleted? && approved?
+  end
+
   # @param [User] user
   def editable_by?(user)
     owned_by?(user) || UserPrivilege.user_has_privilege?(user, :chief_editor)

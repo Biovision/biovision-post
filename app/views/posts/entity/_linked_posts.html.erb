@@ -1,0 +1,7 @@
+<% if collection.any? %>
+  <section>
+    <h2><%= t('.heading') %></h2>
+
+    <%= render partial: 'posts/list', locals: { collection: collection } %>
+  </section>
+<% end %>

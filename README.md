@@ -4,10 +4,13 @@ Biovision::Post
 Модуль публикаций для сайтов на базе `biovision-base`. Используйте на свой
 страх и риск без каких-либо гарантий.
 
+После запуска `bundle install` не забудьте выполнить 
+`rails railties:install:migrations` и `rails db:migrate`.
+
 Подключение
 -----------
 
-В Gemfile добавить использование гема:
+В `Gemfile` добавить использование гема:
 
 ```ruby
 gem 'biovision-post', git: 'https://github.com/Biovision/biovision-post.git'
@@ -17,7 +20,7 @@ gem 'biovision-post', git: 'https://github.com/Biovision/biovision-post.git'
 Если нужен elasticsearch для поиска
 -----------------------------------
 
-В Gemfile добавить Elastic:
+В `Gemfile` добавить Elastic:
 
 ```ruby
 gem 'elasticsearch-model'
