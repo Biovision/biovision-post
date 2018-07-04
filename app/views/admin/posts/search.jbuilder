@@ -20,4 +20,7 @@ json.data @collection do |entity|
       end
     end
   end
+  json.meta do
+    json.html render(partial: 'admin/posts/entity/in_search', formats: [:html], locals: { entity: entity })
+  end
 end

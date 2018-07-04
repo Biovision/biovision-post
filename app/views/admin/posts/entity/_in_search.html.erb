@@ -1,0 +1,8 @@
+<div class="post-in-search" data-id="<%= entity.id %>">
+  <div class="image"><%= post_image_preview(entity) %></div>
+  <div class="data">
+    <div class="title"><%= entity.title %></div>
+    <div class="type"><%= entity.post_type.name %></div>
+    <div class="user"><%= entity.user&.profile_name %></div>
+  </div>
+</div>

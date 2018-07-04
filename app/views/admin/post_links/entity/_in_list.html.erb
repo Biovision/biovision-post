@@ -2,7 +2,7 @@
 <div class="image">
   <%= post_image_preview(post) %>
 </div>
-<div class="data">
+<div class="data" data-post-id="<%= post.id %>">
   <div>
     <%= post.post_type.name %> <cite><%= admin_post_link(post) %></cite>
   </div>

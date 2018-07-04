@@ -29,7 +29,6 @@
       <%= button_tag t(:submit), type: :submit, class: 'button-action' %>
     </div>
     <div class="results">
-
     </div>
   <% end %>
 </section>
@@ -43,10 +42,15 @@
         if (searchForm && listContainer) {
             const linkUrl = listContainer.getAttribute('data-url');
             const postId = listContainer.getAttribute('data-post-id');
-
             const searchResultContainer = searchForm.querySelector('.results');
+
             searchForm.addEventListener('submit', function (event) {
                 event.preventDefault();
+
+                let linkedIds = [];
+                listContainer.querySelectorAll('[data-post-id]').forEach(function (item) {
+                    linkedIds.push(parseInt(item.getAttribute('data-post-id')));
+                });
 
                 const addLinkToList = function (data) {
                     let list = listContainer.querySelector('ol.list-of-entities');
@@ -64,6 +68,7 @@
 
                     list.append(li);
                 };
+
                 const createLink = function () {
                     const button = this;
                     const data = {
@@ -96,19 +101,19 @@
                     if (response.hasOwnProperty('data')) {
                         const data = response.data;
                         data.forEach(function (item) {
-                            const div = document.createElement('div');
-                            const button = document.createElement('button');
-                            const span = document.createElement('span');
+                            if (!linkedIds.includes(item['id'])) {
+                                const div = document.createElement('div');
+                                const button = document.createElement('button');
 
-                            div.setAttribute('data-id', item['id']);
-                            span.innerHTML = item.attributes.title;
-                            button.classList.add('button-save');
-                            button.setAttribute('data-post-id', item.id);
-                            button.innerHTML = '&plus;';
-                            div.append(button);
-                            div.append(span);
-                            searchResultContainer.append(div);
-                            button.addEventListener('click', createLink);
+                                div.setAttribute('data-id', item['id']);
+                                button.classList.add('button-save');
+                                button.setAttribute('data-post-id', item.id);
+                                button.innerHTML = '&plus;';
+                                div.append(button);
+                                div.insertAdjacentHTML('beforeend', item.meta.html);
+                                searchResultContainer.append(div);
+                                button.addEventListener('click', createLink);
+                            }
                         })
                     }
                 });
