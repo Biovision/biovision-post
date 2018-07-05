@@ -114,7 +114,12 @@
             id:        "#{model_name}_lead",
             cols:      80,
             rows:      3,
-            maxlength: Post::LEAD_LIMIT
+            maxlength: Post::LEAD_LIMIT,
+            class:     'auto-expand',
+            data:      {
+                min_rows: 3,
+                max_rows: 1
+            }
         )
       %>
       <div class="guideline"><%= t('.guidelines.lead') %></div>
@@ -389,6 +394,8 @@
       </ul>
     </dd>
   </dl>
+
+  <%#= render partial: 'posts/form/gallery', locals: { entity: entity } %>
 
   <div class="buttons">
     <%= f.hidden_field :post_type_id if entity.id.nil? %>

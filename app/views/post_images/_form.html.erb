@@ -8,8 +8,8 @@
       <%=
         f.number_field(
             :priority,
-            id: "#{model_name}_priority",
-            in: PostImage::PRIORITY_RANGE,
+            id:       "#{model_name}_priority",
+            in:       PostImage::PRIORITY_RANGE,
             required: true
         )
       %>
@@ -69,9 +69,15 @@
       <%=
         f.text_area(
             :description,
-            id:       "#{model_name}_description",
-            cols:     80,
-            rows:     5
+            id:        "#{model_name}_description",
+            cols:      80,
+            rows:      5,
+            maxlength: PostImage::DESCRIPTION_LIMIT,
+            class: 'auto-expand',
+            data: {
+                min_rows: 5,
+                max_rows: 20
+            }
         )
       %>
     </dd>
@@ -103,12 +109,7 @@
       <div class="guideline"><%= t('.guidelines.owner_link') %></div>
     </dd>
 
-    <%=
-      render(
-          partial: 'shared/forms/entity_flags',
-          locals:  { f: f, entity: entity, model_name: model_name }
-      )
-    %>
+    <%= render(partial: 'shared/forms/entity_flags', locals: { f: f }) %>
   </dl>
 
   <div class="buttons">

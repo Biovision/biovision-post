@@ -1,4 +1,5 @@
 class Admin::PostsController < AdminController
+  include LockableEntity
   include ToggleableEntity
 
   before_action :set_entity, except: %i[index search]

@@ -1,0 +1,163 @@
+<section class="post-form-gallery">
+  <h2><%= t('.heading') %></h2>
+
+  <% next_number = 1 %>
+  <ol id="post-form-image-gallery" class="list-of-entities">
+    <% entity.post_images.each do |post_image| %>
+      <li data-number="<%= post_image.priority %>" data-id="<%= post_image.id %>">
+        <%=
+          render(
+              partial: 'admin/post_images/entity/in_list',
+              locals:  { entity: post_image }
+          )
+        %>
+      </li>
+    <% end %>
+    <li data-number="<%= next_number %>" class="new-post-image">
+      <%
+        figure_id = "post-item-image-#{next_number}"
+        image_id = "post_images_#{next_number}_image"
+        image_name = "post_images[#{next_number}][image]"
+      %>
+      <div class="image" id="<%= figure_id %>">
+        <%=
+          label_tag(image_id, image_tag('biovision/base/placeholders/3x2.svg'))
+        %>
+      </div>
+      <div class="data">
+        <div class="field">
+          <%=
+            file_field_tag(
+                image_name,
+                id:     image_id,
+                accept: 'image/jpeg,image/png',
+                data:   { image: figure_id }
+            )
+          %>
+          <div class="guideline">
+            <%= t('post_images.form.guidelines.image') %>
+          </div>
+        </div>
+        <div class="field">
+          <div>
+            <%=
+              label_tag(
+                  "post_images_#{next_number}_image_alt_text",
+                  t('activerecord.attributes.post_image.image_alt_text')
+              )
+            %>
+          </div>
+          <div>
+            <%=
+              text_field_tag(
+                  "post_images[#{next_number}][image_alt_text]",
+                  '',
+                  id:        "post_images_#{next_number}_image_alt_text",
+                  size:      nil,
+                  maxlength: PostImage::META_LIMIT
+              )
+            %>
+            <div class="guideline"><%= t('post_images.form.guidelines.image_alt_text') %></div>
+          </div>
+        </div>
+        <div class="field">
+          <div>
+            <%=
+              label_tag(
+                  "post_images_#{next_number}_caption",
+                  t('activerecord.attributes.post_image.caption')
+              )
+            %>
+          </div>
+          <div>
+            <%=
+              text_field_tag(
+                  "post_images[#{next_number}][caption]",
+                  '',
+                  id:        "post_images_#{next_number}_caption",
+                  size:      nil,
+                  maxlength: PostImage::META_LIMIT
+              )
+            %>
+            <div class="guideline"><%= t('post_images.form.guidelines.caption') %></div>
+          </div>
+        </div>
+        <div class="field">
+          <div>
+            <%=
+              label_tag(
+                  "post_images_#{next_number}_description",
+                  t('activerecord.attributes.post_image.description')
+              )
+            %>
+          </div>
+          <div>
+            <%=
+              text_area_tag(
+                  "post_images[#{next_number}][description]",
+                  '',
+                  id:        "post_images_#{next_number}_description",
+                  cols:      80,
+                  rows:      5,
+                  maxlength: PostImage::DESCRIPTION_LIMIT,
+                  class:     'auto-expand',
+                  data:      {
+                      min_rows: 5,
+                      max_rows: 20
+                  }
+              )
+            %>
+            <div class="guideline"><%= t('post_images.form.guidelines.description') %></div>
+          </div>
+        </div>
+        <div class="field">
+          <div>
+            <%=
+              label_tag(
+                  "post_images_#{next_number}_owner_name",
+                  t('activerecord.attributes.post_image.owner_name')
+              )
+            %>
+          </div>
+          <div>
+            <%=
+              text_field_tag(
+                  "post_images[#{next_number}][owner_name]",
+                  '',
+                  id:        "post_images_#{next_number}_owner_name",
+                  size:      nil,
+                  maxlength: PostImage::META_LIMIT
+              )
+            %>
+            <div class="guideline"><%= t('post_images.form.guidelines.owner_name') %></div>
+          </div>
+        </div>
+        <div class="field">
+          <div>
+            <%=
+              label_tag(
+                  "post_images_#{next_number}_owner_link",
+                  t('activerecord.attributes.post_image.owner_link')
+              )
+            %>
+          </div>
+          <div>
+            <%=
+              url_field_tag(
+                  "post_images[#{next_number}][owner_link]",
+                  '',
+                  id:        "post_images_#{next_number}_owner_link",
+                  size:      nil,
+                  maxlength: PostImage::META_LIMIT
+              )
+            %>
+            <div class="guideline"><%= t('post_images.form.guidelines.owner_link') %></div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ol>
+  <div class="image-adder">
+    <%= button_tag(t('.add_image'), type: :button, class: 'button-action') %>
+  </div>
+</section>

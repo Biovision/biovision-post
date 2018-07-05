@@ -47,3 +47,14 @@
     }
   }
 }
+
+.post-form-gallery {
+  margin: var(--spacer-small, 3.2rem) 0;
+
+  .field {
+    input,
+    textarea {
+      width: 100%;
+    }
+  }
+}

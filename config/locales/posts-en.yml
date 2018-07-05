@@ -254,6 +254,9 @@ en:
         image_author_link: "https://example.com/user42"
         source_link: "https://example.org/posts/123"
       tags: "Tags"
+      gallery:
+        heading: "Image gallery"
+        add_image: "Add image"
     post:
       source: "Source"
     index:

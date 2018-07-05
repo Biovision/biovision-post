@@ -254,6 +254,9 @@ ru:
         image_author_link: "https://example.com/user42"
         source_link: "https://example.org/posts/123"
       tags: "Метки"
+      gallery:
+        heading: "Галерея картинок"
+        add_image: "Добавить изображение"
     post:
       source: "Источник"
     index:
