@@ -7,6 +7,7 @@ ru:
     other: "%{count} публикаций"
   activerecord:
     models:
+      editorial_member: "Член редакции"
       post: "Публикация"
       post_category: "Категория публикации"
       post_image: "Картинка для публикации"
@@ -22,6 +23,14 @@ ru:
             parent_id:
               is_too_deep: "находится слишком глубоко"
     attributes:
+      editorial_member:
+        description: "Подробное описание"
+        lead: "Краткое описание"
+        priority: "Порядок сортировки"
+        title: "Титул"
+        user: "Пользователь"
+        user_id: "Пользователь"
+        visible: "Показывать"
       post:
         allow_comments: "Разрешить комментарии"
         allow_votes: "Разрешить голосовать"
@@ -98,6 +107,16 @@ ru:
         name: "Название"
         slug: "Идентификатор"
   admin:
+    editorial_members:
+      nav_item:
+        description: "Управление публичным составом редакции"
+        text: "Члены редакции"
+      index:
+        heading: "Члены редакции"
+        title: "Члены редакции"
+      show:
+        heading: "Член редакции"
+        title: "Редакция: %{name}"
     post_categories:
       show:
         title: "Категория публикаций «%{name}»"
@@ -168,6 +187,24 @@ ru:
       dashboard:
         biovision_post:
           heading: "Модуль публикаций"
+  editorial_members:
+    new:
+      heading: "Добавление члена редакции"
+      nav_text: "Добавить пользователя"
+      title: "Новый член редакции"
+    edit:
+      heading: "Редактирование члена редакции"
+      nav_text: "Редактировать"
+      title: "Редактирование члена редакции"
+    update:
+      success: "Член редакции успешно отредактирован"
+    destroy:
+      success: "Член редакции успешно удалён"
+    form:
+      guidelines:
+        description: "Максимум 5000 символов."
+        lead: "Максимум 170 символов."
+        title: "Максимум 150 символов."
   post_categories:
     new:
       title: "Новая категория публикаций"
