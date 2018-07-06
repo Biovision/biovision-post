@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :post_categories, :posts, :post_tags, :post_images, only: %i[update destroy]
   resources :post_links, only: :destroy
+  resources :editorial_members, only: %i[update destroy]
 
   scope '/(:locale)', constraints: { locale: /ru|en/ } do
     resources :post_categories, except: %i[index show update destroy]
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
     resources :post_tags, only: :edit
     resources :post_images, only: %i[edit create]
     resources :post_links, only: :create
+    resources :editorial_members, only: %i[new create edit]
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles

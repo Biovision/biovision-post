@@ -29,6 +29,12 @@ module BiovisionPostsHelper
     link_to(text, admin_post_image_path(id: entity.id))
   end
 
+  # @param [EditorialMember] entity
+  # @param [String] text
+  def admin_editorial_member_link(entity, text = entity.name)
+    link_to(text, admin_editorial_member_path(id: entity.id))
+  end
+
   # @param [Post] entity
   # @param [String] text
   # @param [Hash] options

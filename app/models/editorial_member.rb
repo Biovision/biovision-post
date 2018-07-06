@@ -31,6 +31,10 @@ class EditorialMember < ApplicationRecord
     entity_parameters + %i[user_id]
   end
 
+  def name
+    user.profile_name
+  end
+
   # @param [Integer] delta
   def change_priority(delta)
     new_priority = priority + delta
