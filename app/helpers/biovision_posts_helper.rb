@@ -45,7 +45,7 @@ module BiovisionPostsHelper
   # @param [User] entity
   # @param [String] text
   # @param [Hash] options
-  def author_link(entity, text = entity.profile_name, options = {})
+  def author_link(entity, text = entity.name, options = {})
     link_to(text, author_path(slug: entity.screen_name), options)
   end
 

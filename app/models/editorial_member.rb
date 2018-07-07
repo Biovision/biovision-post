@@ -2,10 +2,10 @@ class EditorialMember < ApplicationRecord
   include HasOwner
   include Toggleable
 
-  DESCRIPTION_LIMIT = 5000
-  LEAD_LIMIT        = 170
-  PRIORITY_RANGE    = (1..32767)
-  TITLE_LIMIT       = 150
+  ABOUT_LIMIT    = 5000
+  LEAD_LIMIT     = 170
+  PRIORITY_RANGE = (1..32767)
+  TITLE_LIMIT    = 150
 
   toggleable :visible
 
@@ -14,7 +14,7 @@ class EditorialMember < ApplicationRecord
   after_initialize :set_next_priority
   before_validation :normalize_priority
 
-  validates_length_of :description, maximum: DESCRIPTION_LIMIT
+  validates_length_of :about, maximum: ABOUT_LIMIT
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :title, maximum: TITLE_LIMIT
 
@@ -24,7 +24,7 @@ class EditorialMember < ApplicationRecord
   scope :list_for_administration, -> { ordered_by_priority }
 
   def self.entity_parameters
-    %i[description lead title visible]
+    %i[about lead title visible]
   end
 
   def self.creation_parameters
@@ -33,6 +33,14 @@ class EditorialMember < ApplicationRecord
 
   def name
     user.profile_name
+  end
+
+  def screen_name
+    user.screen_name
+  end
+
+  def post_count
+    Post.owned_by(user).count
   end
 
   # @param [Integer] delta

@@ -25,6 +25,9 @@
         <li><%= render 'admin/posts/nav_item' %></li>
         <li><%= render 'admin/post_tags/nav_item' %></li>
         <li><%= render 'admin/post_images/nav_item' %></li>
+        <% if current_user_has_privilege?(:chief_editor) %>
+          <li><%= render 'admin/editorial_members/nav_item' %></li>
+        <% end %>
         <%= render 'admin/index/dashboard/biovision_post/additional_items' %>
       </ul>
     </nav>

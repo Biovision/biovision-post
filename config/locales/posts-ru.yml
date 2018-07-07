@@ -24,7 +24,7 @@ ru:
               is_too_deep: "находится слишком глубоко"
     attributes:
       editorial_member:
-        description: "Подробное описание"
+        about: "Подробное описание"
         lead: "Краткое описание"
         priority: "Порядок сортировки"
         title: "Титул"
@@ -202,7 +202,7 @@ ru:
       success: "Член редакции успешно удалён"
     form:
       guidelines:
-        description: "Максимум 5000 символов."
+        about: "Максимум 5000 символов."
         lead: "Максимум 170 символов."
         title: "Максимум 150 символов."
   post_categories:

@@ -1,0 +1,95 @@
+<% model_name = entity.class.to_s.underscore %>
+<%= form_with(model: entity, html: { id: "#{model_name}-form" }) do |f| %>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+  <dl>
+    <% if entity.id.nil? %>
+      <dt><%= f.label :user_id %></dt>
+      <dd>
+        <%=
+          f.number_field(
+              :user_id,
+              id: "#{model_name}_user_id",
+              in: User.ids_range
+          )
+        %>
+        <%=
+          render(
+              partial: 'admin/users/search',
+              locals:  { target_id: "#{model_name}_user_id" }
+          )
+        %>
+      </dd>
+    <% else %>
+      <dt><%= t('activerecord.attributes.editorial_member.user_id') %></dt>
+      <dd>
+        <%= admin_user_link(entity.user) %>
+      </dd>
+    <% end %>
+
+    <dt><%= f.label :priority %></dt>
+    <dd>
+      <%=
+        f.number_field(
+            :priority,
+            id:       "#{model_name}_priority",
+            in:       EditorialMember::PRIORITY_RANGE,
+            required: true
+        )
+      %>
+    </dd>
+
+    <dt><%= f.label :title %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :title,
+            id:        "#{model_name}_title",
+            size:      nil,
+            maxlength: EditorialMember::TITLE_LIMIT,
+            required:  true
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.title') %></div>
+    </dd>
+
+    <dt><%= f.label :lead %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :lead,
+            id:        "#{model_name}_lead",
+            size:      nil,
+            maxlength: EditorialMember::LEAD_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.lead') %></div>
+    </dd>
+
+    <dt><%= f.label :about %></dt>
+    <dd>
+      <%=
+        f.text_area(
+            :about,
+            id:        "#{model_name}_about",
+            cols:      80,
+            rows:      10,
+            maxlength: EditorialMember::ABOUT_LIMIT,
+            class:     'auto-expand',
+            data:      {
+                min_rows: 10,
+                max_rows: 30
+            }
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.about') %></div>
+    </dd>
+
+    <%= render partial: 'shared/forms/entity_flags', locals: { f: f } %>
+  </dl>
+
+  <div class="buttons">
+    <%= hidden_field_tag :entity_id, entity.id %>
+    <%= f.button t(:save), type: :submit %>
+  </div>
+<% end %>

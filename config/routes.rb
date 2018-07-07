@@ -89,6 +89,13 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :editorial_members, only: %i[index show] do
+        member do
+          post 'priority', defaults: { format: :json }
+          post 'toggle', defaults: { format: :json }
+        end
+      end
+
       scope 'post_links', controller: :post_links do
         post ':id/priority' => :priority, as: :priority_post_link, defaults: { format: :json }
       end

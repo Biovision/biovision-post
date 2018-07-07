@@ -1,4 +1,7 @@
 class Admin::EditorialMembersController < AdminController
+  include ToggleableEntity
+  include EntityPriority
+
   before_action :set_entity, except: [:index]
 
   # get /admin/editorial_members

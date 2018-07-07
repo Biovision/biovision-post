@@ -3,12 +3,12 @@ class AuthorsController < ApplicationController
 
   # get /authors
   def index
-    @collection = Post.authors
+    @collection = EditorialMember.list_for_visitors
   end
 
   # get /authors/:slug
   def show
-    @collection = Post.owned_by(@entity).page_for_visitors(current_page)
+    @collection = Post.owned_by(@entity.user).page_for_visitors(current_page)
     respond_to do |format|
       format.html
       format.json { render('posts/index') }
@@ -18,7 +18,8 @@ class AuthorsController < ApplicationController
   private
 
   def set_entity
-    @entity = User.find_by(slug: params[:slug].downcase, deleted: false)
+    user = User.find_by(slug: params[:slug].downcase, deleted: false)
+    @entity = EditorialMember.visible.find_by(user: user)
     if @entity.nil?
       handle_http_404('Cannot find user')
     end
