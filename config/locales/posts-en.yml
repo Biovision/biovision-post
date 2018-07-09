@@ -240,7 +240,7 @@ en:
         image_author_name: "Person or organization name. Will be shown near image."
         image_name: "Will be shown as image caption."
         language_id: "Language"
-        lead: "Post essence, maximum 350 chars."
+        lead: "Post essence, maximum 5000 chars."
         meta_description: "50–55 words. Maximum 250 chars"
         meta_keywords: "Maximum 250 chars."
         meta_title: "If specified, shown as window title instead of post title. Maximum 250 chars."

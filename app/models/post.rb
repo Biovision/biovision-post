@@ -13,7 +13,7 @@ class Post < ApplicationRecord
 
   ALT_LIMIT         = 255
   BODY_LIMIT        = 50000
-  LEAD_LIMIT        = 350
+  LEAD_LIMIT        = 5000
   META_LIMIT        = 250
   SLUG_LIMIT        = 200
   SLUG_PATTERN      = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
