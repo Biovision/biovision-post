@@ -13,6 +13,7 @@ class Post < ApplicationRecord
 
   ALT_LIMIT         = 255
   BODY_LIMIT        = 50000
+  IMAGE_NAME_LIMIT  = 500
   LEAD_LIMIT        = 5000
   META_LIMIT        = 250
   SLUG_LIMIT        = 200
@@ -53,7 +54,7 @@ class Post < ApplicationRecord
   validates_length_of :slug, maximum: SLUG_LIMIT
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :body, maximum: BODY_LIMIT
-  validates_length_of :image_name, maximum: META_LIMIT
+  validates_length_of :image_name, maximum: IMAGE_NAME_LIMIT
   validates_length_of :image_alt_text, maximum: ALT_LIMIT
   validates_length_of :image_author_name, maximum: META_LIMIT
   validates_length_of :image_author_link, maximum: META_LIMIT
