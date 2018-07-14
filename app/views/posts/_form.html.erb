@@ -17,7 +17,7 @@
           %>
           <%= label_tag("user_for_entity_#{current_user.id}", current_user.profile_name) %>
         </div>
-        <% PrivilegeGroup.users(:editors).each do |user| %>
+        <% PrivilegeGroup.users(:editors).uniq.each do |user| %>
           <% next if user.id == current_user.id %>
           <div>
             <% element_id = "user_for_entity_#{user.id}" %>

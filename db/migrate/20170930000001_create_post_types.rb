@@ -33,7 +33,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.1]
 
   def create_privileges
     group        = PrivilegeGroup.find_by!(slug: 'editors')
-    chief_editor = Privilege.find_by!(slug: 'chief_editor')
+    chief_editor = Privilege.find_by(slug: 'chief_editor') || Privilege.create(slug: 'chief_editor', name: 'Главный редактор')
     children     = {
       editor:   'Редактор',
       reporter: 'Репортёр',
