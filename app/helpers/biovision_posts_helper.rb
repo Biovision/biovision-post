@@ -130,4 +130,17 @@ module BiovisionPostsHelper
     options  = { alt: alt_text, srcset: versions }.merge(add_options)
     image_tag(entity.image.medium.url, options)
   end
+
+  # Large post image for displaying on post page
+  #
+  # @param [Post] entity
+  # @param [Hash] add_options
+  def post_image_large(entity, add_options = {})
+    return '' if entity.image.blank?
+
+    alt_text = entity.image_alt_text.to_s
+    versions = "#{entity.image.hd.url} 2x"
+    options  = { alt: alt_text, srcset: versions }.merge(add_options)
+    image_tag(entity.image.big.url, options)
+  end
 end
