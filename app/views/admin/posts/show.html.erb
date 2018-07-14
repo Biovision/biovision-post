@@ -128,6 +128,9 @@
       <dd><%= @entity.source_link %></dd>
     <% end %>
 
+    <dt><%= t('activerecord.attributes.post.rating') %></dt>
+    <dd><%= @entity.rating %></dd>
+
     <% if @entity.translation? %>
       <dt><%= t('activerecord.attributes.post.translation') %></dt>
       <dd>

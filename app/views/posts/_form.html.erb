@@ -353,6 +353,20 @@
       <div class="guideline"><%= t('.guidelines.meta_keywords') %></div>
     </dd>
 
+    <% if current_user_has_privilege?(:chief_editor) %>
+      <dt><%= f.label :rating %></dt>
+      <dd>
+        <%=
+          f.number_field(
+              :rating,
+              id:   "#{model_name}_rating",
+              step: 0.001,
+              size: 5
+          )
+        %>
+      </dd>
+    <% end %>
+
     <dt><%= t(:flags) %></dt>
     <dd>
       <ul class="flags">
