@@ -47,7 +47,7 @@ class PostParser
     api_url   = "https://vimeo.com/api/v2/video/#{video_id}.json"
     json_data = JSON.load(open(api_url)).first
 
-    json_data.blank? ? '' : "https://player.vimeo.com/video/#{data['id']}"
+    json_data.blank? ? '' : "https://player.vimeo.com/video/#{json_data['id']}"
   end
 
   def process_youtube_link(url)
