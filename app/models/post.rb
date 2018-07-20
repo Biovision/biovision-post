@@ -41,6 +41,7 @@ class Post < ApplicationRecord
   has_many :post_post_tags, dependent: :destroy
   has_many :post_tags, through: :post_post_tags
   has_many :post_images, dependent: :destroy
+  has_many :post_translations, dependent: :delete_all
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize { self.publication_time = Time.now if publication_time.nil? }
@@ -125,6 +126,14 @@ class Post < ApplicationRecord
       result << link.other_post if link.other_post.visible_to_visitors?
     end
     result
+  end
+
+  def locale
+    language&.code.to_s
+  end
+
+  def translations
+    post_translations.each.map { |l| [l.language.code, l.translated_post] }.to_h
   end
 
   def visible_to_visitors?
