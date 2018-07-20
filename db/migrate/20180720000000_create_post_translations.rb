@@ -8,7 +8,7 @@ class CreatePostTranslations < ActiveRecord::Migration[5.2]
         t.integer :translated_post_id, null: false
       end
 
-      add_foreign_key :post_translations, :post_translations, column: :translated_post_id, on_update: :cascade, on_delete: :cascade
+      add_foreign_key :post_translations, :posts, column: :translated_post_id, on_update: :cascade, on_delete: :cascade
     end
   end
 
