@@ -7,6 +7,7 @@ en:
     other: "%{count} posts"
   activerecord:
     models:
+      editorial_member: "Editorial member"
       post: "Post"
       post_category: "Post category"
       post_image: "Post image"
@@ -22,6 +23,14 @@ en:
             parent_id:
               is_too_deep: "is too deep"
     attributes:
+      editorial_member:
+        about: "About"
+        lead: "Short description"
+        priority: "Sorting order"
+        title: "Title"
+        user: "User"
+        user_id: "User"
+        visible: "Visible"
       post:
         allow_comments: "Allow comments"
         allow_votes: "Allow votes"
@@ -98,6 +107,16 @@ en:
         name: "Name"
         slug: "Slug"
   admin:
+    editorial_members:
+      nav_item:
+        description: "Manage editorial members"
+        text: "Editorial members"
+      index:
+        heading: "Editorial members"
+        title: "Editorial members"
+      show:
+        heading: "Editorial members"
+        title: "Editorial: %{name}"
     post_categories:
       show:
         title: "Post category '%{name}'"
@@ -168,6 +187,24 @@ en:
       dashboard:
         biovision_post:
           heading: "Posts module"
+  editorial_members:
+    new:
+      heading: "New editorial member"
+      nav_text: "Add user"
+      title: "New editorial member"
+    edit:
+      heading: "Editing editorial member"
+      nav_text: "Edit"
+      title: "Editing editorial member"
+    update:
+      success: "Editorial member has been updated"
+    destroy:
+      success: "Editorial member has been deleted"
+    form:
+      guidelines:
+        about: "Maximum 5000 characters."
+        lead: "Maximum 170 characters."
+        title: "Maximum 150 characters."
   post_categories:
     new:
       title: "New post category"
