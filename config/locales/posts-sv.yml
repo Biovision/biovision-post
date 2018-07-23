@@ -122,7 +122,7 @@ sv:
         title: "Inlägg kategori '%{name}'"
         children: "Barn"
         new_child: "Lägg till barnkategori"
-    post_bilder:
+    post_images:
       nav_item:
         description: "Hantera efterbilder"
         text: "Inlägg bilder"
@@ -146,14 +146,14 @@ sv:
         title: "Inläggs tagged '%{name}', sida %{page}"
     post_types:
       nav_item:
-        description: "Managing post types and categories"
-        text: "Inlägg types"
+        description: "Hantera posttyper och kategorier"
+        text: "Inlägg typer"
       index:
-        heading: "Inlägg types"
-        title: "Inlägg types"
+        heading: "Inlägg typer"
+        title: "Inlägg typer"
       show:
         title: "Inlägg type '%{name}'"
-        children: "Children types"
+        children: "Children typer"
       post_categories:
         heading: "Inlägg categories"
         nav_text: "Categories"
