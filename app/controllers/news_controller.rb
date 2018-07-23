@@ -45,7 +45,7 @@ class NewsController < ApplicationController
   end
 
   def set_entity
-    @entity = Post.list_for_visitors.find_by(id: params[:id])
+    @entity = Post.list_for_visitors.find_by(id: params[:post_id])
     if @entity.nil?
       handle_http_404('Cannot find news')
     end

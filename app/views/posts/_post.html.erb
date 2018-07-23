@@ -44,6 +44,8 @@
     </figure>
   <% end %>
 
+  <div class="lead"><%= post.lead %></div>
+
   <div class="body" itemprop="articleBody mainEntityOfPage">
     <%= raw(post.parsed_body || post.body) %>
   </div>
