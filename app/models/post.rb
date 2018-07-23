@@ -74,6 +74,7 @@ class Post < ApplicationRecord
   validate :category_consistency
 
   scope :recent, -> { order('publication_time desc') }
+  scope :popular, -> { order('rating desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
   scope :for_language, -> (language) { where(language: language) }
