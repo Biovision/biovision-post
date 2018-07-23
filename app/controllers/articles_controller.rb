@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
-  before_action :set_category, only: [:category]
-  before_action :set_entity, only: [:show]
+  before_action :set_category, only: :category
+  before_action :set_entity, only: :show
 
   # get /articles
   def index
@@ -23,7 +23,9 @@ class ArticlesController < ApplicationController
 
   # get /articles/:post_id-:post_slug
   def show
-    @entity.increment!(:view_count)
+    @entity.increment :view_count
+    @entity.increment :rating, 0.0025
+    @entity.save
   end
 
   # get /articles/tagged/:tag_name
@@ -43,7 +45,7 @@ class ArticlesController < ApplicationController
   end
 
   def set_entity
-    @entity = Post.visible.find_by(id: params[:post_id])
+    @entity = Post.list_for_visitors.find_by(id: params[:id])
     if @entity.nil?
       handle_http_404('Cannot find article')
     end

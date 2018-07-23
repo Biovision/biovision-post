@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
-  before_action :restrict_access, only: [:new, :create]
-  before_action :set_entity, only: [:edit, :update, :destroy]
-  before_action :restrict_editing, only: [:edit, :update, :destroy]
+  before_action :restrict_access, only: %i[new create]
+  before_action :set_entity, only: %i[edit update destroy]
+  before_action :restrict_editing, only: %i[edit update destroy]
 
-  layout 'admin', only: [:new, :edit]
+  layout 'admin', only: %i[new edit]
 
   # get /posts
   def index
@@ -27,7 +27,9 @@ class PostsController < ApplicationController
     if @entity.nil?
       handle_http_404("Cannot find non-deleted post #{params[:id]}")
     else
-      @entity.increment! :view_count
+      @entity.increment :view_count
+      @entity.increment :rating, 0.0025
+      @entity.save
     end
   end
 

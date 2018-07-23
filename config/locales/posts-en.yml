@@ -343,5 +343,38 @@ en:
         biovision_post:
           heading: "My posts"
     posts:
+      articles:
+        heading: "My articles"
+        nav_text: "Articles"
+        title: "My articles, page %{page}"
+      blog_posts:
+        heading: "My blog"
+        nav_text: "Blog"
+        title: "My blog, page %{page}"
       index:
+        heading: "My posts"
         nav_text: "All posts"
+        title: "My posts, page %{page}"
+      new_article:
+        heading: "New article"
+        nav_text: "Create article"
+        title: "Adding articles"
+      new_blog_post:
+        heading: "New blog entry"
+        nav_text: "Create blog entry"
+        title: "Adding blog entry"
+      new_news:
+        heading: "New news"
+        nav_text: "Create news"
+        title: "Adding news"
+      news_index:
+        heading: "My news"
+        nav_text: "News"
+        title: "My news, page %{page}"
+      new:
+        title: "Adding post"
+        heading: "Adding post"
+      edit:
+        title: "Editing my post"
+        nav_text: "Edit"
+        heading: "Editing post"
