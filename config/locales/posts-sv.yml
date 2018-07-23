@@ -1,0 +1,380 @@
+sv:
+  post_count:
+    zero: "no posts"
+    one: "%{count} post"
+    few: "%{count} posts"
+    many: "%{count} posts"
+    other: "%{count} posts"
+  activerecord:
+    models:
+      editorial_member: "Editorial member"
+      post: "Post"
+      post_category: "Post category"
+      post_image: "Post image"
+      post_post_tag: "Tag in post"
+      post_tag: "Tag"
+      post_type: "Post type"
+    errors:
+      messages:
+        mismatches_post_type: "has other post type"
+      models:
+        post_category:
+          attributes:
+            parent_id:
+              is_too_deep: "is too deep"
+    attributes:
+      editorial_member:
+        about: "About"
+        lead: "Short description"
+        priority: "Sorting order"
+        title: "Title"
+        user: "User"
+        user_id: "User"
+        visible: "Visible"
+      post:
+        allow_comments: "Allow comments"
+        allow_votes: "Allow votes"
+        approved: "Approved"
+        author_name: "Author name"
+        author_title: "Author title"
+        author_url: "Author URL"
+        body: "Text"
+        created_at: "Created at"
+        image: "Image"
+        image_alt_text: "Alt text for image"
+        image_author_link: "Image author link"
+        image_author_name: "Image author name"
+        image_name: "Image name"
+        language_id: "Language"
+        lead: "Lead"
+        meta_description: "Description for meta tag"
+        meta_keywords: "Keywords for meta tag"
+        meta_title: "Title for window"
+        original_post_id: "Original post"
+        original_title: "Original title"
+        privacy: "Privacy"
+        post_category: "Category"
+        post_category_id: "Category"
+        post_type: "Type"
+        post_type_id: "Type"
+        publication_time: "Publication time"
+        rating: "Rating"
+        region_id: "Region"
+        show_owner: "Show author"
+        slug: "Slug for URL"
+        source_link: "Source link"
+        source_name: "Source name"
+        tags_cache: "Tags"
+        time_required: "Time required for reading"
+        title: "Title"
+        translation: "Translation"
+        translator_name: "Translator name"
+        user: "Author"
+        uuid: "UUID"
+        video_url: "Video URL"
+        view_count: "View count"
+        visible: "Visible"
+      post_category:
+        children_cache: "Children cache"
+        name: "Name"
+        parent_id: "Parent category"
+        parents_cache: "Parents cache"
+        post_type: "Post type"
+        post_type_id: "Post type"
+        priority: "Sorting order"
+        slug: "Slug"
+        visible: "Visible"
+      post_image:
+        caption: "Caption"
+        description: "Description"
+        image: "Image"
+        image_alt_text: "Alt text for image"
+        owner_link: "Image author link"
+        owner_name: "Image author name"
+        post: "Post"
+        post_id: "Post"
+        priority: "Sorting order"
+        visible: "Visible"
+      post_tag:
+        name: "Name"
+        post_type: "Post type"
+        post_type_id: "Post type"
+        posts_count: "Post count"
+        slug: "Slug"
+      post_type:
+        category_depth: "Category depth"
+        default_category_name: "Default category name"
+        name: "Name"
+        slug: "Slug"
+  admin:
+    editorial_members:
+      nav_item:
+        description: "Manage editorial members"
+        text: "Editorial members"
+      index:
+        heading: "Editorial members"
+        title: "Editorial members"
+      show:
+        heading: "Editorial members"
+        title: "Editorial: %{name}"
+    post_categories:
+      show:
+        title: "Post category '%{name}'"
+        children: "Children"
+        new_child: "Add child category"
+    post_images:
+      nav_item:
+        description: "Manage post images"
+        text: "Post images"
+      index:
+        heading: "Post images"
+        title: "Post images, page %{page}"
+      show:
+        title: "Post image '%{caption}'"
+    post_tags:
+      nav_item:
+        description: "Manage post tags"
+        text: "Post tags"
+      index:
+        heading: "Post tags"
+        title: "Post tags, page %{page}"
+      show:
+        title: "Post tag '%{name}'"
+      posts:
+        heading: "Posts"
+        nav_text: "Posts"
+        title: "Posts tagged '%{name}', page %{page}"
+    post_types:
+      nav_item:
+        description: "Managing post types and categories"
+        text: "Post types"
+      index:
+        heading: "Post types"
+        title: "Post types"
+      show:
+        title: "Post type '%{name}'"
+        children: "Children types"
+      post_categories:
+        heading: "Post categories"
+        nav_text: "Categories"
+        title: "Categories of post type '%{name}'"
+      post_tags:
+        heading: "Post tags"
+        nav_text: "Tags"
+        title: "Tags of post type '%{name}', page %{page}"
+      new_post:
+        title: "New post of type '%{name}'"
+        heading: "Add post"
+    posts:
+      nav_item:
+        description: "Managing posts"
+        text: "Posts"
+      index:
+        heading: "Posts"
+        title: "Posts, page %{page}"
+      show:
+        title: "Post '%{name}'"
+        images: "Images"
+      images:
+        heading: "Images"
+        nav_text: "Images"
+        title: "Images for post '%{post}'"
+      entity:
+        links:
+          heading: "Linked posts"
+          search: "Search"
+    index:
+      dashboard:
+        biovision_post:
+          heading: "Posts module"
+  editorial_members:
+    new:
+      heading: "New editorial member"
+      nav_text: "Add user"
+      title: "New editorial member"
+    edit:
+      heading: "Editing editorial member"
+      nav_text: "Edit"
+      title: "Editing editorial member"
+    update:
+      success: "Editorial member has been updated"
+    destroy:
+      success: "Editorial member has been deleted"
+    form:
+      guidelines:
+        about: "Maximum 5000 characters."
+        lead: "Maximum 170 characters."
+        title: "Maximum 150 characters."
+  post_categories:
+    new:
+      title: "New post category"
+      heading: "Adding post category"
+    edit:
+      title: "Editing post category"
+      heading: "Editing post category"
+      forbidden: "Editing this post category is forbidden"
+    update:
+      success: "Post category is updated successfully"
+    destroy:
+      success: "Post category is deleted successfully"
+    form:
+      guidelines:
+        name: "Maximum 50 chars."
+        slug: "Used in URL. Only latin letters, digits and dashes (except first and last char), maximum 50 chars."
+  post_tags:
+    new:
+      heading: "New post tag"
+      nav_text: "Create"
+      title: "Adding post tag"
+    edit:
+      heading: "Editing post tag"
+      nav_text: "Edit"
+      title: "Editing post tag"
+    update:
+      success: "Post tag has been updated"
+    destroy:
+      success: "Post tag has been deleted"
+    form:
+      guidelines:
+        name: "Maximum 50 characters."
+  post_images:
+    new:
+      heading: "New post image"
+      nav_text: "Add image"
+      title: "New post image"
+    edit:
+      heading: "Editing post image"
+      nav_text: "Edit"
+      title: "Editing post image"
+    update:
+      success: "Post image has been updated"
+    destroy:
+      success: "Post image has been deleted"
+    form:
+      guidelines:
+        caption: "Maximum 255 characters."
+        description: "Maximum 5000 characters."
+        image: "Maximum dimensions are 3000×3000, format — JPG or PNG."
+        image_alt_text: "Brief description of image. Maximum 200 chars."
+        owner_link: "Will be opened when one clicks on author name."
+        owner_name: "Person or organization name. Will be shown near image."
+      placeholders:
+        owner_link: "https://example.org/user42"
+  posts:
+    edit:
+      title: "Editing post"
+      heading: "Editing post"
+    destroy:
+      success: "Post was successfully deleted"
+    form:
+      guidelines:
+        author_name: "If specified, shown instead of current user"
+        author_title: "For example, occupation of status"
+        author_url: "If specified, author name will link here"
+        image: "Maximum dimensions are 3000×3000, format — JPG or PNG."
+        image_alt_text: "Brief description of image. Maximum 200 chars."
+        image_author_link: "Will be opened when one clicks on author name."
+        image_author_name: "Person or organization name. Will be shown near image."
+        image_name: "Will be shown as image caption."
+        language_id: "Language"
+        lead: "Post essence, maximum 5000 chars."
+        meta_description: "50–55 words. Maximum 250 chars"
+        meta_keywords: "Maximum 250 chars."
+        meta_title: "If specified, shown as window title instead of post title. Maximum 250 chars."
+        original_title: "Title as it was for source. Maximum 250 chars."
+        slug: "Only latin letters, digits, dots, dashes or underscores. Maximum 200 chars."
+        source: "Post source name (e.g. agency name)"
+        source_link: "Will be opened when one clicks on source name"
+        time_required: "In minutes"
+        title: "Maximum 255 chars."
+      placeholders:
+        image_author_link: "https://example.com/user42"
+        source_link: "https://example.org/posts/123"
+      tags: "Tags"
+      gallery:
+        heading: "Image gallery"
+        add_image: "Add image"
+    post:
+      source: "Source"
+    index:
+      title: "Posts, page %{page}"
+      nav_text: "Posts"
+      heading: "Posts"
+    tagged:
+      title: "Posts tagged '%{tag_name}', page %{page}"
+    entity:
+      linked_posts:
+        heading: "Read also"
+  index:
+    dashboard:
+      biovision_post:
+        heading: "Recent posts"
+        more: "More"
+  articles:
+    index:
+      title: "Articles, page %{page}"
+      heading: "Articles"
+      nav_text: "Articles"
+    category:
+      title: "Articles in category '%{category}', page %{page}"
+    tagged:
+      title: "Articles tagged '%{tag_name}', page %{page}"
+  blog_posts:
+    index:
+      title: "Blog posts, page %{page}"
+      heading: "Blog posts"
+      nav_text: "Blog"
+    category:
+      title: "Blog posts in category '%{category}', page %{page}"
+    tagged:
+      title: "Blog posts tagged '%{tag_name}', page %{page}"
+  news:
+    index:
+      title: "News, page %{page}"
+      heading: "News"
+      nav_text: "News"
+    category:
+      title: "News in category '%{category}', page %{page}"
+    tagged:
+      title: "News tagged '%{tag_name}', page %{page}"
+  my:
+    index:
+      dashboard:
+        biovision_post:
+          heading: "My posts"
+    posts:
+      articles:
+        heading: "My articles"
+        nav_text: "Articles"
+        title: "My articles, page %{page}"
+      blog_posts:
+        heading: "My blog"
+        nav_text: "Blog"
+        title: "My blog, page %{page}"
+      index:
+        heading: "My posts"
+        nav_text: "All posts"
+        title: "My posts, page %{page}"
+      new_article:
+        heading: "New article"
+        nav_text: "Create article"
+        title: "Adding articles"
+      new_blog_post:
+        heading: "New blog entry"
+        nav_text: "Create blog entry"
+        title: "Adding blog entry"
+      new_news:
+        heading: "New news"
+        nav_text: "Create news"
+        title: "Adding news"
+      news_index:
+        heading: "My news"
+        nav_text: "News"
+        title: "My news, page %{page}"
+      new:
+        title: "Adding post"
+        heading: "Adding post"
+      edit:
+        title: "Editing my post"
+        nav_text: "Edit"
+        heading: "Editing post"
