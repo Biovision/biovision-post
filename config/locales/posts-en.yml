@@ -8,6 +8,7 @@ en:
   activerecord:
     models:
       editorial_member: "Editorial member"
+      featured_post: "Featured post"
       post: "Post"
       post_category: "Post category"
       post_image: "Post image"
@@ -31,6 +32,12 @@ en:
         user: "User"
         user_id: "User"
         visible: "Visible"
+      featured_post:
+        language: "Language"
+        language_id: "Language"
+        post: "Post"
+        post_id: "Post"
+        priority: "Sorting order"
       post:
         allow_comments: "Allow comments"
         allow_votes: "Allow votes"
@@ -117,6 +124,14 @@ en:
       show:
         heading: "Editorial members"
         title: "Editorial: %{name}"
+    featured_posts:
+      nav_item:
+        description: "Manage list of featured posts"
+        text: "Featured posts"
+      index:
+        add: "Add"
+        heading: "Featured posts"
+        title: "Featured posts"
     post_categories:
       show:
         title: "Post category '%{name}'"

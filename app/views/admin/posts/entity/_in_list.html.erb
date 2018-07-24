@@ -32,6 +32,9 @@
       <%= t('activerecord.attributes.post.author_name') %>:
       <%= entity.author_name %>
     <% end %>
+    <div>
+      <%= t('activerecord.attributes.post.rating') %>: <%= entity.rating %>
+    </div>
   </div>
   <% if entity.tags_cache.any? %>
     <div class="secondary info">

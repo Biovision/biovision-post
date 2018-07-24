@@ -8,12 +8,13 @@ sv:
   activerecord:
     models:
       editorial_member: "Redaktionell medlem"
+      featured_post: "Utvalda inlägg"
       post: "Inlägg"
-      post_category: "Inlägg kategori"
-      post_image: "Inlägg bild"
+      post_category: "Kategori av inlägg"
+      post_image: "Bild för inlägg"
       post_post_tag: "Tag in inlägg"
       post_tag: "Tag"
-      post_type: "Inlägg typ"
+      post_type: "Typ av inlägg"
     errors:
       messages:
         mismatches_post_type: "har annan posttyp"
@@ -31,6 +32,12 @@ sv:
         user: "Användare"
         user_id: "Användare"
         visible: "Synlig"
+      featured_post:
+        language: "Språk"
+        language_id: "Språk"
+        post: "Inlägg"
+        post_id: "Inlägg"
+        priority: "Sorteringsordning"
       post:
         allow_comments: "Tillåt kommentarer"
         allow_votes: "Tillåt röster"
@@ -117,6 +124,14 @@ sv:
       show:
         heading: "Redaktionella medlemmar"
         title: "Redaktionell: %{name}"
+    featured_posts:
+      nav_item:
+        description: "Hantera lista över utvalda inlägg"
+        text: "Utvalda inlägg"
+      index:
+        add: "Lägg till"
+        heading: "Utvalda inlägg"
+        title: "Utvalda inlägg"
     post_categories:
       show:
         title: "Inlägg kategori '%{name}'"

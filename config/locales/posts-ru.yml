@@ -8,6 +8,7 @@ ru:
   activerecord:
     models:
       editorial_member: "Член редакции"
+      featured_post: "Избранная публикация"
       post: "Публикация"
       post_category: "Категория публикации"
       post_image: "Картинка для публикации"
@@ -31,6 +32,12 @@ ru:
         user: "Пользователь"
         user_id: "Пользователь"
         visible: "Показывать"
+      featured_post:
+        language: "Язык"
+        language_id: "Язык"
+        post: "Публикация"
+        post_id: "Публикация"
+        priority: "Порядок сортировки"
       post:
         allow_comments: "Разрешить комментарии"
         allow_votes: "Разрешить голосовать"
@@ -117,6 +124,14 @@ ru:
       show:
         heading: "Член редакции"
         title: "Редакция: %{name}"
+    featured_posts:
+      nav_item:
+        description: "Управление списком избранных публикаций"
+        text: "Избранные публикации"
+      index:
+        add: "Добавить"
+        heading: "Избранные публикации"
+        title: "Изранные публикации"
     post_categories:
       show:
         title: "Категория публикаций «%{name}»"
