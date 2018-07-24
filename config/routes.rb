@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :post_categories, :posts, :post_tags, :post_images, only: %i[update destroy]
   resources :post_links, only: :destroy
   resources :editorial_members, only: %i[update destroy]
+  resources :featured_posts, only: :destroy
 
   scope '/(:locale)', constraints: { locale: /ru|en|sv/ } do
     resources :post_categories, except: %i[index show update destroy]
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
     resources :post_images, only: %i[edit create]
     resources :post_links, only: :create
     resources :editorial_members, only: %i[new create edit]
+    resources :featured_posts, only: :create
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
@@ -93,6 +95,12 @@ Rails.application.routes.draw do
         member do
           post 'priority', defaults: { format: :json }
           post 'toggle', defaults: { format: :json }
+        end
+      end
+
+      resources :featured_posts, only: :index do
+        member do
+          post 'priority', defaults: { format: :json }
         end
       end
 

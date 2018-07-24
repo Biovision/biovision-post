@@ -1,0 +1,26 @@
+<div class="image">
+  <%= post_image_preview(entity.post) %>
+</div>
+<div class="data" data-post-id="<%= entity.post_id %>">
+  <div><%= admin_post_link(entity.post) %></div>
+  <% unless entity.post.lead.blank? %>
+    <div class="secondary info">
+      <%= entity.post.lead %>
+    </div>
+  <% end %>
+  <div class="secondary info">
+    <%= t('activerecord.attributes.post.rating') %>: <%= entity.post.rating %>
+  </div>
+
+  <ul class="actions">
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: priority_admin_featured_post_path(id: entity.id) }
+      )
+    %>
+    <li class="danger">
+      <button class="destroy" data-url="<%= featured_post_path(id: entity.id) %>">&times;</button>
+    </li>
+  </ul>
+</div>

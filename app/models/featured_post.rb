@@ -35,8 +35,7 @@ class FeaturedPost < ApplicationRecord
   end
 
   def normalize_priority
-    range         = self.class.priority_range
-    self.priority = range.first if priority < range.first
-    self.priority = range.last if priority > range.last
+    self.priority = PRIORITY_RANGE.first if priority < PRIORITY_RANGE.first
+    self.priority = PRIORITY_RANGE.last if priority > PRIORITY_RANGE.last
   end
 end

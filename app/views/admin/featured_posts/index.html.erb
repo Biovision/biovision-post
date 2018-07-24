@@ -1,0 +1,18 @@
+<% content_for :meta_title, t('.title') %>
+<% content_for :breadcrumbs do %>
+  <span><%= t('admin.featured_posts.nav_item.text') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.heading') %></h1>
+
+  <ul class="actions">
+    <li><%= back_icon(admin_path) %></li>
+  </ul>
+
+  <% @languages.each do |language| %>
+    <%= render partial: 'language', locals: { language: language } %>
+  <% end %>
+
+  <%= render 'add' %>
+</article>

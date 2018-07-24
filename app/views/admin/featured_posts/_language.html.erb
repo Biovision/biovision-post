@@ -1,0 +1,14 @@
+<section data-language-id="<%= language.id %>">
+  <h2><%= language_name(language) %></h2>
+
+  <div class="list-container">
+    <%=
+      render(
+          partial: 'shared/admin/list_with_priority',
+          locals: {
+              collection: FeaturedPost.list_for_language(language)
+          }
+      )
+    %>
+  </div>
+</section>
