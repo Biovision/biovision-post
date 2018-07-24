@@ -3,8 +3,12 @@
     <span><%= t('articles.index.nav_text') %></span>
 <% end %>
 
-<article>
-  <h1><%= t('.heading') %></h1>
-
-  <%= render partial: 'posts/collection', locals: { collection: @collection } %>
-</article>
+<%=
+  render(
+      partial: 'posts/post_type/posts',
+      locals: {
+          heading: t('.heading'),
+          collection: @collection
+      }
+  )
+%>

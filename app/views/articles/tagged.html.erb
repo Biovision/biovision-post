@@ -3,10 +3,12 @@
   <span><%= t('articles.index.nav_text') %></span>
 <% end %>
 
-<article>
-  <header>
-    <h1><%= params[:tag_name] %></h1>
-  </header>
-
-  <%= render partial: 'posts/collection', locals: { collection: @collection } %>
-</article>
+<%=
+  render(
+      partial: 'posts/post_type/tagged',
+      locals: {
+          heading: params[:tag_name],
+          collection: @collection
+      }
+  )
+%>

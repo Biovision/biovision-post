@@ -3,12 +3,5 @@
     <%= link_to(t('blog_posts.index.nav_text'), blog_posts_path) %>
     <%= render partial: 'posts/breadcrumbs', locals: { entity: @entity } %>
 <% end %>
-<%= render partial: 'posts/entity/metadata', locals: { entity: @entity } %>
-<%= render partial: 'posts/post', locals: { post: @entity } %>
-<%# render partial: 'comments/list', locals: { commentable: @entity, comments: @entity.comments } %>
-<%=
-  render(
-      partial: 'posts/entity/linked_posts',
-      locals: { collection: @entity.linked_posts }
-  )
-%>
+
+<%= render partial: 'posts/post_type/post_page', locals: { entity: @entity } %>

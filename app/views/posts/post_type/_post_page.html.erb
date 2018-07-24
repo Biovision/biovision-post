@@ -1,0 +1,9 @@
+<%= render partial: 'posts/entity/metadata', locals: { entity: entity } %>
+<%= render partial: 'posts/post', locals: { post: entity } %>
+<%# render partial: 'comments/list', locals: { commentable: entity, comments: entity.comments } %>
+<%=
+  render(
+      partial: 'posts/entity/linked_posts',
+      locals: { collection: entity.linked_posts }
+  )
+%>
