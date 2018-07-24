@@ -311,6 +311,7 @@ ru:
         add_image: "Добавить изображение"
     post:
       source: "Источник"
+      image_credit: "Автор"
     index:
       title: "Публикации, страница %{page}"
       heading: "Публикации"

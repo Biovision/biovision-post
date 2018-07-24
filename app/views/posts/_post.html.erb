@@ -20,7 +20,7 @@
 
   <% unless post.image.blank? %>
     <figure itemprop="image" itemscope itemtype="http://schema.org/ImageObject" role="group">
-      <%= post_image_medium(post, { itemprop: 'about' }) %>
+      <%= post_image_large(post, { itemprop: 'about' }) %>
       <meta itemprop="url" content="<%= request.protocol + request.host_with_port + post.image.url %>"/>
       <% if post.has_image_data? %>
         <figcaption>
@@ -31,7 +31,7 @@
           <% end %>
           <% unless post.image_author_name.blank? %>
             <div class="image_author" itemprop="author">
-              <span><%= t('activerecord.attributes.post.image_author_name') %></span>
+              <span><%= t('.image_credit') %></span>
               <% if post.image_author_link.blank? %>
                 <%= post.image_author_name %>
               <% else %>
@@ -44,10 +44,12 @@
     </figure>
   <% end %>
 
-  <div class="lead"><%= post.lead %></div>
+  <div class="text" itemprop="articleBody mainEntityOfPage">
+    <div class="lead"><%= post.lead %></div>
 
-  <div class="body" itemprop="articleBody mainEntityOfPage">
-    <%= raw(post.parsed_body || post.body) %>
+    <div class="body">
+      <%= raw(post.parsed_body || post.body) %>
+    </div>
   </div>
 
   <% if post.tags_cache.any? %>

@@ -311,6 +311,7 @@ sv:
         add_image: "Lägg till bild"
     post:
       source: "Källa"
+      image_credit: "Bildkredit"
     index:
       title: "Inläggs, sida %{page}"
       nav_text: "Inläggs"

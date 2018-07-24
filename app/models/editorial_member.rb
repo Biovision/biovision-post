@@ -31,7 +31,16 @@ class EditorialMember < ApplicationRecord
     entity_parameters + %i[user_id]
   end
 
+  # @param [User] user
+  def self.user?(user)
+    user.is_a?(self.class) || owned_by(user).visible.exists?
+  end
+
   def name
+    user.profile_name
+  end
+
+  def profile_name
     user.profile_name
   end
 

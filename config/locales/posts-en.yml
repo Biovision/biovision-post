@@ -311,6 +311,7 @@ en:
         add_image: "Add image"
     post:
       source: "Source"
+      image_credit: "Credit"
     index:
       title: "Posts, page %{page}"
       nav_text: "Posts"
