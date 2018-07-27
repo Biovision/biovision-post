@@ -7,4 +7,8 @@ class PostManager::NewsHandler < PostManager
   def category_path(category)
     "#{@prefix}/news/#{category.long_slug}"
   end
+
+  def empty_category_path
+    "#{@prefix}/news"
+  end
 end

@@ -31,4 +31,8 @@ class PostManager
   def category_path(category)
     "#{@prefix}/posts/#{category.long_slug}"
   end
+
+  def empty_category_path
+    "#{@prefix}/posts"
+  end
 end

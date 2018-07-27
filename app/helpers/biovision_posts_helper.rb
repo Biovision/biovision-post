@@ -81,9 +81,12 @@ module BiovisionPostsHelper
 
   # @param [Post] entity
   def post_category_link(entity)
-    return '' if entity.post_category.nil?
     handler = PostManager.handler(entity)
-    link_to(entity.post_category.name, handler.category_path(entity.post_category))
+    if entity.post_category.nil?
+      link_to(entity.post_type.default_category_name, handler.empty_category_path)
+    else
+      link_to(entity.post_category.name, handler.category_path(entity.post_category))
+    end
   end
 
   # @param [Post] entity
