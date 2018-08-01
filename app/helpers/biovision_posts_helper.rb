@@ -54,8 +54,9 @@ module BiovisionPostsHelper
   end
 
   # @param [Integer] post_type_id
-  def post_categories_for_select(post_type_id)
-    options = [[t(:not_set), '']]
+  # @param [String] first_item
+  def post_categories_for_select(post_type_id, first_item = t(:not_set))
+    options = [[first_item, '']]
     PostCategory.for_tree(post_type_id).each do |category|
       options << [category.name, category.id]
       if category.child_categories.any?
