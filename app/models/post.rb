@@ -120,6 +120,15 @@ class Post < ApplicationRecord
     visible.pluck(:user_id).uniq
   end
 
+  # Lead or the first passage of body
+  def lead!
+    if lead.blank?
+      (parsed_body.blank? ? body : parsed_body).match(/<p>(.+?)<\/p>/)[1].to_s
+    else
+      lead
+    end
+  end
+
   # List of linked posts for visitors
   def linked_posts
     result = []
