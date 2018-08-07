@@ -31,7 +31,6 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.string :uuid, null: false
         t.string :title, null: false
         t.string :slug, null: false, index: true
-        t.string :video_url
         t.string :image
         t.string :image_alt_text
         t.string :image_name
