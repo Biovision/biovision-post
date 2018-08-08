@@ -42,6 +42,8 @@ class Post < ApplicationRecord
   has_many :post_tags, through: :post_post_tags
   has_many :post_images, dependent: :destroy
   has_many :post_translations, dependent: :delete_all
+  has_many :post_zen_categories, dependent: :destroy
+  has_many :zen_categories, through: :post_zen_categories
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize { self.publication_time = Time.now if publication_time.nil? }

@@ -15,6 +15,8 @@ ru:
       post_post_tag: "Метка у публикации"
       post_tag: "Метка"
       post_type: "Тип публикации"
+      post_zen_category: "Категория Яндекс.Дзен для публикации"
+      zen_category: "Категория Яндекс.Дзен"
     errors:
       messages:
         mismatches_post_type: "имеет другой тип публикации"
@@ -113,6 +115,14 @@ ru:
         default_category_name: "Название категории по умолчанию"
         name: "Название"
         slug: "Идентификатор"
+      post_zen_category:
+        post: "Публикация"
+        post_id: "Публикация"
+        zen_category: "Категория Яндекс.Дзен"
+        zen_category_id: "Категория Яндекс.Дзен"
+      zen_category:
+        name: "Название"
+        posts_count: "Количество публикаций"
   admin:
     editorial_members:
       nav_item:
