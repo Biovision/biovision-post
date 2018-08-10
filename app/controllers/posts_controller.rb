@@ -69,6 +69,11 @@ class PostsController < ApplicationController
     end
   end
 
+  # get /posts/zen.rss
+  def zen
+    @collection = Post.for_language(current_language).list_for_visitors.posted_after(3.days.ago)
+  end
+
   private
 
   def set_entity

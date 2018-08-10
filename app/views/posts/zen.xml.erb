@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:media="http://search.yahoo.com/mrss/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:georss="http://www.georss.org/georss">
+  <channel>
+    <% site_link = request.protocol + request.host_with_port %>
+    <title><%= t('.title') %>></title>
+    <link><%= site_link %></link>
+    <description><%= t('.description') %></description>
+    <language><%= locale %></language>
+
+    <% @collection.each do |item| %>
+      <% next if item.image.blank? %>
+      <item>
+        <title><%= item.title %></title>
+        <link><%= site_link + PostManager.handler(item, locale).post_path %></link>
+        <pubDate><%= item.publication_time.rfc822 %></pubDate>
+        <author><![CDATA[<%= item.author!(t(:anonymous)) %>]]></author>
+        <% item.zen_categories.each do |category| %>
+          <category><%= category.name %></category>
+        <% end %>
+        <enclosure url="<%= site_link + item.image.hd.url %>"/>
+        <description><![CDATA[<%= item.lead! %>]]></description>
+        <content:encoded><![CDATA[<%= raw(item.parsed_body) %>]]></content:encoded>
+      </item>
+    <% end %>
+  </channel>
+</rss>

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         get 'categories/:category_slug' => :category, as: :posts_category, constraints: { category_slug: category_slug_pattern }
         get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+/ }
         get 'archive/(:year)(-:month)(-:day)' => :archive, as: :archive, constraints: archive_constraints
+        get 'rss/zen.xml' => :zen, defaults: { format: :xml }
       end
     end
     resources :post_tags, only: :edit

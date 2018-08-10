@@ -331,6 +331,9 @@ ru:
     entity:
       linked_posts:
         heading: "Читайте также"
+    zen:
+      title: "Публикации сайта на Biovision CMS"
+      description: "RSS-канал сайта на Biovision CMS"
   index:
     dashboard:
       biovision_post:

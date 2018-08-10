@@ -87,6 +87,7 @@ class Post < ApplicationRecord
   scope :in_category, -> (slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
   scope :of_type, -> (slug) { where(post_type: PostType.find_by(slug: slug)) }
+  scope :posted_after, -> (time) { where('publication_time >= ?', time) }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
@@ -128,6 +129,16 @@ class Post < ApplicationRecord
       (parsed_body.blank? ? body : parsed_body).match(/<p>(.+?)<\/p>/)[1].to_s
     else
       lead
+    end
+  end
+
+  # Get the most suitable author name for post
+  def author!(default_name = '')
+    return default_name unless show_owner
+    if author_name.blank?
+      user.profile_name
+    else
+      author_name
     end
   end
 
