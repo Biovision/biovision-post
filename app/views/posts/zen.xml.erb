@@ -7,9 +7,9 @@
     xmlns:georss="http://www.georss.org/georss">
   <channel>
     <% site_link = request.protocol + request.host_with_port %>
-    <title><%= t('.title') %>></title>
+    <title><%= t('posts.rss.title') %>></title>
     <link><%= site_link %></link>
-    <description><%= t('.description') %></description>
+    <description><%= t('posts.rss.description') %></description>
     <language><%= locale %></language>
 
     <% @collection.each do |item| %>

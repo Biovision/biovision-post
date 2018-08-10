@@ -126,7 +126,7 @@ class Post < ApplicationRecord
   # Lead or the first passage of body
   def lead!
     if lead.blank?
-      (parsed_body.blank? ? body : parsed_body).match(/<p>(.+?)<\/p>/)[1].to_s
+      (parsed_body.blank? ? body : parsed_body).match(/<p>(.+?)<\/p>/)[1].to_s[0..250]
     else
       lead
     end

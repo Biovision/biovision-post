@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <% site_link = request.protocol + request.host_with_port %>
+    <atom:link href="<%= url_for(only_path: false) %>" rel="self" type="application/rss+xml" />
+    <title><%= t('.title') %>></title>
+    <link><%= site_link %></link>
+    <description><%= t('.description') %></description>
+    <language><%= locale %></language>
+    <copyright><%= t(:copyright) %></copyright>
+    <generator>Biovision</generator>
+
+    <% @collection.each do |post| %>
+    <item>
+      <title><%= post.title %></title>
+      <link><%= site_link + PostManager.handler(post, locale).post_path %></link>
+      <description><%= post.lead! %></description>
+      <guid isPermaLink="false"><%= post.uuid %></guid>
+      <pubDate><%= post.publication_time.rfc822 %></pubDate>
+
+      <% unless post.image.blank? %>
+      <enclosure
+        url="<%= site_link + post.image.hd.url %>"
+        length="<%= File.size(post.image.hd.current_path) %>"
+        type="<%= post.image.content_type %>"
+      />
+      <% end %>
+      <% unless post.post_category.blank? %>
+      <category><%= post.post_category.full_title %></category>
+      <% end %>
+    </item>
+    <% end %>
+  </channel>
+</rss>

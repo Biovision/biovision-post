@@ -69,9 +69,14 @@ class PostsController < ApplicationController
     end
   end
 
-  # get /posts/zen.rss
+  # get /posts/rss/zen.xml
   def zen
     @collection = Post.for_language(current_language).list_for_visitors.posted_after(3.days.ago)
+  end
+
+  # get /posts/rss.xml
+  def rss
+    @collection = Post.for_language(current_language).list_for_visitors.first(20)
   end
 
   private
