@@ -1,4 +1,7 @@
 <% content_for :meta_title, t('.title', page: current_page) %>
+<% content_for :alternate_links do %>
+  <link rel="alternate" type="application/rss+xml" href="<%= rss_posts_path %>" />
+<% end %>
 <% content_for :breadcrumbs do %>
   <span><%= t('posts.index.nav_text') %></span>
 <% end %>

@@ -331,9 +331,9 @@ en:
     entity:
       linked_posts:
         heading: "Read also"
-    zen:
+    rss:
       title: "Posts of site on Biovision CMS"
-      description: "Yandex.zen feed of site on Biovision CMS"
+      description: "RSS feed of site on Biovision CMS"
   index:
     dashboard:
       biovision_post:
