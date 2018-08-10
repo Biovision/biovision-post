@@ -3,7 +3,7 @@
   <channel>
     <% site_link = request.protocol + request.host_with_port %>
     <atom:link href="<%= url_for(only_path: false) %>" rel="self" type="application/rss+xml" />
-    <title><%= t('.title') %>></title>
+    <title><%= t('.title') %></title>
     <link><%= site_link %></link>
     <description><%= t('.description') %></description>
     <language><%= locale %></language>
