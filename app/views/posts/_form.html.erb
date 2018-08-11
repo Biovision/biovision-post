@@ -375,6 +375,10 @@
           <%= f.label :visible %>
         </li>
         <li>
+          <%= f.check_box :explicit, id: "#{model_name}_explicit" %>
+          <%= f.label :explicit %>
+        </li>
+        <li>
           <%= f.check_box :show_owner, id: "#{model_name}_show_owner" %>
           <%= f.label :show_owner %>
         </li>

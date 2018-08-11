@@ -49,6 +49,7 @@ sv:
         author_url: "Författarens URL"
         body: "Text"
         created_at: "Skapad vid"
+        explicit: "Explicit innehåll"
         image: "Bild"
         image_alt_text: "Alt text för bild"
         image_author_link: "Bildförfattarlänk"

@@ -1,8 +1,6 @@
-$block-shadow: .2rem .2rem .4rem .2rem rgba(0, 0, 0, .125) !default;
 $border-primary: .1rem solid rgb(192, 192, 192) !default;
 $border-secondary: .1rem solid rgb(230, 230, 230) !default;
 $text-color-secondary: #777 !default;
-$font-size-large: 2rem !default;
 $font-size-decreased: 1.2rem !default;
 $font-family-heading: serif !default;
 
@@ -19,8 +17,6 @@ $background-post-preview-image: linear-gradient(to top, #f0f0f0, #fff) !default;
 }
 
 .post-preview {
-  border-radius: .2rem;
-  box-shadow: $block-shadow;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -29,65 +25,86 @@ $background-post-preview-image: linear-gradient(to top, #f0f0f0, #fff) !default;
   max-width: 30rem;
   min-width: 28rem;
 
-  .image {
-    background: $background-post-preview-image;
-    border-radius: .2rem .2rem 0 0;
-    height: 20rem;
-    overflow: hidden;
+  &:hover {
+    box-shadow: $block-shadow;
+  }
+
+  > div {
     width: 100%;
   }
 
-  img {
-    height: 100%;
-    object-fit: cover;
-    width: 100%;
+  .image {
+    background: $background-post-preview-image;
+
+    a {
+      display: block;
+    }
+  }
+
+  .text {
+    padding: var(--spacer-xxs, .4rem);
   }
 
   .title {
-    font: 500 $font-size-large $font-family-heading;
-    min-height: 6.4rem;
-    padding: .4rem;
+    font: 500 var(--font-size-large, 2.4rem) $font-family-heading;
   }
 
   .lead {
     color: $text-color-secondary;
-    padding: .4rem;
+    font-weight: 400;
+    padding-top: var(--spacer-xs, .8rem);
+
+    a:link,
+    a:visited {
+      color: inherit;
+    }
   }
 
   .counters {
     margin-top: auto;
-    padding: .4rem;
+    padding: var(--spacer-xxs, .4rem);
     text-align: right;
   }
 
   .category {
-    padding: .4rem;
+    padding: var(--spacer-xxs, .4rem);
   }
 
-  .info {
-    align-items: center;
-    -webkit-backdrop-filter: blur(.2rem);
-    background: rgba(255, 255, 255, .75);
-    border-radius: .2rem .2rem 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    left: 0;
-    padding: .2rem .4rem;
-    position: absolute;
-    right: 0;
+  .time-and-author {
+    font-size: var(--font-size-decreased, 1.3rem);
+    padding: var(--spacer-xxs, .4rem);
 
-    time {
-      font-size: $font-size-decreased;
-      font-style: italic;
-      line-height: 2rem;
-      margin-left: auto;
+    a {
+      font-weight: 400;
+
+      + time {
+        &::before {
+          content: '|';
+          margin: 0 var(--spacer-xxs, .4rem);
+        }
+      }
     }
+  }
+
+  time {
+    color: $text-color-secondary;
+  }
+
+  .counters {
+    color: $text-color-secondary;
+    font-size: var(--font-size-decreased, 1.3rem);
   }
 }
 
 .view_count {
   background: image_url('biovision/post/icons/view.svg') no-repeat center left / 1.6rem auto;
   margin: 0 .4rem;
+  padding-left: 1.8rem;
+}
+
+.time_required {
+  background: image_url('biovision/post/icons/time.svg') no-repeat center left / 1.6rem auto;
+  display: inline-block;
   padding-left: 1.8rem;
 }
 

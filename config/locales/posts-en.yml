@@ -49,6 +49,7 @@ en:
         author_url: "Author URL"
         body: "Text"
         created_at: "Created at"
+        explicit: "Explicit content"
         image: "Image"
         image_alt_text: "Alt text for image"
         image_author_link: "Image author link"
