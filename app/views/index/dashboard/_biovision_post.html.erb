@@ -4,7 +4,7 @@
 <section class="recent-posts" id="recent-posts-container">
   <h2><%= t('.heading') %></h2>
 
-  <%= render partial: 'posts/list', locals: { collection: Post.visible.page_for_visitors(1) } %>
+  <%= render partial: 'posts/list', locals: { collection: Post.published.visible.page_for_visitors(1) } %>
 
   <div class="more-posts">
     <%=

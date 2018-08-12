@@ -59,3 +59,26 @@
     }
   }
 }
+
+#post-form {
+  .loading_message {
+    border: .1rem solid #777;
+    margin: var(--spacer-s, 1.6rem) 0;
+    padding: var(--spacer-s, 1.6rem);
+  }
+
+  progress {
+    width: 100%;
+  }
+}
+
+#post_translation {
+  &:not(:checked) ~ div {
+    opacity: .25;
+  }
+
+  ~ div {
+    margin-left: 2.2rem;
+    transition: opacity .25s;
+  }
+}

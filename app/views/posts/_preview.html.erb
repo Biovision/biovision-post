@@ -17,13 +17,10 @@
       <% end %>
       <%= time_tag(entity.publication_time.to_date, format: :default) %>
     </div>
-    <div class="category"><%= post_category_link(entity) %></div>
-  </div>
-  <% unless entity.post_category.nil? %>
     <div class="category" aria-label="<%= t('activerecord.attributes.post.post_category_id') %>">
-      <%= entity.post_category.full_title %>
+      <%= post_category_link(entity) %>
     </div>
-  <% end %>
+  </div>
   <div class="counters">
     <% if entity.allow_comments? && 'CommentableItem'.safe_constantize %>
       <span class="comment_count"><%= entity.comments_count %></span>
