@@ -9,6 +9,7 @@ class PostManager
 
   # @param [Post] entity
   # @param [Symbol|String] locale
+  # @return PostManager
   def self.handler(entity, locale = I18n.locale)
     handler_name  = "post_manager/#{entity.post_type.slug}_handler".classify
     handler_class = handler_name.safe_constantize || PostManager
@@ -25,6 +26,11 @@ class PostManager
 
   def edit_path
     "#{@prefix}/posts/#{@entity.id}/edit"
+  end
+
+  # @param [String] tag_name
+  def tagged_path(tag_name)
+    "#{@prefix}/posts/tagged/#{URI.encode(tag_name)}"
   end
 
   # @param [PostCategory] category

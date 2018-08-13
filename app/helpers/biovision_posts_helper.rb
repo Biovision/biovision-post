@@ -94,7 +94,7 @@ module BiovisionPostsHelper
   # @param [Hash] options
   def post_author_link(entity, options = {})
     if entity.author_url.blank?
-      entity.author_name
+      raw("<span>#{entity.author_name}</span>")
     else
       link_options = {
         rel: 'external nofollow noopener noreferrer'
@@ -106,7 +106,12 @@ module BiovisionPostsHelper
   # @param [String] tag_name
   # @param [Post] entity
   def tagged_posts_link(tag_name, entity = nil)
-    link_to(tag_name, tagged_posts_path(tag_name: tag_name), rel: 'tag')
+    if entity.nil?
+      link_to(tag_name, tagged_posts_path(tag_name: tag_name), rel: 'tag')
+    else
+      handler = PostManager.handler(entity, locale)
+      link_to(tag_name, handler.tagged_path(tag_name), rel: 'tag')
+    end
   end
 
   # Post image preview for displaying in "administrative" lists
