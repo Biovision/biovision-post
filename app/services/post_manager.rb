@@ -4,7 +4,7 @@ class PostManager
   def initialize(entity, locale = I18n.locale)
     @entity = entity
     @body   = entity.body.to_s
-    @prefix = locale.nil? ? '' : "/#{locale}"
+    @prefix = (locale.nil? || locale == I18n.default_locale) ? '' : "/#{locale}"
   end
 
   # @param [Post] entity
