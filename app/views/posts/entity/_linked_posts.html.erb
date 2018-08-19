@@ -1,5 +1,5 @@
 <% if collection.any? %>
-  <section>
+  <section class="posts-linked">
     <h2><%= t('.heading') %></h2>
 
     <%= render partial: 'posts/list', locals: { collection: collection } %>
