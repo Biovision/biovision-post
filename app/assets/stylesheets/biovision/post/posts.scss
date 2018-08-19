@@ -97,7 +97,10 @@ $background-post-tag: rgb(248, 248, 248) !default;
     color: $text-color-secondary;
     font-size: var(--font-size-decreased, 1.3rem);
   }
+}
 
+.post-preview,
+.post {
   .tags {
     margin: 0;
     padding: var(--spacer-xxs, .4rem);
