@@ -322,7 +322,7 @@ ru:
         add_image: "Добавить изображение"
     post:
       source: "Источник"
-      image_credit: "Автор"
+      image_credit: "Автор изображения"
     index:
       title: "Публикации, страница %{page}"
       heading: "Публикации"
