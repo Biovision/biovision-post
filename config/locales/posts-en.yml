@@ -86,6 +86,7 @@ en:
         visible: "Visible"
       post_category:
         children_cache: "Children cache"
+        meta_description: "Description for meta-tag"
         name: "Name"
         parent_id: "Parent category"
         parents_cache: "Parents cache"
@@ -245,6 +246,7 @@ en:
       success: "Post category is deleted successfully"
     form:
       guidelines:
+        meta_description: "Maximum 250 chars."
         name: "Maximum 50 chars."
         slug: "Used in URL. Only latin letters, digits and dashes (except first and last char), maximum 50 chars."
   post_tags:

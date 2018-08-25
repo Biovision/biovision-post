@@ -2,6 +2,7 @@ class PostCategory < ApplicationRecord
   include Toggleable
 
   PRIORITY_RANGE = (1..100)
+  META_LIMIT     = 250
   NAME_LIMIT     = 50
   SLUG_LIMIT     = 50
   SLUG_PATTERN   = /\A[a-z][-0-9a-z]*[0-9a-z]\z/i
@@ -26,6 +27,7 @@ class PostCategory < ApplicationRecord
   validates_uniqueness_of :name, scope: [:parent_id]
   validates_uniqueness_of :slug, scope: [:post_type_id]
   validates_length_of :name, maximum: NAME_LIMIT
+  validates_length_of :meta_description, maximum: META_LIMIT
   validates_length_of :slug, maximum: SLUG_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validate :parent_matches_type
@@ -38,11 +40,11 @@ class PostCategory < ApplicationRecord
   scope :ids_for_slug, -> (slug) { where(slug: slug.to_s.downcase).pluck(:id) }
 
   def self.entity_parameters
-    %i(name slug priority visible)
+    %i[meta_description name slug priority visible]
   end
 
   def self.creation_parameters
-    entity_parameters + %i(parent_id post_type_id)
+    entity_parameters + %i[parent_id post_type_id]
   end
 
   def full_title

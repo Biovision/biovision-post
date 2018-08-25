@@ -13,6 +13,7 @@ class CreatePostCategories < ActiveRecord::Migration[5.1]
         t.string :name, null: false
         t.string :slug, null: false
         t.string :long_slug, null: false
+        t.string :meta_description
         t.string :parents_cache, default: '', null: false
         t.integer :children_cache, default: [], array: true, null: false
       end

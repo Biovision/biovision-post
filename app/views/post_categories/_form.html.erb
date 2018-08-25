@@ -47,6 +47,19 @@
       <div class="guideline"><%= t('.guidelines.slug') %></div>
     </dd>
 
+    <dt><%= f.label :meta_description %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :meta_description,
+            id: "#{model_name}_meta_description",
+            size: nil,
+            maxlength: PostCategory::META_LIMIT
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.meta_description') %></div>
+    </dd>
+
     <dt><%= f.label :priority %></dt>
     <dd>
       <%=

@@ -86,6 +86,7 @@ sv:
         visible: "Synlig"
       post_category:
         children_cache: "Barn cache"
+        meta_description: "Beskrivning för metataggen"
         name: "Namn"
         parent_id: "Förälder kategori"
         parents_cache: "Föräldrarnas cache"
@@ -245,6 +246,7 @@ sv:
       success: "Inlägg kategori har tagits bort"
     form:
       guidelines:
+        meta_description: "Max 250 tecken."
         name: "Max 50 tecken."
         slug: "Används i URL. Endast latinska bokstäver, siffror och bindestreck (förutom första och sista tecken), högst 50 tecken."
   post_tags:

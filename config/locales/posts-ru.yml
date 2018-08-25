@@ -81,11 +81,11 @@ ru:
         translator_name: "Имя переводчика"
         user: "Автор"
         uuid: "UUID"
-        video_url: "URL видео"
         view_count: "Количество просмотров"
         visible: "Показывать"
       post_category:
         children_cache: "Кеш дочек"
+        meta_description: "Описание для тэга meta"
         name: "Название"
         parent_id: "Родительская категория"
         parents_cache: "Кеш родителей"
@@ -245,6 +245,7 @@ ru:
       success: "Категория публикаций успешно удалена"
     form:
       guidelines:
+        meta_description: "Максимум 250 символов."
         name: "Максимум 50 символов."
         slug: "Используется в URL. Только латинские буквы, цифры и дефис (кроме первого и последнего символа), максимум 50 символов."
   post_tags:
