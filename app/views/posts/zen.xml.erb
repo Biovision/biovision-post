@@ -6,7 +6,10 @@
     xmlns:atom="http://www.w3.org/2005/Atom"
     xmlns:georss="http://www.georss.org/georss">
   <channel>
-    <% site_link = request.protocol + request.host_with_port %>
+    <%
+      site_link = request.protocol + request.host_with_port
+      media_link = 'http://' + request.host_with_port
+    %>
     <title><%= t('posts.rss.title') %>></title>
     <link><%= site_link %></link>
     <description><%= t('posts.rss.description') %></description>
@@ -17,12 +20,20 @@
       <item>
         <title><%= item.title %></title>
         <link><%= site_link + PostManager.handler(item, locale).post_path %></link>
+        <media:rating scheme="urn:simple"><%= item.explicit? ? 'adult' : 'nonadult' %></media:rating>
         <pubDate><%= item.publication_time.rfc822 %></pubDate>
         <author><![CDATA[<%= item.author!(t(:anonymous)) %>]]></author>
         <% item.zen_categories.each do |category| %>
           <category><%= category.name %></category>
         <% end %>
-        <enclosure url="<%= site_link + item.image.hd.url %>"/>
+        <enclosure
+          url="<%= media_link + item.image.hd.url %>"
+          length="<%= File.size(item.image.hd.current_path) %>"
+          type="<%= item.image.content_type %>"
+        />
+        <% PostManager.enclosures(item).each do |url| %>
+          <enclosure url="<%= media_link + url %>" type="<%= Rack::Mime::MIME_TYPES[File.extname(url)] %>"/>
+        <% end %>
         <description><![CDATA[<%= item.lead! %>]]></description>
         <content:encoded><![CDATA[<%= raw(item.parsed_body) %>]]></content:encoded>
       </item>

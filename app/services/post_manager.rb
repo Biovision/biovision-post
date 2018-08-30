@@ -16,6 +16,13 @@ class PostManager
     handler_class.new(entity, locale)
   end
 
+  # @param [Post] post
+  def self.enclosures(post)
+    post.parsed_body.scan(/<img[^>]+>/).map do |image|
+      image.scan(/src="([^"]+)"/)[0][0]
+    end
+  end
+
   def parsed_body
     PostParser.new(@entity).parsed_body
   end

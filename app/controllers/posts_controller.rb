@@ -74,11 +74,6 @@ class PostsController < ApplicationController
     @collection = Post.for_language(current_language).list_for_visitors.posted_after(3.days.ago)
   end
 
-  # get /posts/turbo.xml
-  def turbo
-    @collection = Post.for_language(current_language).list_for_visitors.first(50)
-  end
-
   # get /posts/rss.xml
   def rss
     @collection = Post.for_language(current_language).list_for_visitors.first(20)
