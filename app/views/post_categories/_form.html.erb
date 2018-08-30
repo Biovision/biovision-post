@@ -75,6 +75,8 @@
     <%= render partial: 'shared/forms/entity_flags', locals: { f: f } %>
   </dl>
 
+  <%= render 'shared/forms/state_container' %>
+
   <div class="buttons">
     <% if entity.id.nil? %>
       <%= f.hidden_field :post_type_id %>
