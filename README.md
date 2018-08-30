@@ -73,6 +73,17 @@ publisher logo, картинка для которого находится в
 Сам шаблон, где выводятся соответствующие данные, находится в 
 `app/views/posts/entity/_publisher.html.erb`.
 
+«Охлаждение» рейтинга публикаций
+--------------------------------
+
+Для уменьшения по модулю рейтинга публикаций на 10 процентов есть задача
+`posts:cooldown`. Можно добавить запуск в cron, чтобы она запускалась
+регулярно.
+
+```cron
+30 3 * * * cd /var/www/example.com/current && /home/developer/.rbenv/shims/bundle exec rails RAILS_ENV=production posts:cooldown
+```
+
 ## Contributing
 Contribution directions go here.
 
