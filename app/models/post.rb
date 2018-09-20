@@ -135,12 +135,25 @@ class Post < ApplicationRecord
 
   # Get the most suitable author name for post
   def author!(default_name = '')
-    return default_name unless show_owner
+    return default_name unless show_owner?
+
     if author_name.blank?
       user.profile_name
     else
       author_name
     end
+  end
+
+  # Get editorial member instance for this post
+  #
+  # If user can be shown and is member of editorial, this method returns
+  # instance of [EditorialMember] through user for this post of nil otherwise
+  #
+  # @return [EditorialMember|nil]
+  def editorial_member
+    return unless show_owner? && author_name.blank?
+
+    EditorialMember.owned_by(user).first
   end
 
   # List of linked posts for visitors
