@@ -31,7 +31,7 @@ class EditorialMember < ApplicationRecord
 
   # @param [User] user
   def self.user?(user)
-    user.is_a?(self.class) || owned_by(user).visible.exists?
+    user.is_a?(self) || owned_by(user).visible.exists?
   end
 
   def name
