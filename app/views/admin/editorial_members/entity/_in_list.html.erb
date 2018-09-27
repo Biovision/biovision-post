@@ -15,19 +15,22 @@
   <%=
     render(
         partial: 'shared/admin/toggleable',
-        locals: {
+        locals:  {
             entity: entity,
-            url: toggle_admin_editorial_member_path(id: entity.id)
+            url:    toggle_admin_editorial_member_path(id: entity.id)
         }
     )
   %>
 
   <ul class="actions">
+    <% if entity.visible? %>
+      <li><%= world_icon(author_path(slug: entity.screen_name)) %></li>
+    <% end %>
     <li><%= edit_icon(edit_editorial_member_path(id: entity.id)) %></li>
     <%=
       render(
           partial: 'shared/actions/priority_changer',
-          locals: { path: priority_admin_editorial_member_path(id: entity.id) }
+          locals:  { path: priority_admin_editorial_member_path(id: entity.id) }
       )
     %>
   </ul>

@@ -2,7 +2,6 @@ class EditorialMember < ApplicationRecord
   include HasOwner
   include Toggleable
 
-  ABOUT_LIMIT    = 5000
   LEAD_LIMIT     = 170
   PRIORITY_RANGE = (1..32767)
   TITLE_LIMIT    = 150
@@ -14,7 +13,6 @@ class EditorialMember < ApplicationRecord
   after_initialize :set_next_priority
   before_validation :normalize_priority
 
-  validates_length_of :about, maximum: ABOUT_LIMIT
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :title, maximum: TITLE_LIMIT
 

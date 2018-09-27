@@ -74,11 +74,8 @@
             id:        "#{model_name}_about",
             cols:      80,
             rows:      10,
-            maxlength: EditorialMember::ABOUT_LIMIT,
-            class:     'auto-expand',
             data:      {
-                min_rows: 10,
-                max_rows: 30
+                wysiwyg: '1'
             }
         )
       %>
@@ -95,3 +92,5 @@
     <%= f.button t(:save), type: :submit %>
   </div>
 <% end %>
+
+<%= render 'shared/forms/wysiwyg' %>

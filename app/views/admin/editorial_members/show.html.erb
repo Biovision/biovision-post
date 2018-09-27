@@ -9,6 +9,10 @@
 
   <ul class="actions">
     <li><%= back_icon(admin_editorial_members_path) %></li>
+    <% if @entity.visible? %>
+      <li><%= world_icon(author_path(slug: @entity.screen_name)) %></li>
+    <% end %>
+    <li><%= edit_icon(edit_editorial_member_path(id: @entity.id)) %></li>
   </ul>
 
   <dl>
@@ -25,7 +29,19 @@
 
     <% unless @entity.about.blank? %>
       <dt><%= t('activerecord.attributes.editorial_member.about') %></dt>
-      <dd><%= simple_format(@entity.about) %></dd>
+      <dd>
+        <%= raw(@entity.about) %>
+      </dd>
     <% end %>
   </dl>
+
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals:  {
+            entity: @entity,
+            url:    toggle_admin_editorial_member_path(id: @entity.id)
+        }
+    )
+  %>
 </article>
