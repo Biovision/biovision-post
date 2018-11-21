@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Post entry
 class Post < ApplicationRecord
   include HasOwner
   include CommentableItem if Gem.loaded_specs.key?('biovision-comment')
@@ -12,18 +15,17 @@ class Post < ApplicationRecord
   end
 
   ALT_LIMIT         = 255
-  BODY_LIMIT        = 50000
+  BODY_LIMIT        = 50_000
   IMAGE_NAME_LIMIT  = 500
   LEAD_LIMIT        = 5000
   META_LIMIT        = 250
   SLUG_LIMIT        = 200
-  SLUG_PATTERN      = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/
+  SLUG_PATTERN      = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/.freeze
   SLUG_PATTERN_HTML = '^[a-zA-Z0-9]+[-_.a-zA-Z0-9]*[a-zA-Z0-9]+$'
-  TIME_RANGE        = (0..1440)
+  TIME_RANGE        = (0..1440).freeze
   TITLE_LIMIT       = 255
 
-  URL_PATTERN = /https?:\/\/([^\/]+)\/?.*/
-  PER_PAGE    = 12
+  URL_PATTERN = %r{https?://([^/]+)/?.*}.freeze
 
   toggleable :visible, :show_owner
 
@@ -91,13 +93,15 @@ class Post < ApplicationRecord
   scope :posted_after, -> (time) { where('publication_time >= ?', time) }
 
   # @param [Integer] page
-  def self.page_for_administration(page = 1)
-    list_for_administration.page(page).per(PER_PAGE)
+  # @param [Integer] per_page
+  def self.page_for_administration(page = 1, per_page = Post.items_per_page)
+    list_for_administration.page(page).per(per_page)
   end
 
   # @param [Integer] page
-  def self.page_for_visitors(page = 1)
-    list_for_visitors.page(page).per(PER_PAGE)
+  # @param [Integer] per_page
+  def self.page_for_visitors(page = 1, per_page = Post.items_per_page)
+    list_for_visitors.page(page).per(per_page)
   end
 
   # @param [User] user
@@ -116,8 +120,12 @@ class Post < ApplicationRecord
     main_data + image_data + meta_data + author_data + flags_data
   end
 
+  def self.items_per_page
+    12
+  end
+
   def self.creation_parameters
-    entity_parameters + %i(post_type_id)
+    entity_parameters + %i[post_type_id]
   end
 
   def self.author_ids
@@ -211,10 +219,9 @@ class Post < ApplicationRecord
   private
 
   def category_consistency
-    return if post_category.nil?
-    if post_category.post_type != post_type
-      errors.add(:post_category, I18n.t('activerecord.errors.messages.mismatches_post_type'))
-    end
+    return if post_category.nil? || post_category.post_type == post_type
+
+    errors.add(:post_category, I18n.t('activerecord.errors.messages.mismatches_post_type'))
   end
 
   def prepare_source_names
