@@ -10,13 +10,11 @@ class AddEditorPrivileges < ActiveRecord::Migration[5.2]
 
     children.each do |slug, name|
       next if Privilege.where(slug: slug).exists?
+
       child = Privilege.new(parent: chief_editor, slug: slug, name: name, administrative: false)
 
-      if child.save
-        group.add_privilege(child)
-      end
+      group.add_privilege(child) if child.save
     end
-
   end
 
   def down

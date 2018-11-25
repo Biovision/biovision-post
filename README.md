@@ -23,9 +23,12 @@ gem 'biovision-post', git: 'https://github.com/Biovision/biovision-post.git'
 В `Gemfile` добавить Elastic:
 
 ```ruby
-gem 'elasticsearch-model'
+gem 'elasticsearch-model', '~> 5.1'
 gem 'elasticsearch-persistence'
 ```
+
+Версия `elasticsearch-model` должна соответствовать версии elasticsearch
+на сервере, поэтому имеет смысл указать её явно.
 
 В конфигурацию приложения (например, в `config/initializers/biovision.rb`) нужно 
 добавить название индекса:
@@ -40,7 +43,7 @@ gem 'elasticsearch-persistence'
 Добавить в `config/initializers/assets.rb`:
 
 ```ruby
-Rails.application.config.assets.precompile << %w(biovision/post/*)
+Rails.application.config.assets.precompile << %w[biovision/post/*]
 ```
 
 Добавить в `app/assets/javascripts/application.js`:
