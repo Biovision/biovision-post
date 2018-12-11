@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :posts, except: %i[new update destroy] do
       collection do
         get 'categories/:category_slug' => :category, as: :posts_category, constraints: { category_slug: category_slug_pattern }
-        get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+/ }
+        get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+?/ }
         get 'archive/(:year)(-:month)(-:day)' => :archive, as: :archive, constraints: archive_constraints
         get 'rss/zen.xml' => :zen, defaults: { format: :xml }
         get 'rss.xml' => :rss, as: :rss, defaults: { format: :xml }
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
       get 'archive/(:year)(-:month)(-:day)' => :archive, as: :articles_archive, constraints: archive_constraints
-      get 'tagged/(:tag_name)' => :tagged, as: :tagged_articles, constraints: { tag_name: /[^\/]+/ }
+      get 'tagged/(:tag_name)' => :tagged, as: :tagged_articles, constraints: { tag_name: /[^\/]+?/ }
       get '/:category_slug' => :category, as: :articles_category, constraints: { category_slug: category_slug_pattern }
       get '/:post_id-:post_slug' => :show, as: :show_article, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     scope :news, controller: :news do
       get '/' => :index, as: :news_index
       get 'archive/(:year)(-:month)(-:day)' => :archive, as: :news_archive, constraints: archive_constraints
-      get 'tagged/(:tag_name)' => :tagged, as: :tagged_news, constraints: { tag_name: /[^\/]+/ }
+      get 'tagged/(:tag_name)' => :tagged, as: :tagged_news, constraints: { tag_name: /[^\/]+?/ }
       get '/:category_slug' => :category, as: :news_category, constraints: { category_slug: category_slug_pattern }
       get '/:post_id-:post_slug' => :show, as: :show_news, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     scope :blog_posts, controller: :blog_posts do
       get '/' => :index, as: :blog_posts
       get 'archive/(:year)(-:month)(-:day)' => :archive, as: :blog_posts_archive, constraints: archive_constraints
-      get 'tagged/(:tag_name)' => :tagged, as: :tagged_blog_posts, constraints: { tag_name: /[^\/]+/ }
+      get 'tagged/(:tag_name)' => :tagged, as: :tagged_blog_posts, constraints: { tag_name: /[^\/]+?/ }
       get '/:category_slug' => :category, as: :blog_posts_category, constraints: { category_slug: category_slug_pattern }
       get '/:post_id-:post_slug' => :show, as: :show_blog_post, constraints: { post_id: /\d+/, post_slug: post_slug_pattern }
     end

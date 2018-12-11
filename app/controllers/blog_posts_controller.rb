@@ -39,15 +39,11 @@ class BlogPostsController < ApplicationController
   def set_category
     type = PostType.find_by(slug: 'blog_post')
     @category = type.post_categories.find_by(long_slug: params[:category_slug])
-    if @category.nil?
-      handle_http_404('Cannot find post category (blog_post)')
-    end
+    handle_http_404('Cannot find post category (blog_post)') if @category.nil?
   end
 
   def set_entity
     @entity = Post.list_for_visitors.find_by(id: params[:post_id])
-    if @entity.nil?
-      handle_http_404('Cannot find blog_post')
-    end
+    handle_http_404('Cannot find blog_post') if @entity.nil?
   end
 end

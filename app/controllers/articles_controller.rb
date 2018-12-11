@@ -39,15 +39,11 @@ class ArticlesController < ApplicationController
   def set_category
     type      = PostType.find_by(slug: 'article')
     @category = type.post_categories.find_by(long_slug: params[:category_slug])
-    if @category.nil?
-      handle_http_404('Cannot find post category (article)')
-    end
+    handle_http_404('Cannot find post category (article)') if @category.nil?
   end
 
   def set_entity
     @entity = Post.list_for_visitors.find_by(id: params[:post_id])
-    if @entity.nil?
-      handle_http_404('Cannot find article')
-    end
+    handle_http_404('Cannot find article') if @entity.nil?
   end
 end

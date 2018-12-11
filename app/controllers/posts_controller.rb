@@ -83,9 +83,7 @@ class PostsController < ApplicationController
 
   def set_entity
     @entity = Post.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post')
-    end
+    handle_http_404('Cannot find post') if @entity.nil?
   end
 
   def restrict_access

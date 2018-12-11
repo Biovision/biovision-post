@@ -39,15 +39,11 @@ class NewsController < ApplicationController
   def set_category
     type      = PostType.find_by(slug: 'news')
     @category = type.post_categories.find_by(long_slug: params[:category_slug])
-    if @category.nil?
-      handle_http_404('Cannot find post category (news)')
-    end
+    handle_http_404('Cannot find post category (news)') if @category.nil?
   end
 
   def set_entity
     @entity = Post.list_for_visitors.find_by(id: params[:post_id])
-    if @entity.nil?
-      handle_http_404('Cannot find news')
-    end
+    handle_http_404('Cannot find news') if @entity.nil?
   end
 end

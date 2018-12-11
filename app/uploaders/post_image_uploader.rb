@@ -1,18 +1,22 @@
+# frozen_string_literal: true
+
+# Image uploader for posts
 class PostImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::BombShelter
 
   storage :file
+  process :auto_orient
 
   def max_pixel_dimensions
     [3840, 3840]
   end
 
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id/10000.floor}/#{model.id/100.floor}/#{model.id}"
-  end
+    slug = "#{model.id / 10_000}/#{model.id / 100}/#{model.id}"
 
-  process :auto_orient
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{slug}"
+  end
 
   def auto_orient
     manipulate! do |image|
@@ -45,10 +49,6 @@ class PostImageUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(jpg jpeg png)
+    %w[jpg jpeg png]
   end
-
-  # def filename
-  #   "#{model.uuid}.#{file.extension}" if original_filename
-  # end
 end
