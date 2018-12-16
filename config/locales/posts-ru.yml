@@ -1,4 +1,6 @@
 ru:
+  date:
+    nominative_month_names: [~, январь, февраль, март, апрель, май, июнь, июль, август, сентябрь, октябрь, ноябрь, декабрь]
   post_count:
     zero: "публикаций нет"
     one: "%{count} публикация"
@@ -336,6 +338,8 @@ ru:
     rss:
       title: "Публикации сайта на Biovision CMS"
       description: "RSS-канал сайта на Biovision CMS"
+    archive_day:
+      title: "Архив публикаций"
   index:
     dashboard:
       biovision_post:

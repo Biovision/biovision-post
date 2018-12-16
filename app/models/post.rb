@@ -81,16 +81,18 @@ class Post < ApplicationRecord
   scope :popular, -> { order('rating desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
-  scope :for_language, -> (language) { where(language: language) }
+  scope :for_language, ->(language) { where(language: language) }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
-  scope :list_for_owner, -> (user) { owned_by(user).recent }
-  scope :tagged, -> (tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
-  scope :in_category, -> (slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
-  scope :in_category_branch, -> (category) { where(post_category_id: category.subbranch_ids) }
+  scope :list_for_owner, ->(user) { owned_by(user).recent }
+  scope :tagged, ->(tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
+  scope :in_category, ->(slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
+  scope :in_category_branch, ->(category) { where(post_category_id: category.subbranch_ids) }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
-  scope :of_type, -> (slug) { where(post_type: PostType.find_by(slug: slug)) }
-  scope :posted_after, -> (time) { where('publication_time >= ?', time) }
+  scope :of_type, ->(slug) { where(post_type: PostType.find_by(slug: slug)) unless slug.blank? }
+  scope :archive, -> { f = Arel.sql('date(publication_time)'); distinct.order(f).pluck(f) }
+  scope :posted_after, ->(time) { where('publication_time >= ?', time) }
+  scope :pubdate, ->(date) { where('date(publication_time) = ?', date) }
 
   # @param [Integer] page
   # @param [Integer] per_page
@@ -130,6 +132,13 @@ class Post < ApplicationRecord
 
   def self.author_ids
     visible.pluck(:user_id).uniq
+  end
+
+  # @param [Array] array
+  def self.archive_dates(array)
+    dates = Hash.new { |h, k| h[k] = Hash.new { [] } }
+    array.each { |date| dates[date.year][date.month] <<= date.day }
+    dates
   end
 
   # Lead or the first passage of body

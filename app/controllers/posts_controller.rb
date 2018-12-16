@@ -79,6 +79,16 @@ class PostsController < ApplicationController
     @collection = Post.for_language(current_language).list_for_visitors.first(20)
   end
 
+  # get /posts/archive/(:year)(-:month)(-:day)
+  def archive
+    if params.key?(:day)
+      archive_day
+    else
+      collect_dates
+      archive_group if params[:year]
+    end
+  end
+
   private
 
   def set_entity
@@ -116,5 +126,25 @@ class PostsController < ApplicationController
       result[:user_id] = param_from_request(key)
     end
     result
+  end
+
+  def collect_dates
+    array  = Post.for_language(current_language).visible.published.archive
+    @dates = Post.archive_dates(array)
+  end
+
+  def archive_day
+    date        = Date.parse("#{params[:year]}-#{params[:month]}-#{params[:day]}")
+    selection   = Post.for_language(current_language).pubdate(date)
+    @collection = selection.page_for_visitors(current_page)
+    render 'archive_day'
+  end
+
+  def archive_group
+    year = params[:year].to_i
+    @dates.select! { |k, _| k == year }
+    return unless params.key?(:month)
+
+    @dates[year]&.select! { |k, _| k == params[:month].to_i }
   end
 end
