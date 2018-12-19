@@ -337,6 +337,8 @@ sv:
     rss:
       title: "Posts of site on Biovision CMS"
       description: "RSS feed of site on Biovision CMS"
+    calendar:
+      heading: "Arkiv"
   index:
     dashboard:
       biovision_post:

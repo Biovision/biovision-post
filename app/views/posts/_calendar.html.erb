@@ -1,0 +1,9 @@
+<div class="posts-calendar" id="posts-calendar" data-url="<%= archive_posts_path(year: nil, month: nil, day: nil, format: :json) %>">
+  <h4><%= t('.heading') %></h4>
+  <div class="header">
+    <button class="prev" disabled>&#9664;</button>
+    <span></span>
+    <button class="next" disabled>&#9654;</button>
+  </div>
+  <div class="days"></div>
+</div>

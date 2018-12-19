@@ -340,6 +340,8 @@ ru:
       description: "RSS-канал сайта на Biovision CMS"
     archive_day:
       title: "Архив публикаций"
+    calendar:
+      heading: "Архив"
   index:
     dashboard:
       biovision_post:
