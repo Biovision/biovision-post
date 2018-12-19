@@ -1,1 +1,1 @@
-json.partial! 'list', locals: { collection: @collection }
+json.partial! 'posts/list', locals: { collection: @collection }
