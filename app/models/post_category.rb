@@ -48,7 +48,7 @@ class PostCategory < ApplicationRecord
   end
 
   def full_title
-    (parents.map { |parent| parent.name } + [name]).join ' / '
+    (parents.pluck(:name) + [name]).join ' / '
   end
 
   def depth
@@ -71,11 +71,13 @@ class PostCategory < ApplicationRecord
 
   def parents
     return [] if parents_cache.blank?
+
     PostCategory.where(id: parent_ids).order('id asc')
   end
 
   def cache_parents!
     return if parent.nil?
+
     self.parents_cache = "#{parent.parents_cache},#{parent_id}".gsub(/\A,/, '')
     save!
   end
@@ -123,26 +125,20 @@ class PostCategory < ApplicationRecord
   end
 
   def generate_long_slug
-    if parent.nil?
-      self.long_slug = slug
-    else
-      self.long_slug = "#{parent.long_slug}_#{slug}"
-    end
+    self.long_slug = parent.nil? ? slug : "#{parent.long_slug}_#{slug}"
   end
 
   def parent_matches_type
-    return if parent.nil?
-    if parent.post_type != post_type
-      error = I18n.t('activerecord.errors.messages.mismatches_post_type')
-      errors.add(:parent_id, error)
-    end
+    return if parent.nil? || parent.post_type == post_type
+
+    error = I18n.t('activerecord.errors.messages.mismatches_post_type')
+    errors.add(:parent_id, error)
   end
 
   def parent_is_not_too_deep
-    return if parent.nil?
-    if parent.depth >= post_type.category_depth
-      error = I18n.t('activerecord.errors.models.post_category.attributes.parent_id.is_too_deep')
-      errors.add(:parent_id, error)
-    end
+    return if parent.nil? || parent.depth < post_type.category_depth
+
+    error = I18n.t('activerecord.errors.models.post_category.attributes.parent_id.is_too_deep')
+    errors.add(:parent_id, error)
   end
 end
