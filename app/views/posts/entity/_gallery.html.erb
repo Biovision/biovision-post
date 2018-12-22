@@ -1,0 +1,54 @@
+<% if collection.any? %>
+  <section class="post-gallery">
+    <h2><%= t('.heading') %></h2>
+
+    <div class="biovision-slider">
+      <button class="prev"></button>
+      <ul class="container">
+        <% collection.each do |post_image| %>
+        <li class="slider-item">
+          <figure itemprop="image" itemscope itemtype="http://schema.org/ImageObject" role="group">
+            <div class="image">
+              <%= post_image_large(post_image, { itemprop: 'about' }) %>
+            </div>
+            <meta itemprop="url" content="<%= request.protocol + request.host_with_port + post_image.image.url %>"/>
+            <% if post_image.has_image_data? %>
+              <figcaption>
+                <% unless post_image.caption.blank? %>
+                  <div class="image_name" itemprop="caption">
+                    <%= post_image.caption %>
+                  </div>
+                <% end %>
+                <% unless post_image.owner_name.blank? %>
+                  <div class="image_author" itemprop="author">
+                    <span><%= t('posts.post.image_credit') %></span>
+                    <% if post_image.owner_link.blank? %>
+                      <%= post_image.owner_name %>
+                    <% else %>
+                      <%=
+                        link_to(
+                            post_image.owner_name,
+                            post_image.owner_link,
+                            rel: 'external nofollow noopener noreferrer',
+                            itemprop: 'url',
+                            target: '_blank'
+                        )
+                      %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </figcaption>
+            <% end %>
+          </figure>
+          <% unless post_image.description.blank? %>
+          <div class="description">
+            <%= simple_format(post_image.description) %>
+          </div>
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+      <button class="next"></button>
+    </div>
+  </section>
+<% end %>

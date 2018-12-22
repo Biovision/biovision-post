@@ -36,6 +36,18 @@
       <%= t('activerecord.attributes.post.rating') %>: <%= entity.rating %>
     </div>
   </div>
+  <% unless entity.lead.blank? %>
+    <div class="secondary info">
+      <%= entity.lead %>
+    </div>
+  <% end %>
+  <% if entity.post_images.any? %>
+    <div class="secondary info">
+      <% entity.post_images.list_for_administration.each do |post_image| %>
+        <%= post_image_preview(post_image) %>
+      <% end %>
+    </div>
+  <% end %>
   <% if entity.tags_cache.any? %>
     <div class="secondary info">
       <%= t('posts.form.tags') %>: <%= entity.tags_cache.join(', ') %>

@@ -335,6 +335,8 @@ ru:
     entity:
       linked_posts:
         heading: "Читайте также"
+      gallery:
+        heading: "Галерея"
     rss:
       title: "Публикации сайта на Biovision CMS"
       description: "RSS-канал сайта на Biovision CMS"

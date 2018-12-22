@@ -2,6 +2,7 @@
 
 # Post entry
 class Post < ApplicationRecord
+  include Checkable
   include HasOwner
   include CommentableItem if Gem.loaded_specs.key?('biovision-comment')
   include VotableItem if Gem.loaded_specs.key?('biovision-vote')
@@ -144,7 +145,8 @@ class Post < ApplicationRecord
   # Lead or the first passage of body
   def lead!
     if lead.blank?
-      (parsed_body.blank? ? body : parsed_body).match(/<p>(.+?)<\/p>/)[1].to_s[0..499]
+      pattern = %r{<p>(.+?)</p>}
+      (parsed_body.blank? ? body : parsed_body).match(pattern)[1].to_s[0..499]
     else
       lead
     end
@@ -214,7 +216,7 @@ class Post < ApplicationRecord
   # @param [String] input
   def tags_string=(input)
     list = []
-    input.split(/,\s*/).reject { |tag_name| tag_name.blank? }.each do |tag_name|
+    input.split(/,\s*/).reject(&:blank?).each do |tag_name|
       list << PostTag.match_or_create_by_name(post_type_id, tag_name.squish)
     end
     self.post_tags = list.uniq

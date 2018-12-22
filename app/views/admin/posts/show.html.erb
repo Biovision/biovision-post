@@ -116,7 +116,11 @@
     <% end %>
 
     <dt><%= t('activerecord.attributes.post.body') %></dt>
-    <dd><%= simple_format(strip_tags(@entity.body)) %></dd>
+    <dd>
+      <div class="text">
+        <%= raw(@entity.parsed_body) %>
+      </div>
+    </dd>
 
     <% unless @entity.source_name.blank? %>
       <dt><%= t('activerecord.attributes.post.source_name') %></dt>

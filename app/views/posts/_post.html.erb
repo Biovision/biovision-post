@@ -52,6 +52,15 @@
     </div>
   </div>
 
+  <%=
+    render(
+        partial: 'posts/entity/gallery',
+        locals: {
+            collection: post.post_images.list_for_visitors
+        }
+    )
+  %>
+
   <% if post.tags_cache.any? %>
     <ul class="tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
       <% post.tags_cache.each do |tag_name| %>

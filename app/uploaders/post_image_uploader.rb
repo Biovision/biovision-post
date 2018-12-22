@@ -9,7 +9,7 @@ class PostImageUploader < CarrierWave::Uploader::Base
   process :auto_orient
 
   def max_pixel_dimensions
-    [3840, 3840]
+    [7680, 7680]
   end
 
   def store_dir

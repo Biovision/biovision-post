@@ -334,6 +334,8 @@ sv:
     entity:
       linked_posts:
         heading: "Läs också"
+      gallery:
+        heading: "Bildgalleri"
     rss:
       title: "Posts of site on Biovision CMS"
       description: "RSS feed of site on Biovision CMS"

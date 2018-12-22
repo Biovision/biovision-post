@@ -334,6 +334,8 @@ en:
     entity:
       linked_posts:
         heading: "Read also"
+      gallery:
+        heading: "Image gallery"
     rss:
       title: "Posts of site on Biovision CMS"
       description: "RSS feed of site on Biovision CMS"

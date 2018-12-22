@@ -34,7 +34,7 @@ class PostImage < ApplicationRecord
   end
 
   def self.entity_parameters
-    %i(caption description image image_alt_text owner_link owner_name visible)
+    %i[caption description image image_alt_text owner_link owner_name visible]
   end
 
   def self.creation_parameters
@@ -53,6 +53,10 @@ class PostImage < ApplicationRecord
   # @param [User] user
   def editable_by?(user)
     post.editable_by?(user)
+  end
+
+  def has_image_data?
+    !caption.blank? || !owner_name.blank? || !owner_link.blank?
   end
 
   # @param [Integer] delta
