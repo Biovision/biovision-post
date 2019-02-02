@@ -20,6 +20,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.boolean :allow_votes, default: true, null: false
         t.boolean :translation, default: false, null: false
         t.boolean :explicit, default: false, null: false
+        t.boolean :spam, default: false, null: false
         t.float :rating, default: 0.0, null: false
         t.integer :privacy, limit: 2, default: 0
         t.integer :comments_count, default: 0, null: false
@@ -29,7 +30,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
         t.integer :vote_result, default: 0, null: false
         t.integer :time_required, limit: 2
         t.datetime :publication_time
-        t.string :uuid, null: false
+        t.uuid :uuid, null: false
         t.string :title, null: false
         t.string :slug, null: false, index: true
         t.string :image
