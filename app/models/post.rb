@@ -16,7 +16,7 @@ class Post < ApplicationRecord
   end
 
   ALT_LIMIT         = 255
-  BODY_LIMIT        = 50_000
+  BODY_LIMIT        = 512_000
   IMAGE_NAME_LIMIT  = 500
   LEAD_LIMIT        = 5000
   META_LIMIT        = 250
@@ -236,19 +236,27 @@ class Post < ApplicationRecord
   end
 
   def prepare_source_names
-    if image_author_name.blank? && !image_author_link.blank?
-      begin
-        self.image_author_name = URI.parse(image_author_link).host
-      rescue URI::InvalidURIError
-        self.image_author_name = URL_PATTERN.match(image_author_link)[1]
-      end
+    prepare_image_author
+    prepare_source
+  end
+
+  def prepare_image_author
+    return unless image_author_name.blank? && !image_author_link.blank?
+
+    begin
+      self.image_author_name = URI.parse(image_author_link).host
+    rescue URI::InvalidURIError
+      self.image_author_name = URL_PATTERN.match(image_author_link)[1]
     end
-    if source_name.blank? && !source_link.blank?
-      begin
-        self.source_name = URI.parse(source_link).host
-      rescue URI::InvalidURIError
-        self.source_name = URL_PATTERN.match(source_link)[1]
-      end
+  end
+
+  def prepare_source
+    return unless source_name.blank? && !source_link.blank?
+
+    begin
+      self.source_name = URI.parse(source_link).host
+    rescue URI::InvalidURIError
+      self.source_name = URL_PATTERN.match(source_link)[1]
     end
   end
 end
