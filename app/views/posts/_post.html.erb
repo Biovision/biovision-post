@@ -29,13 +29,13 @@
               <%= post.image_name %>
             </div>
           <% end %>
-          <% unless post.image_author_name.blank? %>
-            <div class="image_author" itemprop="author">
+          <% unless post.image_source_name.blank? %>
+            <div class="image_source" itemprop="author">
               <span><%= t('.image_credit') %></span>
-              <% if post.image_author_link.blank? %>
-                <%= post.image_author_name %>
+              <% if post.image_source_link.blank? %>
+                <%= post.image_source_name %>
               <% else %>
-                <%= link_to(post.image_author_name, post.image_author_link, rel: 'external nofollow noopener noreferrer', itemprop: 'url', target: '_blank') %>
+                <%= link_to(post.image_source_name, post.image_source_link, rel: 'external nofollow noopener noreferrer', itemprop: 'url', target: '_blank') %>
               <% end %>
             </div>
           <% end %>

@@ -82,31 +82,31 @@
       %>
     </dd>
 
-    <dt><%= f.label :owner_name %></dt>
+    <dt><%= f.label :source_name %></dt>
     <dd>
       <%=
         f.text_field(
-            :owner_name,
-            id:        "#{model_name}_owner_name",
+            :source_name,
+            id:        "#{model_name}_source_name",
             size:      nil,
             maxlength: PostImage::META_LIMIT
         )
       %>
-      <div class="guideline"><%= t('.guidelines.owner_name') %></div>
+      <div class="guideline"><%= t('.guidelines.source_name') %></div>
     </dd>
 
-    <dt><%= f.label :owner_link %></dt>
+    <dt><%= f.label :source_link %></dt>
     <dd>
       <%=
         f.url_field(
-            :owner_link,
-            id:          "#{model_name}_owner_link",
+            :source_link,
+            id:          "#{model_name}_source_link",
             size:        nil,
             maxlength:   Post::META_LIMIT,
-            placeholder: t('.placeholders.owner_link')
+            placeholder: t('.placeholders.source_link')
         )
       %>
-      <div class="guideline"><%= t('.guidelines.owner_link') %></div>
+      <div class="guideline"><%= t('.guidelines.source_link') %></div>
     </dd>
 
     <%= render(partial: 'shared/forms/entity_flags', locals: { f: f }) %>

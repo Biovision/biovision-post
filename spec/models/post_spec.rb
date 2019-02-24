@@ -127,16 +127,16 @@ RSpec.describe Post, type: :model do
       expect(subject.errors.messages).to have_key(:image_name)
     end
 
-    it 'fails with too long image author name' do
-      subject.image_author_name = 'A' * 251
+    it 'fails with too long image source name' do
+      subject.image_source_name = 'A' * 251
       expect(subject).not_to be_valid
-      expect(subject.errors.messages).to have_key(:image_author_name)
+      expect(subject.errors.messages).to have_key(:image_source_name)
     end
 
-    it 'fails with too long image author link' do
-      subject.image_author_link = 'http://' + 'a' * 244
+    it 'fails with too long image source link' do
+      subject.image_source_link = 'http://' + 'a' * 244
       expect(subject).not_to be_valid
-      expect(subject.errors.messages).to have_key(:image_author_link)
+      expect(subject.errors.messages).to have_key(:image_source_link)
     end
   end
 end

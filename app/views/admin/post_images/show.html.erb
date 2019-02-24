@@ -31,14 +31,14 @@
     <dt><%= t('activerecord.attributes.post_image.post') %></dt>
     <dd><%= admin_post_link(@entity.post) %></dd>
 
-    <% unless @entity.owner_name.blank? %>
-      <dt><%= t('activerecord.attributes.post_image.owner_name') %></dt>
-      <dd><%= @entity.owner_name %></dd>
+    <% unless @entity.source_name.blank? %>
+      <dt><%= t('activerecord.attributes.post_image.source_name') %></dt>
+      <dd><%= @entity.source_name %></dd>
     <% end %>
 
-    <% unless @entity.owner_link.blank? %>
-      <dt><%= t('activerecord.attributes.post_image.owner_link') %></dt>
-      <dd><%= @entity.owner_link %></dd>
+    <% unless @entity.source_link.blank? %>
+      <dt><%= t('activerecord.attributes.post_image.source_link') %></dt>
+      <dd><%= @entity.source_link %></dd>
     <% end %>
 
     <% unless @entity.description.blank? %>

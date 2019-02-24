@@ -11,14 +11,15 @@ class PostImage < ApplicationRecord
 
   belongs_to :post
 
+  after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize :set_next_priority
   before_validation :normalize_priority
 
   validates_presence_of :image
   validates_length_of :image_alt_text, maximum: META_LIMIT
   validates_length_of :caption, maximum: META_LIMIT
-  validates_length_of :owner_name, maximum: META_LIMIT
-  validates_length_of :owner_link, maximum: META_LIMIT
+  validates_length_of :source_name, maximum: META_LIMIT
+  validates_length_of :source_link, maximum: META_LIMIT
   validates_length_of :description, maximum: DESCRIPTION_LIMIT
 
   scope :recent, -> { order('id desc') }
@@ -34,7 +35,7 @@ class PostImage < ApplicationRecord
   end
 
   def self.entity_parameters
-    %i[caption description image image_alt_text owner_link owner_name visible]
+    %i[caption description image image_alt_text source_link source_name visible]
   end
 
   def self.creation_parameters
@@ -56,7 +57,7 @@ class PostImage < ApplicationRecord
   end
 
   def has_image_data?
-    !caption.blank? || !owner_name.blank? || !owner_link.blank?
+    !caption.blank? || !source_name.blank? || !source_link.blank?
   end
 
   # @param [Integer] delta

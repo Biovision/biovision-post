@@ -62,8 +62,8 @@ class Post < ApplicationRecord
   validates_length_of :body, maximum: BODY_LIMIT
   validates_length_of :image_name, maximum: IMAGE_NAME_LIMIT
   validates_length_of :image_alt_text, maximum: ALT_LIMIT
-  validates_length_of :image_author_name, maximum: META_LIMIT
-  validates_length_of :image_author_link, maximum: META_LIMIT
+  validates_length_of :image_source_name, maximum: META_LIMIT
+  validates_length_of :image_source_link, maximum: META_LIMIT
   validates_length_of :source_link, maximum: META_LIMIT
   validates_length_of :source_name, maximum: META_LIMIT
   validates_length_of :original_title, maximum: META_LIMIT
@@ -115,7 +115,7 @@ class Post < ApplicationRecord
 
   def self.entity_parameters
     main_data   = %i[body language_id lead original_title post_category_id publication_time region_id slug title]
-    image_data  = %i[image image_alt_text image_author_link image_author_name image_name]
+    image_data  = %i[image image_alt_text image_source_link image_source_name image_name]
     meta_data   = %i[rating source_name source_link meta_title meta_description meta_keywords time_required]
     flags_data  = %i[allow_comments allow_votes explicit show_owner visible translation]
     author_data = %i[author_name author_title author_url translator_name]
@@ -202,7 +202,7 @@ class Post < ApplicationRecord
   end
 
   def has_image_data?
-    !image_name.blank? || !image_author_name.blank? || !image_author_link.blank?
+    !image_name.blank? || !image_source_name.blank? || !image_source_link.blank?
   end
 
   def has_source_data?
@@ -236,17 +236,17 @@ class Post < ApplicationRecord
   end
 
   def prepare_source_names
-    prepare_image_author
+    prepare_image_source
     prepare_source
   end
 
-  def prepare_image_author
-    return unless image_author_name.blank? && !image_author_link.blank?
+  def prepare_image_source
+    return unless image_source_name.blank? && !image_source_link.blank?
 
     begin
-      self.image_author_name = URI.parse(image_author_link).host
+      self.image_source_name = URI.parse(image_source_link).host
     rescue URI::InvalidURIError
-      self.image_author_name = URL_PATTERN.match(image_author_link)[1]
+      self.image_source_name = URL_PATTERN.match(image_source_link)[1]
     end
   end
 

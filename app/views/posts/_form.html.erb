@@ -247,31 +247,31 @@
       <div class="guideline"><%= t('.guidelines.image_name') %></div>
     </dd>
 
-    <dt><%= f.label :image_author_name %></dt>
+    <dt><%= f.label :image_source_name %></dt>
     <dd>
       <%=
         f.text_field(
-            :image_author_name,
-            id:        "#{model_name}_image_author_name",
+            :image_source_name,
+            id:        "#{model_name}_image_source_name",
             size:      nil,
             maxlength: Post::META_LIMIT
         )
       %>
-      <div class="guideline"><%= t('.guidelines.image_author_name') %></div>
+      <div class="guideline"><%= t('.guidelines.image_source_name') %></div>
     </dd>
 
-    <dt><%= f.label :image_author_link %></dt>
+    <dt><%= f.label :image_source_link %></dt>
     <dd>
       <%=
         f.url_field(
-            :image_author_link,
-            id:          "#{model_name}_image_author_link",
+            :image_source_link,
+            id:          "#{model_name}_image_source_link",
             size:        nil,
             maxlength:   Post::META_LIMIT,
-            placeholder: t('.placeholders.image_author_link')
+            placeholder: t('.placeholders.image_source_link')
         )
       %>
-      <div class="guideline"><%= t('.guidelines.image_author_link') %></div>
+      <div class="guideline"><%= t('.guidelines.image_source_link') %></div>
     </dd>
 
     <dt><%= f.label :source_name %></dt>

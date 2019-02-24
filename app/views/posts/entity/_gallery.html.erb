@@ -19,16 +19,16 @@
                     <%= post_image.caption %>
                   </div>
                 <% end %>
-                <% unless post_image.owner_name.blank? %>
-                  <div class="image_author" itemprop="author">
+                <% unless post_image.source_name.blank? %>
+                  <div class="image_source" itemprop="author">
                     <span><%= t('posts.post.image_credit') %></span>
-                    <% if post_image.owner_link.blank? %>
-                      <%= post_image.owner_name %>
+                    <% if post_image.source_link.blank? %>
+                      <%= post_image.source_name %>
                     <% else %>
                       <%=
                         link_to(
-                            post_image.owner_name,
-                            post_image.owner_link,
+                            post_image.source_name,
+                            post_image.source_link,
                             rel: 'external nofollow noopener noreferrer',
                             itemprop: 'url',
                             target: '_blank'

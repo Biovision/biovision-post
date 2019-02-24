@@ -95,14 +95,14 @@
       <dd><%= @entity.image_name %></dd>
     <% end %>
 
-    <% unless @entity.image_author_name.blank? %>
-      <dt><%= t('activerecord.attributes.post.image_author_name') %></dt>
-      <dd><%= @entity.image_author_name %></dd>
+    <% unless @entity.image_source_name.blank? %>
+      <dt><%= t('activerecord.attributes.post.image_source_name') %></dt>
+      <dd><%= @entity.image_source_name %></dd>
     <% end %>
 
-    <% unless @entity.image_author_link.blank? %>
-      <dt><%= t('activerecord.attributes.post.image_author_link') %></dt>
-      <dd><%= @entity.image_author_link %></dd>
+    <% unless @entity.image_source_link.blank? %>
+      <dt><%= t('activerecord.attributes.post.image_source_link') %></dt>
+      <dd><%= @entity.image_source_link %></dd>
     <% end %>
 
     <% unless @entity.lead.blank? %>
