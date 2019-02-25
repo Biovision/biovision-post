@@ -4,7 +4,7 @@
 class RenamePostImageSource < ActiveRecord::Migration[5.2]
   def up
     rename_post_fields unless column_exists?(:posts, :image_source_name)
-    rename_post_image_fields unless column_exists?(:post_images, :owner_name)
+    rename_post_image_fields unless column_exists?(:post_images, :source_name)
   end
 
   def down
