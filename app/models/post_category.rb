@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
+# Post category
 class PostCategory < ApplicationRecord
+  include Checkable
   include Toggleable
 
   PRIORITY_RANGE = (1..100)
@@ -24,7 +28,7 @@ class PostCategory < ApplicationRecord
   after_save { parent.cache_children! unless parent.nil? }
 
   validates_presence_of :name, :slug
-  validates_uniqueness_of :name, scope: [:parent_id]
+  validates_uniqueness_of :name, scope: %i[post_type_id parent_id]
   validates_uniqueness_of :slug, scope: [:post_type_id]
   validates_length_of :name, maximum: NAME_LIMIT
   validates_length_of :meta_description, maximum: META_LIMIT
