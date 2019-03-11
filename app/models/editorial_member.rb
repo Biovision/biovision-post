@@ -1,3 +1,16 @@
+# frozen_string_literal: true
+
+# Editorial member
+#
+# Attributes:
+#   about [Text], optional
+#   created_at [DateTime]
+#   user_id [User]
+#   visible [Boolean]
+#   priority [Integer]
+#   updated_at [DateTime]
+#   title [String], optional
+#   lead [String], optional
 class EditorialMember < ApplicationRecord
   include HasOwner
   include Toggleable

@@ -1,0 +1,6 @@
+<%= form_with(url: search_posts_path, local: true, method: :get) do %>
+  <div>
+    <%= search_field_tag(:q) %>
+    <%= button_tag(t('admin.posts.entity.links.search'), type: :submit) %>
+  </div>
+<% end %>

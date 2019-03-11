@@ -344,6 +344,10 @@ ru:
       title: "Архив публикаций"
     calendar:
       heading: "Архив"
+    search:
+      title: "Поиск публикаций"
+      nav_text: "Поиск публикаций"
+      heading: "Поиск публикаций"
   index:
     dashboard:
       biovision_post:

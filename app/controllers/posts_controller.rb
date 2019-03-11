@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Posts management
 class PostsController < ApplicationController
   before_action :restrict_access, only: %i[new create]
   before_action :set_entity, only: %i[edit update destroy]
@@ -67,6 +70,11 @@ class PostsController < ApplicationController
       format.html
       format.json { render('posts/index') }
     end
+  end
+
+  # get /posts/search?q=
+  def search
+    @collection = params.key?(:q) ? search_posts(param_from_request(:q)) : []
   end
 
   # get /posts/rss/zen.xml
@@ -146,5 +154,14 @@ class PostsController < ApplicationController
     return unless params.key?(:month)
 
     @dates[year]&.select! { |k, _| k == params[:month].to_i }
+  end
+
+  # @param [String] q
+  def search_posts(q)
+    if Post.respond_to?(:search)
+      Post.search(q).records.first(50).select(&:visible_to_visitors?)
+    else
+      Post.where('title ilike ?', "%#{q}%").list_for_visitors.first(50)
+    end
   end
 end

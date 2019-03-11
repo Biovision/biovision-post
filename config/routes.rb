@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :post_categories, except: %i[index show update destroy]
     resources :posts, except: %i[new update destroy] do
       collection do
+        get 'search'
         get 'categories/:category_slug' => :category, as: :posts_category, constraints: { category_slug: category_slug_pattern }
         get 'tagged/(:tag_name)' => :tagged, as: :tagged, constraints: { tag_name: /[^\/]+?/ }
         get 'archive/(:year)(-:month)(-:day)' => :archive, as: :archive, constraints: archive_constraints

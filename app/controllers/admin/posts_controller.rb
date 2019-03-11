@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Administrative part for posts management
 class Admin::PostsController < AdminController
   include LockableEntity
   include ToggleableEntity
@@ -20,11 +23,7 @@ class Admin::PostsController < AdminController
 
   # get /admin/posts/search?q=
   def search
-    if params.key?(:q)
-      @collection = search_posts(param_from_request(:q))
-    else
-      @collection = []
-    end
+    @collection = params.key?(:q) ? search_posts(param_from_request(:q)) : []
   end
 
   private
@@ -40,11 +39,12 @@ class Admin::PostsController < AdminController
     require_privilege_group :editors
   end
 
+  # @param [String] q
   def search_posts(q)
     if Post.respond_to?(:search)
-      Post.search(q).records.first(20)
+      Post.search(q).records.first(50)
     else
-      Post.where('title ilike ?', "%#{q}%").list_for_administration.first(20)
+      Post.where('title ilike ?', "%#{q}%").list_for_administration.first(50)
     end
   end
 end

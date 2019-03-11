@@ -1,0 +1,15 @@
+<% content_for :meta_title, t('.title') %>
+<% content_for :breadcrumbs do %>
+  <span><%= t('.nav_text') %></span>
+<% end %>
+
+<article class="recent-posts">
+  <h1><%= t('.heading') %></h1>
+  <%= render partial: 'posts/search' %>
+
+  <% if @collection.any? %>
+    <div class="list">
+      <%= render partial: 'posts/list', locals: { collection: @collection } %>
+    </div>
+  <% end %>
+</article>
