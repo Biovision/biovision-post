@@ -78,7 +78,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.text :body, null: false
       t.text :parsed_body
       t.string :tags_cache, array: true, default: [], null: false
-      t.json :data, default: {}, null: false
+      t.jsonb :data, default: {}, null: false
     end
 
     execute "create index posts_created_at_month_idx on posts using btree (date_trunc('month', created_at), post_type_id, user_id);"
@@ -87,6 +87,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
 
     add_index :posts, :created_at
+    add_index :posts, :data, using: :gin
 
     if Gem.loaded_specs.key?('elasticsearch-model')
       Post.__elasticsearch__.create_index!
