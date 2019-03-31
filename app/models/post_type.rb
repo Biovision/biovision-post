@@ -1,11 +1,23 @@
+# frozen_string_literal: true
+
+# Post type
+#
+# Attributes:
+#   active [Boolean]
+#   category_depth [Integer]
+#   created_at [DateTime]
+#   default_category_name [String], optional
+#   name [String]
+#   slug [String]
+#   updated_at [DateTime]
 class PostType < ApplicationRecord
   include RequiredUniqueName
   include RequiredUniqueSlug
 
   NAME_LIMIT = 50
   SLUG_LIMIT = 50
-  SLUG_PATTERN = /\A[a-z]+[0-9a-z_]*[0-9a-z]\z/
-  DEPTH_RANGE = (0..10)
+  SLUG_PATTERN = /\A[a-z]+[0-9a-z_]*[0-9a-z]\z/.freeze
+  DEPTH_RANGE = (0..10).freeze
 
   has_many :post_categories, dependent: :destroy
   has_many :posts
@@ -17,6 +29,7 @@ class PostType < ApplicationRecord
   validates_inclusion_of :category_depth, in: DEPTH_RANGE
 
   scope :active, -> { where(active: true) }
+  scope :list_for_administration, -> { active.ordered_by_name }
 
   def self.page_for_administration
     active.ordered_by_name
