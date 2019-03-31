@@ -146,7 +146,9 @@ class Post < ApplicationRecord
   def lead!
     if lead.blank?
       pattern = %r{<p>(.+?)</p>}
-      (parsed_body.blank? ? body : parsed_body).match(pattern)[1].to_s[0..499]
+      chunk = parsed_body.blank? ? body : parsed_body
+      passage = chunk.match(pattern)
+      (passage.nil? ? chunk : passage[1]).to_s[0..499]
     else
       lead
     end
