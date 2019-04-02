@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
+# Manager for handling post-related cases
 class PostManager
   # @param [Post] entity
   # @param [Symbol|String] locale
   def initialize(entity, locale = I18n.locale)
     @entity = entity
     @body   = entity.body.to_s
-    @prefix = (locale.nil? || locale == I18n.default_locale) ? '' : "/#{locale}"
+    @prefix = locale.nil? || locale == I18n.default_locale ? '' : "/#{locale}"
   end
 
   # @param [Post] entity
@@ -37,7 +40,7 @@ class PostManager
 
   # @param [String] tag_name
   def tagged_path(tag_name)
-    "#{@prefix}/posts/tagged/#{URI.encode(tag_name)}"
+    "#{@prefix}/posts/tagged/#{CGI.escape(tag_name)}"
   end
 
   # @param [PostCategory] category

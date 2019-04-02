@@ -1,7 +1,6 @@
-<script src="https://cdn.ckeditor.com/ckeditor5/10.1.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
 <script>
     'use strict';
-
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('form [data-wysiwyg]').forEach(function (editor) {
             editor.required = false;
@@ -11,7 +10,7 @@
                         toolbar: ['imageTextAlternative']
                     },
                     ckfinder: {
-                        uploadUrl: '/media_files/ckeditor'
+                        uploadUrl: editor.getAttribute('data-upload-url')
                     }
                 })
                 .catch(error => console.error(error));

@@ -92,20 +92,6 @@
       </dd>
     <% end %>
 
-    <% if Gem.loaded_specs.key?('biovision-regions') && Region.any? %>
-      <dt><%= f.label :region_id %></dt>
-      <dd>
-        <%# radio_button_tag 'post[region_id]', '', entity.region.nil?, id: 'post_region_0' %>
-        <%# label_tag 'post_region_0', t(:not_set) %><br/>
-        <% unless entity.region.nil? %>
-          <%# radio_button_tag 'post[region_id]', entity.region_id, true, id: 'post_region_default' %>
-          <%# label_tag 'post_region_default', entity.region.branch_name %>
-          <br/>
-        <% end %>
-        <%# render partial: 'admin/regions/post_form', locals: { form: f } %>
-      </dd>
-    <% end %>
-
     <dt><%= f.label :lead %></dt>
     <dd>
       <%=
@@ -134,7 +120,10 @@
             cols:     20,
             rows:     25,
             required: true,
-            data:     { wysiwyg: 1 }
+            data:     {
+                wysiwyg: 1,
+                upload_url: post_illustrations_path
+            }
         )
       %>
     </dd>
@@ -203,7 +192,7 @@
       <% figure_id = "#{model_name}-image" %>
       <figure role="group" class="preview" id="<%= figure_id %>">
         <% if entity.image.blank? %>
-          <%= f.label :image, image_tag('biovision/base/placeholders/image.svg') %>
+          <%= f.label :image, image_tag('biovision/base/placeholders/3x2.svg') %>
         <% else %>
           <%= f.label :image, image_tag(entity.image.big.url) %>
         <% end %>

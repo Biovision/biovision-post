@@ -33,7 +33,6 @@ class Post < ApplicationRecord
   mount_uploader :image, PostImageUploader
 
   belongs_to :user
-  belongs_to :region, optional: true if Gem.loaded_specs.key?('biovision-regions')
   belongs_to :post_type, counter_cache: true
   belongs_to :post_category, counter_cache: true, optional: true
   belongs_to :language, optional: true
@@ -114,7 +113,7 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i[body language_id lead original_title post_category_id publication_time region_id slug title]
+    main_data   = %i[body language_id lead original_title post_category_id publication_time slug title]
     image_data  = %i[image image_alt_text image_source_link image_source_name image_name]
     meta_data   = %i[rating source_name source_link meta_title meta_description meta_keywords time_required]
     flags_data  = %i[allow_comments allow_votes explicit show_owner visible translation]

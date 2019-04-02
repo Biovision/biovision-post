@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   resources :post_links, only: :destroy
   resources :editorial_members, only: %i[update destroy]
   resources :featured_posts, only: :destroy
+  resources :post_illustrations, only: :create
 
-  scope '/(:locale)', constraints: { locale: /ru|en|sv/ } do
+  scope '/(:locale)', constraints: { locale: /ru|en|sv|cn/ } do
     resources :post_categories, except: %i[index show update destroy]
     resources :posts, except: %i[new update destroy] do
       collection do
