@@ -1,4 +1,7 @@
-<% model_name = entity.class.to_s.underscore %>
+<%
+  model_name = entity.class.to_s.underscore
+  languages = Language.active
+%>
 <%= form_with model: entity, html: { id: "#{model_name}-form" } do |f| %>
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
@@ -35,15 +38,17 @@
       </dd>
     <% end %>
 
-    <dt><%= f.label :language_id %></dt>
-    <dd><%= f.select :language_id, languages_for_select(false) %></dd>
+    <% if languages.count > 1 %>
+      <dt><%= f.label :language_id %></dt>
+      <dd><%= f.select :language_id, languages_for_select(false) %></dd>
+    <% end %>
 
     <dt><%= f.label :publication_time %></dt>
     <dd>
       <%=
         f.datetime_local_field(
             :publication_time,
-            id:       "#{model_name}_publication_time",
+            id: "#{model_name}_publication_time",
             required: true
         )
       %>
@@ -54,11 +59,11 @@
       <%=
         f.text_field(
             :title,
-            id:        "#{model_name}_title",
-            size:      nil,
+            id: "#{model_name}_title",
+            size: nil,
             maxlength: Post::TITLE_LIMIT,
-            required:  true,
-            data:      { transliterate: "#{model_name}_slug" }
+            required: true,
+            data: { transliterate: "#{model_name}_slug" }
         )
       %>
       <div class="guideline"><%= t('.guidelines.title') %></div>
@@ -69,12 +74,12 @@
       <%=
         f.text_field(
             :slug,
-            id:        "#{model_name}_slug",
-            size:      nil,
+            id: "#{model_name}_slug",
+            size: nil,
             maxlength: Post::SLUG_LIMIT,
-            required:  true,
-            pattern:   Post::SLUG_PATTERN_HTML,
-            title:     t('.guidelines.slug')
+            required: true,
+            pattern: Post::SLUG_PATTERN_HTML,
+            title: t('.guidelines.slug')
         )
       %>
       <div class="guideline"><%= t('.guidelines.slug') %></div>
@@ -97,12 +102,12 @@
       <%=
         f.text_area(
             :lead,
-            id:        "#{model_name}_lead",
-            cols:      80,
-            rows:      3,
+            id: "#{model_name}_lead",
+            cols: 80,
+            rows: 3,
             maxlength: Post::LEAD_LIMIT,
-            class:     'auto-expand',
-            data:      {
+            class: 'auto-expand',
+            data: {
                 min_rows: 3,
                 max_rows: 10
             }
@@ -116,11 +121,11 @@
       <%=
         f.text_area(
             :body,
-            id:       "#{model_name}_body",
-            cols:     20,
-            rows:     25,
+            id: "#{model_name}_body",
+            cols: 20,
+            rows: 25,
             required: true,
-            data:     {
+            data: {
                 wysiwyg: 1,
                 upload_url: post_illustrations_path
             }
@@ -140,9 +145,9 @@
       <%=
         f.number_field(
             :time_required,
-            id:   "#{model_name}_time_required",
+            id: "#{model_name}_time_required",
             size: nil,
-            in:   Post::TIME_RANGE
+            in: Post::TIME_RANGE
         )
       %>
       <div class="guideline"><%= t('.guidelines.time_required') %></div>
@@ -153,8 +158,8 @@
       <%=
         f.text_field(
             :author_name,
-            id:        "#{model_name}_author_name",
-            size:      nil,
+            id: "#{model_name}_author_name",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -166,8 +171,8 @@
       <%=
         f.text_field(
             :author_title,
-            id:        "#{model_name}_author_title",
-            size:      nil,
+            id: "#{model_name}_author_title",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -179,8 +184,8 @@
       <%=
         f.url_field(
             :author_url,
-            id:        "#{model_name}_author_url",
-            size:      nil,
+            id: "#{model_name}_author_url",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -200,9 +205,9 @@
           <%=
             f.file_field(
                 :image,
-                id:     "#{model_name}_image",
+                id: "#{model_name}_image",
                 accept: 'image/jpeg,image/png',
-                data:   { image: figure_id }
+                data: { image: figure_id }
             )
           %>
         </figcaption>
@@ -215,8 +220,8 @@
       <%=
         f.text_field(
             :image_alt_text,
-            id:        "#{model_name}_image_alt_text",
-            size:      nil,
+            id: "#{model_name}_image_alt_text",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -228,8 +233,8 @@
       <%=
         f.text_field(
             :image_name,
-            id:        "#{model_name}_image_name",
-            size:      nil,
+            id: "#{model_name}_image_name",
+            size: nil,
             maxlength: Post::IMAGE_NAME_LIMIT
         )
       %>
@@ -241,8 +246,8 @@
       <%=
         f.text_field(
             :image_source_name,
-            id:        "#{model_name}_image_source_name",
-            size:      nil,
+            id: "#{model_name}_image_source_name",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -254,9 +259,9 @@
       <%=
         f.url_field(
             :image_source_link,
-            id:          "#{model_name}_image_source_link",
-            size:        nil,
-            maxlength:   Post::META_LIMIT,
+            id: "#{model_name}_image_source_link",
+            size: nil,
+            maxlength: Post::META_LIMIT,
             placeholder: t('.placeholders.image_source_link')
         )
       %>
@@ -268,8 +273,8 @@
       <%=
         f.text_field(
             :source_name,
-            id:        "#{model_name}_source_name",
-            size:      nil,
+            id: "#{model_name}_source_name",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -281,8 +286,8 @@
       <%=
         f.text_field(
             :original_title,
-            id:        "#{model_name}_original_title",
-            size:      nil,
+            id: "#{model_name}_original_title",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -294,9 +299,9 @@
       <%=
         f.url_field(
             :source_link,
-            id:          "#{model_name}_source_link",
-            size:        nil,
-            maxlength:   Post::META_LIMIT,
+            id: "#{model_name}_source_link",
+            size: nil,
+            maxlength: Post::META_LIMIT,
             placeholder: t('.placeholders.source_link')
         )
       %>
@@ -308,8 +313,8 @@
       <%=
         f.text_field(
             :meta_title,
-            id:        "#{model_name}_meta_title",
-            size:      nil,
+            id: "#{model_name}_meta_title",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -321,8 +326,8 @@
       <%=
         f.text_field(
             :meta_description,
-            id:        "#{model_name}_meta_description",
-            size:      nil,
+            id: "#{model_name}_meta_description",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -334,8 +339,8 @@
       <%=
         f.text_field(
             :meta_keywords,
-            id:        "#{model_name}_meta_keywords",
-            size:      nil,
+            id: "#{model_name}_meta_keywords",
+            size: nil,
             maxlength: Post::META_LIMIT
         )
       %>
@@ -348,7 +353,7 @@
         <%=
           f.number_field(
               :rating,
-              id:   "#{model_name}_rating",
+              id: "#{model_name}_rating",
               step: 0.0000001,
               size: 5
           )
@@ -379,8 +384,8 @@
             <%=
               f.text_field(
                   :translator_name,
-                  id:        "#{model_name}_translator_name",
-                  size:      nil,
+                  id: "#{model_name}_translator_name",
+                  size: nil,
                   maxlength: Post::META_LIMIT
               )
             %>
@@ -407,6 +412,10 @@
   <%= render 'shared/forms/state_container' %>
 
   <div class="buttons">
+    <% if languages.count == 1 %>
+      <% entity.language = languges.first %>
+      <%= f.hidden_field :language_id %>
+    <% end %>
     <%= f.hidden_field :post_type_id if entity.id.nil? %>
     <%= f.button t(:save), type: :submit, class: 'button-save' %>
   </div>

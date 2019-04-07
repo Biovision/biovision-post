@@ -22,6 +22,8 @@ class EditorialMember < ApplicationRecord
   toggleable :visible
 
   belongs_to :user
+  has_many :editorial_member_post_types, dependent: :delete_all
+  has_many :post_types, through: :editorial_member_post_types
 
   after_initialize :set_next_priority
   before_validation :normalize_priority
@@ -60,5 +62,20 @@ class EditorialMember < ApplicationRecord
 
   def post_count
     Post.owned_by(user).count
+  end
+
+  # @param [PostType] post_type
+  def post_type?(post_type)
+    editorial_member_post_types.where(post_type: post_type).exists?
+  end
+
+  # @param [PostType] post_type
+  def add_post_type(post_type)
+    editorial_member_post_types.create(post_type: post_type)
+  end
+
+  # @param [PostType] post_type
+  def remove_post_type(post_type)
+    editorial_member_post_types.where(post_type: post_type).delete_all
   end
 end

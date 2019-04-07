@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Administrative part of post type management
 class Admin::PostTypesController < AdminController
   before_action :set_entity, except: [:index]
 
@@ -20,13 +23,16 @@ class Admin::PostTypesController < AdminController
     @collection = @entity.post_tags.page_for_administration(current_page)
   end
 
+  # get /admin/post_types/:id/authors
+  def authors
+    @collection = @entity.editorial_members.list_for_administration
+  end
+
   private
 
   def set_entity
     @entity = PostType.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post type')
-    end
+    handle_http_404('Cannot find post type') if @entity.nil?
   end
 
   def restrict_access

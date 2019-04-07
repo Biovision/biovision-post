@@ -66,18 +66,22 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
   end
 
   def create_default_types
-    PostType.create(slug: 'blog_post', name: 'Запись в блоге', default_category_name: 'Блог')
-    PostType.create(slug: 'article', name: 'Статья', default_category_name: 'Статьи')
-    PostType.create(slug: 'news', name: 'Новость', default_category_name: 'Новости')
+    items = {
+      blog_post: ['Запись в блоге', 'Блог'],
+      article: %w[Статья Статьи],
+      news: %w[Новость Новости]
+    }
+
+    items.each do |slug, data|
+      PostType.create(slug: slug, name: data[0], default_category_name: data[1])
+    end
   end
 
   def create_privileges
     group        = PrivilegeGroup.find_by(slug: 'editors') || PrivilegeGroup.create!(slug: 'editors', name: 'Редакторы')
     chief_editor = Privilege.find_by(slug: 'chief_editor') || Privilege.create(slug: 'chief_editor', name: 'Главный редактор')
     children     = {
-      editor:   'Редактор',
-      reporter: 'Репортёр',
-      blogger:  'Блогер'
+      editor: 'Редактор'
     }
 
     children.each do |slug, name|

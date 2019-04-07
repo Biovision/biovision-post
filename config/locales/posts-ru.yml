@@ -10,6 +10,7 @@ ru:
   activerecord:
     models:
       editorial_member: "Член редакции"
+      editorial_member_post_type: "Тип публикации для члена редакции"
       featured_post: "Избранная публикация"
       post: "Публикация"
       post_category: "Категория публикации"
@@ -36,6 +37,11 @@ ru:
         user: "Пользователь"
         user_id: "Пользователь"
         visible: "Показывать"
+      editorial_member_post_type:
+        editorial_member: "Член редакции"
+        editorial_member_id: "Член редакции"
+        post_type: "Тип публикации"
+        post_type_id: "Тип публикации"
       featured_post:
         language: "Язык"
         language_id: "Язык"
@@ -137,6 +143,7 @@ ru:
       show:
         heading: "Член редакции"
         title: "Редакция: %{name}"
+        post_types: "Доступные типы публикаций"
     featured_posts:
       nav_item:
         description: "Управление списком избранных публикаций"
@@ -193,6 +200,10 @@ ru:
       new_post:
         title: "Новая публикация типа «%{name}»"
         heading: "Добавить публикацию"
+      authors:
+        title: "Авторы для типа публикаций «%{name}»"
+        nav_text: "Авторы"
+        heading: "Авторы"
     posts:
       nav_item:
         description: "Управление публикациями"
@@ -233,6 +244,7 @@ ru:
         about: "Максимум 5000 символов."
         lead: "Максимум 170 символов."
         title: "Максимум 150 символов."
+      post_types: "Доступные типы публикаций"
   post_categories:
     new:
       title: "Новая категория публикаций"

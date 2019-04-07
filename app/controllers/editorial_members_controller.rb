@@ -10,6 +10,7 @@ class EditorialMembersController < AdminController
   def create
     @entity = EditorialMember.new(creation_parameters)
     if @entity.save
+      set_post_type_links
       form_processed_ok(admin_editorial_member_path(id: @entity.id))
     else
       form_processed_with_error(:new)
@@ -23,6 +24,7 @@ class EditorialMembersController < AdminController
   # patch /editorial_members/:id
   def update
     if @entity.update(entity_parameters)
+      set_post_type_links
       form_processed_ok(admin_editorial_member_path(id: @entity.id))
     else
       form_processed_with_error(:edit)
@@ -31,9 +33,8 @@ class EditorialMembersController < AdminController
 
   # delete /editorial_members/:id
   def destroy
-    if @entity.destroy
-      flash[:notice] = t('editorial_members.destroy.success')
-    end
+    flash[:notice] = t('editorial_members.destroy.success') if @entity.destroy
+
     redirect_to editorial_members_admin_post_type_path(id: @entity.post_type_id)
   end
 
@@ -56,5 +57,9 @@ class EditorialMembersController < AdminController
 
   def creation_parameters
     params.require(:editorial_member).permit(EditorialMember.creation_parameters)
+  end
+
+  def set_post_type_links
+    @entity.post_type_ids = Array(params[:post_type_ids]).map(&:to_i)
   end
 end

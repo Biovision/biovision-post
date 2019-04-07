@@ -27,6 +27,13 @@
           class: 'button-nav'
       )
     %>
+    <%=
+      link_to(
+          t('admin.post_types.authors.nav_text'),
+          authors_admin_post_type_path(id: @entity.id),
+          class: 'button-nav'
+      )
+    %>
   </nav>
 
   <dl>

@@ -6,7 +6,7 @@ class PostManager
   # @param [Symbol|String] locale
   def initialize(entity, locale = I18n.locale)
     @entity = entity
-    @body   = entity.body.to_s
+    @body = entity.body.to_s
     @prefix = locale.nil? || locale == I18n.default_locale ? '' : "/#{locale}"
   end
 
@@ -14,9 +14,19 @@ class PostManager
   # @param [Symbol|String] locale
   # @return PostManager
   def self.handler(entity, locale = I18n.locale)
-    handler_name  = "post_manager/#{entity.post_type.slug}_handler".classify
+    handler_name = "post_manager/#{entity.post_type.slug}_handler".classify
     handler_class = handler_name.safe_constantize || PostManager
     handler_class.new(entity, locale)
+  end
+
+  # @param [User] user
+  # @param [String|PostType] type
+  def self.editor?(user, type)
+    return true if UserPrivilege.user_has_privilege?(user, :chief_editor)
+
+    type = PostType.find_by(slug: type) unless type.is_a?(PostType)
+
+    EditorialMember.find_by(user: user)&.post_type?(type)
   end
 
   # @param [Post] post

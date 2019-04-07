@@ -16,7 +16,7 @@
         <%=
           render(
               partial: 'admin/users/search',
-              locals:  { target_id: "#{model_name}_user_id" }
+              locals: { target_id: "#{model_name}_user_id" }
           )
         %>
       </dd>
@@ -27,27 +27,17 @@
       </dd>
     <% end %>
 
-    <dt><%= f.label :priority %></dt>
-    <dd>
-      <%=
-        f.number_field(
-            :priority,
-            id:       "#{model_name}_priority",
-            in:       EditorialMember::PRIORITY_RANGE,
-            required: true
-        )
-      %>
-    </dd>
+    <%= render partial: 'shared/forms/priority', locals: { f: f } %>
 
     <dt><%= f.label :title %></dt>
     <dd>
       <%=
         f.text_field(
             :title,
-            id:        "#{model_name}_title",
-            size:      nil,
+            id: "#{model_name}_title",
+            size: nil,
             maxlength: EditorialMember::TITLE_LIMIT,
-            required:  true
+            required: true
         )
       %>
       <div class="guideline"><%= t('.guidelines.title') %></div>
@@ -58,8 +48,8 @@
       <%=
         f.text_field(
             :lead,
-            id:        "#{model_name}_lead",
-            size:      nil,
+            id: "#{model_name}_lead",
+            size: nil,
             maxlength: EditorialMember::LEAD_LIMIT
         )
       %>
@@ -71,10 +61,10 @@
       <%=
         f.text_area(
             :about,
-            id:        "#{model_name}_about",
-            cols:      80,
-            rows:      10,
-            data:      {
+            id: "#{model_name}_about",
+            cols: 80,
+            rows: 10,
+            data: {
                 wysiwyg: '1'
             }
         )
@@ -85,11 +75,32 @@
     <%= render partial: 'shared/forms/entity_flags', locals: { f: f } %>
   </dl>
 
+  <section>
+    <h2><%= t('.post_types') %></h2>
+
+    <ul class="flags">
+      <% PostType.list_for_administration.each do |post_type| %>
+        <li>
+          <% field_id = "post_type_#{post_type.id}" %>
+          <%=
+            check_box_tag(
+                'post_type_ids[]',
+                post_type.id,
+                entity.post_type?(post_type),
+                id: field_id
+            )
+          %>
+          <%= label_tag(field_id, post_type.name) %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
   <%= render 'shared/forms/state_container' %>
 
   <div class="buttons">
     <%= hidden_field_tag :entity_id, entity.id %>
-    <%= f.button t(:save), type: :submit %>
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
   </div>
 <% end %>
 

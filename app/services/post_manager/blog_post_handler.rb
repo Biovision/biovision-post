@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Post handler for blog entries
 class PostManager::BlogPostHandler < PostManager
   def post_path
     "#{@prefix}/blog_posts/#{@entity.id}-#{@entity.slug}"
@@ -5,7 +8,7 @@ class PostManager::BlogPostHandler < PostManager
 
   # @param [String] tag_name
   def tagged_path(tag_name)
-    "#{@prefix}/blog_posts/tagged/#{URI.encode(tag_name)}"
+    "#{@prefix}/blog_posts/tagged/#{CGI.escape(tag_name)}"
   end
 
   # @param [PostCategory] category

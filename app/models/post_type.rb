@@ -22,6 +22,8 @@ class PostType < ApplicationRecord
   has_many :post_categories, dependent: :destroy
   has_many :posts
   has_many :post_tags, dependent: :delete_all
+  has_many :editorial_member_post_types, dependent: :delete_all
+  has_many :editorial_members, through: :editorial_member_post_types
 
   validates_length_of :name, maximum: NAME_LIMIT
   validates_length_of :slug, maximum: SLUG_LIMIT

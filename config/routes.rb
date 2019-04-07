@@ -1,7 +1,24 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   category_slug_pattern = /[a-z]+[-_0-9a-z]*[0-9a-z]/
-  post_slug_pattern     = /[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+/
-  archive_constraints   = { year: /19\d\d|2[01]\d\d/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12]\d|3[01]/ }
+  post_slug_pattern = /[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+/
+  archive_constraints = { year: /19\d\d|2[01]\d\d/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12]\d|3[01]/ }
+
+  concern :priority do
+    post :priority, on: :member, defaults: { format: :json }
+  end
+
+  concern :toggle do
+    post :toggle, on: :member, defaults: { format: :json }
+  end
+
+  concern :lock do
+    member do
+      put :lock, defaults: { format: :json }
+      delete :lock, action: :unlock, defaults: { format: :json }
+    end
+  end
 
   resources :post_categories, :posts, :post_tags, :post_images, only: %i[update destroy]
   resources :post_links, only: :destroy
@@ -62,51 +79,31 @@ Rails.application.routes.draw do
           get :post_categories
           get :new_post
           get :post_tags
+          get :authors
         end
       end
-      resources :post_categories, only: :show do
-        member do
-          put 'lock', defaults: { format: :json }
-          delete 'lock', action: :unlock, defaults: { format: :json }
-          post 'priority', defaults: { format: :json }
-          post 'toggle', defaults: { format: :json }
-        end
+
+      resources :post_categories, only: :show, concerns: %i[toggle priority]
+
+      resources :posts, only: %i[index show], concerns: %i[lock toggle] do
+        get 'search', on: :collection
+        get 'images', on: :member
       end
-      resources :posts, only: %i[index show] do
-        collection do
-          get 'search'
-        end
-        member do
-          put 'lock', defaults: { format: :json }
-          delete 'lock', action: :unlock, defaults: { format: :json }
-          post 'toggle', defaults: { format: :json }
-          get 'images'
-        end
-      end
+
       resources :post_tags, only: %i[index show] do
-        member do
-          get 'posts'
-        end
+        get 'posts', on: :member
       end
-      resources :post_images, only: %i[index show] do
+
+      resources :post_images, only: %i[index show], concerns: %i[toggle priority]
+
+      resources :editorial_members, only: %i[index show], concerns: %i[toggle priority] do
         member do
-          post 'priority', defaults: { format: :json }
-          post 'toggle', defaults: { format: :json }
+          put 'post_types/:post_type_id' => :add_post_type, as: :post_type
+          delete 'post_types/:post_type_id' => :remove_post_type
         end
       end
 
-      resources :editorial_members, only: %i[index show] do
-        member do
-          post 'priority', defaults: { format: :json }
-          post 'toggle', defaults: { format: :json }
-        end
-      end
-
-      resources :featured_posts, only: :index do
-        member do
-          post 'priority', defaults: { format: :json }
-        end
-      end
+      resources :featured_posts, only: :index, concerns: :priority
 
       scope 'post_links', controller: :post_links do
         post ':id/priority' => :priority, as: :priority_post_link, defaults: { format: :json }

@@ -2,6 +2,6 @@
 
 module Biovision
   module Post
-    VERSION = '0.14.190403.0'
+    VERSION = '0.15.190407.0'
   end
 end
