@@ -147,7 +147,7 @@ class Post < ApplicationRecord
       pattern = %r{<p>(.+?)</p>}
       chunk = parsed_body.blank? ? body : parsed_body
       passage = chunk.match(pattern)
-      (passage.nil? ? chunk : passage[1]).to_s[0..499]
+      (passage.nil? ? chunk.gsub(/<[^>]+>/, '') : passage[1]).to_s[0..499]
     else
       lead
     end
