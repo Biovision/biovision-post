@@ -7,16 +7,16 @@ class PostCategory < ApplicationRecord
 
   PRIORITY_RANGE = (1..100)
   META_LIMIT     = 250
-  NAME_LIMIT     = 50
-  SLUG_LIMIT     = 50
-  SLUG_PATTERN   = /\A[a-z][-0-9a-z]*[0-9a-z]\z/i
+  NAME_LIMIT     = 100
+  SLUG_LIMIT     = 100
+  SLUG_PATTERN   = /\A[a-z][-_0-9a-z]*[0-9a-z]\z/i.freeze
 
   toggleable :visible
 
   belongs_to :post_type
   belongs_to :parent, class_name: PostCategory.to_s, optional: true, touch: true
   has_many :child_categories, class_name: PostCategory.to_s, foreign_key: :parent_id, dependent: :destroy
-  has_many :posts, dependent: :destroy
+  has_many :posts, dependent: :nullify
 
   after_initialize :set_next_priority
   before_validation { self.slug = Canonizer.transliterate(name.to_s) if slug.blank? }
@@ -41,7 +41,7 @@ class PostCategory < ApplicationRecord
   scope :visible, -> { where(visible: true, deleted: false) }
   scope :for_tree, ->(post_type_id, parent_id = nil) { siblings(post_type_id, parent_id).ordered_by_priority }
   scope :siblings, ->(post_type_id, parent_id) { where(post_type_id: post_type_id, parent_id: parent_id) }
-  scope :ids_for_slug, -> (slug) { where(slug: slug.to_s.downcase).pluck(:id) }
+  scope :ids_for_slug, ->(slug) { where(slug: slug.to_s.downcase).pluck(:id) }
 
   def self.entity_parameters
     %i[meta_description name slug priority visible]

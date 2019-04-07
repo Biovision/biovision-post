@@ -30,6 +30,7 @@ class EditorialMember < ApplicationRecord
 
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :title, maximum: TITLE_LIMIT
+  validates_uniqueness_of :user_id
 
   scope :visible, -> { where(visible: true) }
   scope :list_for_visitors, -> { visible.ordered_by_priority }

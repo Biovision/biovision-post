@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Model for post tag
 class PostTag < ApplicationRecord
-  NAME_LIMIT = 50
+  NAME_LIMIT = 255
 
   belongs_to :post_type
   has_many :post_post_tags, dependent: :delete_all
