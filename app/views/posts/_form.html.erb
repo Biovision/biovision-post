@@ -118,6 +118,7 @@
 
     <dt><%= f.label :body %></dt>
     <dd>
+      <button type="button" class="js-wysiwyg-toggle" data-element="<%= model_name %>_body">WYSIWYG</button>
       <%=
         f.text_area(
             :body,
@@ -126,7 +127,7 @@
             rows: 25,
             required: true,
             data: {
-                wysiwyg: 1,
+                # wysiwyg: 1,
                 upload_url: post_illustrations_path
             }
         )
@@ -413,7 +414,7 @@
 
   <div class="buttons">
     <% if languages.count == 1 %>
-      <% entity.language = languges.first %>
+      <% entity.language = languages.first %>
       <%= f.hidden_field :language_id %>
     <% end %>
     <%= f.hidden_field :post_type_id if entity.id.nil? %>

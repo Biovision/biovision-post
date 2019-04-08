@@ -18,6 +18,7 @@ class PostsController < ApplicationController
     @entity = Post.new(creation_parameters)
     if @entity.save
       apply_post_tags
+      PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(PostManager.handler(@entity).post_path)
     else
       form_processed_with_error(:new)
@@ -44,6 +45,7 @@ class PostsController < ApplicationController
   def update
     if @entity.update(entity_parameters)
       apply_post_tags
+      PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(PostManager.handler(@entity).post_path)
     else
       form_processed_with_error(:edit)
