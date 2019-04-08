@@ -33,6 +33,7 @@ class EditorialMember < ApplicationRecord
   validates_uniqueness_of :user_id
 
   scope :visible, -> { where(visible: true) }
+  scope :with_post_type, ->(v) { joins(:editorial_member_post_types).where(editorial_member_post_types: { post_type: v }) }
   scope :list_for_visitors, -> { visible.ordered_by_priority }
   scope :list_for_administration, -> { ordered_by_priority }
 
