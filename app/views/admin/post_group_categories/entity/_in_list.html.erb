@@ -1,0 +1,18 @@
+<div class="data">
+  <div><%= admin_post_category_link(entity.post_category) %></div>
+
+  <div class="info">
+    <%= entity.post_category.long_slug %>
+  </div>
+
+  <ul class="actions">
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: {
+              path: admin_priority_post_group_category_path(id: entity.id)
+          }
+      )
+    %>
+  </ul>
+</div>

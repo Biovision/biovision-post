@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Handling post tags
 class PostTagsController < AdminController
-  before_action :set_entity, only: [:edit, :update, :destroy]
+  before_action :set_entity, only: %i[edit update destroy]
 
   # get /post_tags/:id/edit
   def edit
@@ -16,9 +19,8 @@ class PostTagsController < AdminController
 
   # delete /post_tags/:id
   def destroy
-    if @entity.destroy
-      flash[:notice] = t('post_tags.destroy.success')
-    end
+    flash[:notice] = t('post_tags.destroy.success') if @entity.destroy
+
     redirect_to post_tags_admin_post_type_path(id: @entity.post_type_id)
   end
 
@@ -26,9 +28,7 @@ class PostTagsController < AdminController
 
   def set_entity
     @entity = PostTag.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post_tag')
-    end
+    handle_http_404('Cannot find post_tag') if @entity.nil?
   end
 
   def restrict_access

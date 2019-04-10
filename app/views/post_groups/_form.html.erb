@@ -1,0 +1,79 @@
+<% model_name = entity.class.to_s.underscore %>
+<%=
+  form_with(
+      model: entity,
+      html: {
+          id: "#{model_name}-form",
+          data: { check_url: check_post_groups_path }
+      }
+  ) do |f|
+%>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+  <dl>
+    <%= render partial: 'shared/forms/priority', locals: { f: f } %>
+
+    <dt><%= f.label :slug %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :slug,
+            id: "#{model_name}_slug",
+            size: nil,
+            maxlength: PostGroup::SLUG_LIMIT,
+            pattern: PostGroup::SLUG_PATTERN_HTML,
+            required: true,
+            data: {
+                check: :slug
+            }
+        )
+      %>
+      <div class="check-result-error" data-field="slug"></div>
+      <div class="guideline"><%= t('.guidelines.slug') %></div>
+    </dd>
+
+    <dt><%= f.label :name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :name,
+            id: "#{model_name}_name",
+            size: nil,
+            maxlength: PostGroup::NAME_LIMIT,
+            required: true,
+            data: {
+                check: :name
+            }
+        )
+      %>
+      <div class="check-result-error" data-field="name"></div>
+      <div class="guideline"><%= t('.guidelines.name') %></div>
+    </dd>
+
+    <dt><%= f.label :nav_text %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :nav_text,
+            id: "#{model_name}_nav_text",
+            size: nil,
+            maxlength: PostGroup::NAV_TEXT_LIMIT,
+            required: true,
+            data: {
+                check: :nav_text
+            }
+        )
+      %>
+      <div class="check-result-error" data-field="nav_text"></div>
+      <div class="guideline"><%= t('.guidelines.nav_text') %></div>
+    </dd>
+
+    <%= render partial: 'shared/forms/entity_flags', locals: { f: f } %>
+  </dl>
+
+  <%= render 'shared/forms/state_container' %>
+
+  <div class="buttons">
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
+  </div>
+<% end %>

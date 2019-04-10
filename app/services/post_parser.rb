@@ -9,9 +9,13 @@ class PostParser
   end
 
   def parsed_body
-    @body = escape_scripts
-    @body = convert_video_links
-    @body = convert_asides
+    unless @entity.avoid_parsing?
+      @body = escape_scripts
+      @body = convert_video_links
+      @body = convert_asides
+    end
+
+    @body
   end
 
   def escape_scripts

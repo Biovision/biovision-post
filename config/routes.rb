@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     post :toggle, on: :member, defaults: { format: :json }
   end
 
+  concern :check do
+    post :check, on: :collection, defaults: { format: :json }
+  end
+
   concern :lock do
     member do
       put :lock, defaults: { format: :json }
@@ -25,6 +29,7 @@ Rails.application.routes.draw do
   resources :editorial_members, only: %i[update destroy]
   resources :featured_posts, only: :destroy
   resources :post_illustrations, only: :create
+  resources :post_groups, only: %i[update destroy]
 
   scope '/(:locale)', constraints: { locale: /ru|en|sv|cn/ } do
     resources :post_categories, except: %i[index show update destroy]
@@ -43,6 +48,7 @@ Rails.application.routes.draw do
     resources :post_links, only: :create
     resources :editorial_members, only: %i[new create edit]
     resources :featured_posts, only: :create
+    resources :post_groups, only: %i[new create edit], concerns: :check
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles
@@ -95,6 +101,22 @@ Rails.application.routes.draw do
       end
 
       resources :post_images, only: %i[index show], concerns: %i[toggle priority]
+
+      resources :post_groups, only: %i[index show], concerns: %i[toggle priority] do
+        member do
+          put 'categories/:category_id' => :add_category, as: :category
+          delete 'categories/:category_id' => :remove_category
+          put 'tags/:tag_id' => :add_tag, as: :tag
+          delete 'tags/:tag_id' => :remove_tag
+          get :tags, defaults: { format: :json }
+        end
+      end
+      scope 'post_group_categories/:id', controller: :post_group_categories do
+        post 'priority' => :priority, as: :priority_post_group_category, defaults: { format: :json }
+      end
+      scope 'post_group_tags/:id', controller: :post_group_tags do
+        post 'priority' => :priority, as: :priority_post_group_tag, defaults: { format: :json }
+      end
 
       resources :editorial_members, only: %i[index show], concerns: %i[toggle priority] do
         member do

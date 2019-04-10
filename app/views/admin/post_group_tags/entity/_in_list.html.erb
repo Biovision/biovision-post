@@ -1,0 +1,18 @@
+<div class="data">
+  <div><%= admin_post_tag_link(entity.post_tag) %></div>
+
+  <div class="info">
+    <%= entity.post_tag.post_type.name %>
+  </div>
+
+  <ul class="actions">
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: {
+              path: admin_priority_post_group_tag_path(id: entity.id)
+          }
+      )
+    %>
+  </ul>
+</div>

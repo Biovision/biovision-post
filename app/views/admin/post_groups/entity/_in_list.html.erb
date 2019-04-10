@@ -1,0 +1,25 @@
+<div class="data">
+  <div><%= admin_post_group_link(entity) %></div>
+  <div class="secondary info">
+    <%= entity.slug %>
+  </div>
+
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals: {
+            entity: entity,
+            url: toggle_admin_post_group_path(id: entity.id)
+        }
+    )
+  %>
+
+  <ul class="actions">
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: priority_admin_post_group_path(id: entity.id) }
+      )
+    %>
+  </ul>
+</div>

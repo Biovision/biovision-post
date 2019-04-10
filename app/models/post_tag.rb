@@ -18,9 +18,10 @@ class PostTag < ApplicationRecord
   scope :ordered_by_slug, -> { order('slug asc') }
   scope :popular, -> { order('posts_count desc, slug asc') }
   scope :with_posts, -> { where('posts_count > 0') }
+  scope :with_name_like, ->(v) { where('name ilike ?', "%#{v}%") unless v.blank? }
   scope :list_for_administration, -> { ordered_by_slug }
   scope :list_for_visitors, -> { with_posts.ordered_by_slug }
-  scope :ids_for_name, -> (name) { where(slug: Canonizer.canonize(name)).pluck(:id) }
+  scope :ids_for_name, ->(name) { where(slug: Canonizer.canonize(name)).pluck(:id) }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
@@ -28,11 +29,11 @@ class PostTag < ApplicationRecord
   end
 
   def self.entity_parameters
-    %i(name)
+    %i[name]
   end
 
   def self.creation_parameters
-    entity_parameters + %i(post_type_id)
+    entity_parameters + %i[post_type_id]
   end
 
   # @param [Integer] post_type_id
@@ -48,12 +49,13 @@ class PostTag < ApplicationRecord
   end
 
   def name_for_url
-    Canonizer.urlize self.name
+    Canonizer.urlize name
   end
 
   # @param [Post] post
   def post?(post)
     return false if post.nil?
+
     posts.exist?(id: post.id)
   end
 end

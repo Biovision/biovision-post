@@ -118,7 +118,13 @@
 
     <dt><%= f.label :body %></dt>
     <dd>
-      <button type="button" class="js-wysiwyg-toggle" data-element="<%= model_name %>_body">WYSIWYG</button>
+      <div>
+        <button type="button" class="js-wysiwyg-toggle" data-element="<%= model_name %>_body">WYSIWYG</button>
+        <div>
+          <%= f.check_box :avoid_parsing, id: "#{model_name}_avoid_parsing" %>
+          <%= f.label :avoid_parsing %>
+        </div>
+      </div>
       <%=
         f.text_area(
             :body,

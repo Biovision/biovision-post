@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Helper methods for Posts component
 module BiovisionPostsHelper
   # @param [PostType] entity
   # @param [String] text
@@ -21,6 +24,13 @@ module BiovisionPostsHelper
   # @param [String] text
   def admin_post_tag_link(entity, text = entity.name)
     link_to(text, admin_post_tag_path(id: entity.id))
+  end
+
+  # @param [PostGroup] entity
+  # @param [String] text
+  # @param [Hash] options
+  def admin_post_group_link(entity, text = entity.name, options = {})
+    link_to(text, admin_post_group_path(id: entity.id), options)
   end
 
   # @param [PostImage] entity

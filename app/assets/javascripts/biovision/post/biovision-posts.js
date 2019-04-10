@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const Posts = {
     initialized: false,
@@ -7,7 +7,7 @@ const Posts = {
     init: function () {
         for (let component in this.components) {
             if (this.components.hasOwnProperty(component)) {
-                if (this.components[component].hasOwnProperty('init')) {
+                if (this.components[component].hasOwnProperty("init")) {
                     this.components[component].init();
                 }
             }
@@ -18,6 +18,10 @@ const Posts = {
 };
 
 const BiovisionPosts = {
+    /**
+     * @type {Function}
+     * @param e
+     */
     loadPosts: function (e) {
         e.preventDefault();
 
@@ -166,8 +170,82 @@ Posts.components.calendar = {
     },
     buttonClick: function (event) {
         const button = event.target;
-        const number = parseInt(button.getAttribute('data-number'));
+        const number = parseInt(button.getAttribute("data-number"));
         Posts.components.calendar.select(number);
+    }
+};
+
+Posts.components.groupTagLinker = {
+    initialized: false,
+    container: undefined,
+    input: undefined,
+    list: document.createElement("ul"),
+    init: function () {
+        this.input = document.getElementById("tag-search");
+        if (this.input) {
+            this.container = this.input.parentNode.querySelector(".list-container");
+
+            if (this.container) {
+                const component = this;
+                this.list.classList.add('entity-links');
+                this.input.addEventListener("change", component.handler);
+                this.container.append(this.list);
+                this.initialized = true;
+            } else {
+                console.log("Cannot find container for tags list")
+            }
+        }
+    },
+    /**
+     * @type {Function}
+     */
+    handler: function () {
+        const component = Posts.components.groupTagLinker;
+        const query = "?q=" + encodeURIComponent(component.input.value);
+        const url = component.input.getAttribute('data-url') + query;
+
+        Biovision.jsonAjaxRequest("GET", url, component.parseResponse).send();
+    },
+    /**
+     * @type {Function}
+     */
+    parseResponse: function () {
+        const response = JSON.parse(this.responseText);
+
+        if (response.hasOwnProperty("data")) {
+            const component = Posts.components.groupTagLinker;
+            component.list.innerHTML = '';
+            response.data.forEach(component.process);
+        }
+    },
+    /**
+     *
+     * @type {Function}
+     * @param data
+     */
+    process: function (data) {
+        const component = Posts.components.groupTagLinker;
+        if (data.hasOwnProperty("meta")) {
+            const meta = data.meta;
+            const li = document.createElement('li');
+            const input = document.createElement('input');
+            const label = document.createElement('label');
+            const element_id = "post_tag_" + data["id"];
+
+            Biovision.components.entityLinker.apply(input);
+
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("id", element_id);
+            input.setAttribute("data-url", meta["url"]);
+            input.checked = meta["checked"];
+            li.append(input);
+
+            label.setAttribute("for", element_id);
+            label.innerHTML = data.attributes["name"] + " (" + meta["post_type"] + ")";
+            li.append(label);
+
+            component.list.append(li);
+        }
     }
 };
 
