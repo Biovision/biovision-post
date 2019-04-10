@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     resources :post_links, only: :create
     resources :editorial_members, only: %i[new create edit]
     resources :featured_posts, only: :create
-    resources :post_groups, only: %i[new create edit], concerns: :check
+    resources :post_groups, only: %i[show new create edit], concerns: :check
 
     scope :articles, controller: :articles do
       get '/' => :index, as: :articles

@@ -27,6 +27,8 @@ class PostGroup < ApplicationRecord
 
   has_many :post_group_categories, dependent: :delete_all
   has_many :post_group_tags, dependent: :delete_all
+  has_many :post_categories, through: :post_group_categories
+  has_many :post_tags, through: :post_group_tags
 
   before_validation { self.slug = slug.to_s.downcase }
 
@@ -71,5 +73,12 @@ class PostGroup < ApplicationRecord
   # @param [PostTag] entity
   def tag?(entity)
     post_group_tags.where(post_tag: entity).exists?
+  end
+
+  # @param [Integer] page
+  def posts_page(page = 1)
+    post_ids = Post.where(post_category_id: post_category_ids).pluck(:id)
+    post_ids += PostPostTag.where(post_tag_id: post_tag_ids).pluck(:post_id)
+    Post.list_for_visitors.where(id: post_ids.uniq).page(page)
   end
 end

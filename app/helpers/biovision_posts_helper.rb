@@ -100,6 +100,13 @@ module BiovisionPostsHelper
     end
   end
 
+  # @param [PostGroup] entity
+  # @param [String] text
+  # @param [Hash] options
+  def post_group_link(entity, text = entity.nav_text, options = {})
+    link_to(text, post_group_path(id: entity.slug), options)
+  end
+
   # @param [Post] entity
   # @param [Hash] options
   def post_author_link(entity, options = {})
