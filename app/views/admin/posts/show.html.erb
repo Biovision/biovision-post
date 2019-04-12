@@ -4,7 +4,7 @@
   <span><%= @entity.title %></span>
 <% end %>
 
-<% handler = PostManager.handler(@entity) %>
+<% handler = PostManager.new(@entity) %>
 
 <article>
   <h1><%= @entity.title %></h1>

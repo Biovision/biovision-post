@@ -1,4 +1,4 @@
-<% handler = PostManager.handler(post) %>
+<% handler = PostManager.new(post) %>
 <article class="post" itemscope itemtype="http://schema.org/Article" itemprop="mainEntityOfPage">
   <h1 itemprop="headline"><%= post.title %></h1>
   <% if post.editable_by? current_user %>

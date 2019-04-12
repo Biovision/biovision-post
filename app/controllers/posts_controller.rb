@@ -19,7 +19,7 @@ class PostsController < ApplicationController
     if @entity.save
       apply_post_tags
       PostBodyParserJob.perform_later(@entity.id)
-      form_processed_ok(PostManager.handler(@entity).post_path)
+      form_processed_ok(PostManager.new(@entity).post_path)
     else
       form_processed_with_error(:new)
     end
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     if @entity.update(entity_parameters)
       apply_post_tags
       PostBodyParserJob.perform_later(@entity.id)
-      form_processed_ok(PostManager.handler(@entity).post_path)
+      form_processed_ok(PostManager.new(@entity).post_path)
     else
       form_processed_with_error(:edit)
     end

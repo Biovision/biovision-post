@@ -1,15 +1,29 @@
 # frozen_string_literal: true
 
 # Post category
+#
+# Attributes:
+#   children_cache [Array<Integer>]
+#   created_at [DateTime]
+#   meta_description [String], optional
+#   name [String]
+#   nav_text [String], optional
+#   parent_id [PostCategory], optional
+#   parents_cache [String]
+#   post_type_id [PostType]
+#   priority [Integer]
+#   slug [String]
+#   updated_at [DateTime]
+#   visible [Boolean]
 class PostCategory < ApplicationRecord
   include Checkable
+  include NestedPriority
   include Toggleable
 
-  PRIORITY_RANGE = (1..100)
-  META_LIMIT     = 250
-  NAME_LIMIT     = 100
-  SLUG_LIMIT     = 100
-  SLUG_PATTERN   = /\A[a-z][-_0-9a-z]*[0-9a-z]\z/i.freeze
+  META_LIMIT = 250
+  NAME_LIMIT = 100
+  SLUG_LIMIT = 100
+  SLUG_PATTERN = /\A[a-z][-_0-9a-z]*[0-9a-z]\z/i.freeze
 
   toggleable :visible
 
@@ -18,29 +32,26 @@ class PostCategory < ApplicationRecord
   has_many :child_categories, class_name: PostCategory.to_s, foreign_key: :parent_id, dependent: :destroy
   has_many :posts, dependent: :nullify
 
-  after_initialize :set_next_priority
   before_validation { self.slug = Canonizer.transliterate(name.to_s) if slug.blank? }
   before_validation { self.slug = slug.to_s.downcase }
   before_validation :generate_long_slug
-  before_validation :normalize_priority
-  before_save { self.children_cache.uniq! }
+  before_save { children_cache.uniq! }
   after_create :cache_parents!
-  after_save { parent.cache_children! unless parent.nil? }
+  after_save { parent&.cache_children! }
 
   validates_presence_of :name, :slug
   validates_uniqueness_of :name, scope: %i[post_type_id parent_id]
-  validates_uniqueness_of :slug, scope: [:post_type_id]
-  validates_length_of :name, maximum: NAME_LIMIT
+  validates_uniqueness_of :slug, scope: :post_type_id
   validates_length_of :meta_description, maximum: META_LIMIT
+  validates_length_of :name, maximum: NAME_LIMIT
+  validates_length_of :nav_text, maximum: NAME_LIMIT
   validates_length_of :slug, maximum: SLUG_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validate :parent_matches_type
   validate :parent_is_not_too_deep
 
-  scope :ordered_by_priority, -> { order 'priority asc, name asc' }
   scope :visible, -> { where(visible: true, deleted: false) }
-  scope :for_tree, ->(post_type_id, parent_id = nil) { siblings(post_type_id, parent_id).ordered_by_priority }
-  scope :siblings, ->(post_type_id, parent_id) { where(post_type_id: post_type_id, parent_id: parent_id) }
+  scope :for_tree, ->(post_type_id, parent_id = nil) { where(post_type_id: post_type_id, parent_id: parent_id).ordered_by_priority }
   scope :ids_for_slug, ->(slug) { where(slug: slug.to_s.downcase).pluck(:id) }
 
   def self.entity_parameters
@@ -49,6 +60,11 @@ class PostCategory < ApplicationRecord
 
   def self.creation_parameters
     entity_parameters + %i[parent_id post_type_id]
+  end
+
+  # @param [PostCategory] entity
+  def self.siblings(entity)
+    where(post_type_id: entity.post_type_id, parent_id: entity.parent_id)
   end
 
   def full_title
@@ -102,31 +118,11 @@ class PostCategory < ApplicationRecord
     post.post_category == self
   end
 
-  # @param [Integer] delta
-  def change_priority(delta)
-    new_priority = priority + delta
-    criteria     = { post_type_id: post_type_id, parent_id: parent_id, priority: new_priority }
-    adjacent     = self.class.find_by(criteria)
-    if adjacent.is_a?(self.class) && (adjacent.id != id)
-      adjacent.update!(priority: priority)
-    end
-    self.update(priority: new_priority)
-
-    self.class.for_tree(post_type_id, parent_id).map { |e| [e.id, e.priority] }.to_h
+  def text_for_link
+    nav_text.blank? ? name : nav_text
   end
 
   private
-
-  def set_next_priority
-    if id.nil? && priority == 1
-      self.priority = self.class.siblings(post_type_id, parent_id).maximum(:priority).to_i + 1
-    end
-  end
-
-  def normalize_priority
-    self.priority = PRIORITY_RANGE.first if priority < PRIORITY_RANGE.first
-    self.priority = PRIORITY_RANGE.last if priority > PRIORITY_RANGE.last
-  end
 
   def generate_long_slug
     self.long_slug = parent.nil? ? slug : "#{parent.long_slug}_#{slug}"

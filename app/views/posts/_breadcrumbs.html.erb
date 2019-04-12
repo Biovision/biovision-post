@@ -1,11 +1,7 @@
 <% unless entity.post_category.blank? %>
-    <%
-      handler = PostManager.handler(entity)
-      category = entity.post_category
-    %>
-    <% entity.post_category.parents.each do |parent| %>
-        <%= link_to(parent.name, handler.category_path(parent)) %>
-    <% end %>
-    <%= link_to(category.name, handler.category_path(category)) %>
+  <% entity.post_category.parents.each do |parent| %>
+    <%= post_category_link(parent) %>
+  <% end %>
+  <%= post_category_link(entity.post_category) %>
 <% end %>
 <span><%= entity.title %></span>

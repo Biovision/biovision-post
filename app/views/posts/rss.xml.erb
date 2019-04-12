@@ -16,7 +16,7 @@
     <% @collection.each do |post| %>
     <item>
       <title><%= post.title %></title>
-      <link><%= site_link + PostManager.handler(post, locale).post_path %></link>
+      <link><%= site_link + PostManager.new(post).post_path %></link>
       <description><%= post.lead! %></description>
       <guid isPermaLink="false"><%= post.uuid %></guid>
       <pubDate><%= post.publication_time.rfc822 %></pubDate>
@@ -30,6 +30,7 @@
       <% end %>
       <% if post.post_images.any? %>
         <% post.post_images.list_for_visitors.each do |image| %>
+        <% next if image.nil? %>
       <enclosure
         url="<%= media_link + image.image.hd.url %>"
         length="<%= File.size(image.image.hd.current_path) %>"

@@ -24,6 +24,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
       t.integer :category_depth, limit: 2, default: 0
       t.string :name, null: false
       t.string :slug, null: false
+      t.string :url_part, null: false
       t.string :default_category_name
     end
 
@@ -45,6 +46,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
       t.boolean :visible, default: true, null: false
       t.boolean :deleted, default: false, null: false
       t.string :name, null: false
+      t.string :nav_text
       t.string :slug, null: false
       t.string :long_slug, null: false
       t.string :meta_description
@@ -67,13 +69,13 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
 
   def create_default_types
     items = {
-      blog_post: ['Запись в блоге', 'Блог'],
-      article: %w[Статья Статьи],
-      news: %w[Новость Новости]
+      blog_post: ['Запись в блоге', 'blog_posts', 'Блог'],
+      article: %w[Статья articles Статьи],
+      news: %w[Новость news Новости]
     }
 
     items.each do |slug, data|
-      PostType.create(slug: slug, name: data[0], default_category_name: data[1])
+      PostType.create(slug: slug, name: data[0], url_part: data[1], default_category_name: data[2])
     end
   end
 
