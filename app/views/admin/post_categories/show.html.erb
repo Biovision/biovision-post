@@ -31,6 +31,11 @@
     <dt><%= t('activerecord.attributes.post_category.slug') %></dt>
     <dd><%= @entity.slug %> (<%= @entity.long_slug %>)</dd>
 
+    <% unless @entity.nav_text.blank? %>
+      <dt><%= t('activerecord.attributes.post_category.nav_text') %></dt>
+      <dd><%= @entity.nav_text %></dd>
+    <% end %>
+
     <dt><%= t('activerecord.attributes.post_category.priority') %></dt>
     <dd><%= @entity.priority %></dd>
 

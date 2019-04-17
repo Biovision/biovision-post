@@ -20,15 +20,6 @@
           locals:  { path: priority_admin_post_category_path(id: entity.id) }
       )
     %>
-    <%=
-      render(
-          partial: 'shared/actions/locks',
-          locals:  {
-              entity: entity,
-              path:   lock_admin_post_category_path(id: entity.id)
-          }
-      )
-    %>
   </ul>
 
   <% if entity.child_categories.any? %>

@@ -16,6 +16,8 @@
       <% end %>
     <% end %>
 
+    <%= render partial: 'shared/forms/priority', locals: { f: f } %>
+
     <dt><%= f.label :name %></dt>
     <dd>
       <%=
@@ -47,6 +49,19 @@
       <div class="guideline"><%= t('.guidelines.slug') %></div>
     </dd>
 
+    <dt><%= f.label :nav_text %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :nav_text,
+            id: "#{model_name}_nav_text",
+            size: nil,
+            maxlength: PostCategory::NAME_LIMIT,
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.name') %></div>
+    </dd>
+
     <dt><%= f.label :meta_description %></dt>
     <dd>
       <%=
@@ -58,18 +73,6 @@
         )
       %>
       <div class="guideline"><%= t('.guidelines.meta_description') %></div>
-    </dd>
-
-    <dt><%= f.label :priority %></dt>
-    <dd>
-      <%=
-        f.number_field(
-            :priority,
-            id: "#{model_name}_priority",
-            in: PostCategory::PRIORITY_RANGE,
-            required: true
-        )
-      %>
     </dd>
 
     <%= render partial: 'shared/forms/entity_flags', locals: { f: f } %>

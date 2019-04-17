@@ -55,7 +55,7 @@ class PostCategory < ApplicationRecord
   scope :ids_for_slug, ->(slug) { where(slug: slug.to_s.downcase).pluck(:id) }
 
   def self.entity_parameters
-    %i[meta_description name slug priority visible]
+    %i[meta_description name nav_text slug priority visible]
   end
 
   def self.creation_parameters
