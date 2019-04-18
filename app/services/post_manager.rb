@@ -37,7 +37,7 @@ class PostManager
   end
 
   def edit_path
-    "#{@prefix}/#{@url_part}/#{@entity.id}/edit" if @entity.is_a?(Post)
+    "#{@prefix}/posts/#{@entity.id}/edit" if @entity.is_a?(Post)
   end
 
   # @param [String] tag_name
