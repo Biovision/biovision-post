@@ -1,0 +1,18 @@
+<% content_for :meta_title, t('.title', category: @category.name, page: current_page) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('posts.index.nav_text'), posts_path) %>
+    <% @category.parents.each do |parent| %>
+        <%= link_to(parent.name, short_category_posts_path(category_slug: parent.long_slug)) %>
+    <% end %>
+    <span><%= @category.name %></span>
+<% end %>
+
+<%=
+  render(
+      partial: 'posts/post_type/category',
+      locals: {
+          category: @category,
+          collection: @collection
+      }
+  )
+%>

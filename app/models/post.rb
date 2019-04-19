@@ -21,8 +21,8 @@ class Post < ApplicationRecord
   LEAD_LIMIT        = 5000
   META_LIMIT        = 250
   SLUG_LIMIT        = 200
-  SLUG_PATTERN      = /\A[a-z0-9]+[-_.a-z0-9]*[a-z0-9]+\z/.freeze
-  SLUG_PATTERN_HTML = '^[a-zA-Z0-9]+[-_.a-zA-Z0-9]*[a-zA-Z0-9]+$'
+  SLUG_PATTERN      = /\A[a-z0-9][-_.a-z0-9]*[a-z0-9]\z/.freeze
+  SLUG_PATTERN_HTML = '^[a-zA-Z0-9][-_.a-zA-Z0-9]*[a-zA-Z0-9]$'
   TIME_RANGE        = (0..1440).freeze
   TITLE_LIMIT       = 255
 
@@ -52,7 +52,6 @@ class Post < ApplicationRecord
   before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
   before_validation { self.slug = slug.downcase }
   before_validation :prepare_source_names
-  # before_save { self.parsed_body = PostManager.handler(self).parsed_body }
 
   validates_presence_of :uuid, :title, :slug, :body
   validates_length_of :title, maximum: TITLE_LIMIT
@@ -82,6 +81,7 @@ class Post < ApplicationRecord
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
   scope :for_language, ->(language) { where(language: language) }
+  scope :exclude_ids, ->(v) { where('id not in (?)', Array(v)) unless v.blank? }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
   scope :list_for_owner, ->(user) { owned_by(user).recent }

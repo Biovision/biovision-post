@@ -415,6 +415,8 @@ ru:
       title: "Поиск публикаций"
       nav_text: "Поиск публикаций"
       heading: "Поиск публикаций"
+    category:
+      title: "Публикации в категории «%{category}», страница %{page}"
   index:
     dashboard:
       biovision_post:

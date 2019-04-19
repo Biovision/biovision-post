@@ -41,6 +41,8 @@ Rails.application.routes.draw do
         get 'archive/(:year)(-:month)(-:day)' => :archive, as: :archive, constraints: archive_constraints
         get 'rss/zen.xml' => :zen, defaults: { format: :xml }
         get 'rss.xml' => :rss, as: :rss, defaults: { format: :xml }
+        get ':category_slug' => :category, as: :short_category, constraints: { category_slug: category_slug_pattern }
+        get ':id-:slug' => :show, constraints: { id: /\d+/, slug: post_slug_pattern }
       end
     end
     resources :post_tags, only: :edit

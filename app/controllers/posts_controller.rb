@@ -10,7 +10,8 @@ class PostsController < ApplicationController
 
   # get /posts
   def index
-    @collection = Post.page_for_visitors(current_page)
+    excluded = param_from_request(:x).split(',').map(&:to_i)
+    @collection = Post.exclude_ids(excluded).page_for_visitors(current_page)
   end
 
   # post /posts
@@ -25,7 +26,7 @@ class PostsController < ApplicationController
     end
   end
 
-  # get /posts/:id
+  # get /posts/:id(-:slug)
   def show
     @entity = Post.list_for_visitors.find_by(id: params[:id])
     if @entity.nil?
@@ -68,6 +69,10 @@ class PostsController < ApplicationController
   # get /posts/:category_slug
   def category
     @collection = Post.in_category(params[:category_slug]).page_for_visitors(current_page)
+    @category = @collection.first&.post_category
+
+    handle_http_404('Cannot find post category in collection') if @category.nil?
+
     respond_to do |format|
       format.html
       format.json { render('posts/index') }

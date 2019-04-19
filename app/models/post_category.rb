@@ -52,7 +52,7 @@ class PostCategory < ApplicationRecord
 
   scope :visible, -> { where(visible: true, deleted: false) }
   scope :for_tree, ->(post_type_id, parent_id = nil) { where(post_type_id: post_type_id, parent_id: parent_id).ordered_by_priority }
-  scope :ids_for_slug, ->(slug) { where(slug: slug.to_s.downcase).pluck(:id) }
+  scope :ids_for_slug, ->(slug) { where(long_slug: slug.to_s.downcase).pluck(:id) }
 
   def self.entity_parameters
     %i[meta_description name nav_text slug priority visible]
