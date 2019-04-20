@@ -34,6 +34,11 @@
     <dt><%= t('activerecord.attributes.post.post_type') %></dt>
     <dd><%= admin_post_type_link(@entity.post_type) %></dd>
 
+    <% unless @entity.post_layout.nil? %>
+      <dt><%= t('activerecord.attributes.post.post_layout') %></dt>
+      <dd><%= @entity.post_layout.name %></dd>
+    <% end %>
+
     <% unless @entity.original_title.blank? %>
       <dt><%= t('activerecord.attributes.post.original_title') %></dt>
       <dd><%= @entity.original_title %></dd>
@@ -168,9 +173,9 @@
   <%=
     render(
         partial: 'shared/admin/toggleable',
-        locals:  {
+        locals: {
             entity: @entity,
-            url:    toggle_admin_post_path(id: @entity.id)
+            url: toggle_admin_post_path(id: @entity.id)
         }
     )
   %>

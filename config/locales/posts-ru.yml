@@ -18,6 +18,7 @@ ru:
       post_group_category: "Категория публикаций в группе"
       post_group_tag: "Метка публикаций в группе"
       post_image: "Картинка для публикации"
+      post_layout: "Шаблон отображения публикации"
       post_post_tag: "Метка у публикации"
       post_tag: "Метка"
       post_type: "Тип публикации"
@@ -77,6 +78,8 @@ ru:
         privacy: "Видимость"
         post_category: "Категория"
         post_category_id: "Категория"
+        post_layout: "Шаблон"
+        post_layout_id: "Шаблон"
         post_type: "Тип"
         post_type_id: "Тип"
         publication_time: "Время публикации"
@@ -136,6 +139,9 @@ ru:
         source_link: "Ссылка на источник изображения"
         source_name: "Источник изображения"
         visible: "Показывать"
+      post_layout:
+        name: "Название"
+        slug: "Идентификатор"
       post_tag:
         name: "Название"
         post_type: "Тип публикации"

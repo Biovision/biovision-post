@@ -6,9 +6,11 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
     create_post_types unless PostType.table_exists?
     create_post_categories unless PostCategory.table_exists?
     create_post_tags unless PostTag.table_exists?
+    create_post_layouts unless PostLayout.table_exists?
   end
 
   def down
+    drop_table :post_layouts if PostLayout.table_exists?
     drop_table :post_tags if PostTag.table_exists?
     drop_table :post_categories if PostCategory.table_exists?
     drop_table :post_types if PostType.table_exists?
@@ -64,6 +66,14 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
       t.integer :posts_count, default: 0, null: false
       t.string :name
       t.string :slug, index: true
+    end
+  end
+
+  def create_post_layouts
+    create_table :post_layouts, comment: 'Post layout' do |t|
+      t.integer :posts_count, default: 0, null: false
+      t.string :slug
+      t.string :name
     end
   end
 

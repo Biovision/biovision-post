@@ -83,6 +83,11 @@ module BiovisionPostsHelper
     options
   end
 
+  def post_layouts_for_select
+    options = PostLayout.ordered_by_name.map { |i| [i.name, i.id] }
+    options + [[t(:not_set), '']]
+  end
+
   # @param [Post] entity
   # @param [String] text
   # @param [Hash] options

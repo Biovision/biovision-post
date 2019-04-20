@@ -43,6 +43,11 @@
       <dd><%= f.select :language_id, languages_for_select(false) %></dd>
     <% end %>
 
+    <% if PostLayout.any? %>
+      <dt><%= f.label :post_layout_id %></dt>
+      <dd><%= f.select :post_layout_id, post_layouts_for_select %></dd>
+    <% end %>
+
     <dt><%= f.label :publication_time %></dt>
     <dd>
       <%=

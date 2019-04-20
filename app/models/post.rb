@@ -37,6 +37,7 @@ class Post < ApplicationRecord
   belongs_to :post_category, counter_cache: true, optional: true
   belongs_to :language, optional: true
   belongs_to :agent, optional: true
+  belongs_to :post_layout, counter_cache: true, optional: true
   has_many :post_references, dependent: :delete_all
   has_many :post_notes, dependent: :delete_all
   has_many :post_links, dependent: :delete_all
@@ -113,7 +114,7 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i[body language_id lead original_title post_category_id publication_time slug title]
+    main_data   = %i[body language_id lead original_title post_category_id post_layout_id publication_time slug title]
     image_data  = %i[image image_alt_text image_source_link image_source_name image_name]
     meta_data   = %i[rating source_name source_link meta_title meta_description meta_keywords time_required]
     flags_data  = %i[allow_comments allow_votes explicit show_owner visible translation]
