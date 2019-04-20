@@ -177,11 +177,29 @@ class Post < ApplicationRecord
   end
 
   # List of linked posts for visitors
-  def linked_posts
+  #
+  # @param [Integer] quantity
+  def linked_posts(quantity = 5)
     result = []
-    post_links.ordered_by_priority.each do |link|
+    post_links.ordered_by_priority.first(quantity).each do |link|
       result << link.other_post if link.other_post.visible_to_visitors?
     end
+    excluded = result.map(&:id)
+    delta = quantity - result.count
+    result += similar_posts(delta, excluded) if result.count < quantity
+    result
+  end
+
+  # @param [Integer] quantity
+  # @param [Array] excluded
+  def similar_posts(quantity = 3, excluded = [])
+    result = []
+
+    collection = Post.where(post_category: post_category).exclude_ids(excluded)
+    collection.visible.popular.first(quantity).each do |post|
+      result << post
+    end
+
     result
   end
 
