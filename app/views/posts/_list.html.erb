@@ -1,5 +1,5 @@
 <% if collection.any? %>
-    <div class="list">
+    <div class="posts-list">
       <% collection.each do |entity| %>
           <%= render partial: 'posts/preview', locals: { entity: entity } %>
       <% end %>
