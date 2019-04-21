@@ -62,6 +62,10 @@ class EditorialMember < ApplicationRecord
     user.screen_name
   end
 
+  def slug
+    user.slug
+  end
+
   def post_count
     Post.owned_by(user).count
   end
