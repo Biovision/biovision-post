@@ -24,7 +24,7 @@
 
   <ul class="actions">
     <% if entity.visible? %>
-      <li><%= world_icon(author_path(slug: entity.screen_name)) %></li>
+      <li><%= world_icon(author_path(slug: entity.slug)) %></li>
     <% end %>
     <li><%= edit_icon(edit_editorial_member_path(id: entity.id)) %></li>
     <%=
