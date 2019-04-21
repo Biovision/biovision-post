@@ -9,7 +9,8 @@ $background-post-preview-image: linear-gradient(to top, #f0f0f0, #fff) !default;
 $background-post-tag: rgb(248, 248, 248) !default;
 
 .recent-posts {
-  .list {
+  .list,
+  .posts-list {
     align-items: stretch;
     display: flex;
     flex-wrap: wrap;
@@ -193,7 +194,8 @@ article.post {
 }
 
 .posts-linked {
-  .list {
+  .list,
+  .posts-list {
     align-items: stretch;
     display: flex;
     flex-wrap: wrap;
