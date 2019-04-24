@@ -19,6 +19,7 @@ ru:
       post_group_tag: "Метка публикаций в группе"
       post_image: "Картинка для публикации"
       post_layout: "Шаблон отображения публикации"
+      post_post_category: "Связь категории и публикации"
       post_post_tag: "Метка у публикации"
       post_tag: "Метка"
       post_type: "Тип публикации"
@@ -76,6 +77,7 @@ ru:
         original_post_id: "Оригинальная публикация"
         original_title: "Оригинальное название"
         privacy: "Видимость"
+        post_categories: "Категории"
         post_category: "Категория"
         post_category_id: "Категория"
         post_layout: "Шаблон"
@@ -142,6 +144,10 @@ ru:
       post_layout:
         name: "Название"
         slug: "Идентификатор"
+      post_post_category:
+        post: "Публикация"
+        post_category: "Категория"
+        post_category_id: "Категория"
       post_tag:
         name: "Название"
         post_type: "Тип публикации"
@@ -256,6 +262,7 @@ ru:
       show:
         title: "Публикация «%{name}»"
         images: "Картинки"
+        post_categories: "Категории"
       images:
         heading: "Картинки"
         nav_text: "Картинки"
@@ -264,10 +271,16 @@ ru:
         links:
           heading: "Связанные публикации"
           search: "Искать"
+        in_list:
+          post_categories: "Категории публикаций"
     index:
       dashboard:
         biovision_post:
           heading: "Модуль публикаций"
+    post_links:
+      entity:
+        in_list:
+          post_categories: "Категории публикаций"
   editorial_members:
     new:
       heading: "Добавление члена редакции"
@@ -396,6 +409,7 @@ ru:
       gallery:
         heading: "Галерея картинок"
         add_image: "Добавить изображение"
+      categories: "Категории"
     post:
       source: "Источник"
       image_credit: "Источник изображения"

@@ -19,9 +19,9 @@
     <%= time_tag(entity.created_at) %>
   </div>
   <div class="lead"><%= entity.lead %></div>
-  <% unless entity.post_category.nil? %>
-    <div class="category" aria-label="<%= t('activerecord.attributes.post.post_category_id') %>">
-      <%= entity.post_category.full_title %>
+  <% if entity.post_categories.any? %>
+    <div class="category" aria-label="<%= t('activerecord.attributes.post.post_categories') %>">
+      <%= entity.post_categories.map(&:name).join(', ') %>
     </div>
   <% end %>
   <div class="counters">

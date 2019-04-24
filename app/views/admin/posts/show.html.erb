@@ -47,14 +47,21 @@
     <dt><%= t('activerecord.attributes.post.slug') %></dt>
     <dd><%= @entity.slug %></dd>
 
-    <% unless @entity.post_category.nil? %>
-      <dt><%= t('activerecord.attributes.post.post_category') %></dt>
+    <% if @entity.post_categories.any? %>
+      <dt><%= t('.post_categories') %></dt>
       <dd>
-        <% if current_user_has_privilege?(:chief_editor) %>
-          <%= admin_post_category_link(@entity.post_category, @entity.post_category.full_title) %>
-        <% else %>
-          <%= @entity.post_category.full_title %>
-        <% end %>
+        <ul>
+          <% chief = current_user_has_privilege?(:chief_editor) %>
+          <% @entity.post_categories.each do |post_category| %>
+            <li>
+              <% if chief %>
+                <%= admin_post_category_link(post_category, post_category.full_title) %>
+              <% else %>
+                <%= post_category.full_title %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
       </dd>
     <% end %>
 

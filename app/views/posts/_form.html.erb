@@ -90,13 +90,18 @@
       <div class="guideline"><%= t('.guidelines.slug') %></div>
     </dd>
 
-    <% if entity.post_type.post_categories.any? %>
-      <dt><%= f.label :post_category_id %></dt>
+    <% categories = PostCategory.list_for_tree(entity.post_type_id) %>
+    <% if categories.any? %>
+      <dt><label><%= t('.categories') %></label></dt>
       <dd>
         <%=
-          f.select(
-              :post_category_id,
-              post_categories_for_select(entity.post_type_id)
+          render(
+              partial: 'posts/form/category_links',
+              locals: {
+                  entity: entity,
+                  collection: categories.select { |_, i| i[:parent_id].nil? },
+                  categories: categories
+              }
           )
         %>
       </dd>

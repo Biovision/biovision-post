@@ -82,3 +82,12 @@
     transition: opacity .25s;
   }
 }
+
+.post-category-tree {
+  .post-category-tree {
+    border-left: .1rem solid #eee;
+    margin-bottom: var(--spacer-xs);
+    margin-left: .8rem;
+    padding-left: 1rem;
+  }
+}

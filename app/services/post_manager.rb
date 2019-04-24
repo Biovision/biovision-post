@@ -58,7 +58,7 @@ class PostManager
       if @entity.post_category.nil?
         @entity.post_type.default_category_name
       else
-        @entity.post_category.text_for_link
+        @entity.post_categories.map(&:text_for_link)
       end
     else
       @entity.text_for_link

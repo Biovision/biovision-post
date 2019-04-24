@@ -22,10 +22,10 @@
       <%= t('activerecord.attributes.post.publication_time') %>:
       <%= time_tag(entity.publication_time) %>
     </div>
-    <% unless entity.post_category.nil? %>
+    <% if entity.post_categories.any? %>
       <div>
-        <%= t('activerecord.attributes.post.post_category') %>:
-        <%= entity.post_category.full_title %>
+        <%= t('.post_categories') %>:
+        <%= entity.post_categories.map(&:name).join(', ') %>
       </div>
     <% end %>
     <% unless entity.author_name.blank? %>

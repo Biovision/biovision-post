@@ -1,0 +1,32 @@
+<% if collection.any? %>
+  <ul class="post-category-tree">
+    <% collection.each do |category_id, item| %>
+      <li>
+        <% element_id = "post_category_#{category_id}" %>
+        <%=
+          check_box_tag(
+              "post_category_ids[]",
+              category_id,
+              item[:item].post?(entity),
+              id: element_id
+          )
+        %>
+        <%= label_tag element_id, item[:item].name %>
+        <% categories.delete(category_id) %>
+        <% children = categories.select { |_, i| i[:parent_id] == category_id } %>
+        <% if children.any? %>
+          <%=
+            render(
+                partial: 'posts/form/category_links',
+                locals: {
+                    entity: entity,
+                    collection: children,
+                    categories: categories
+                }
+            )
+          %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

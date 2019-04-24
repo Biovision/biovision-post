@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Model for post tag
+# Post tag
 class PostTag < ApplicationRecord
   NAME_LIMIT = 255
 
@@ -12,7 +12,7 @@ class PostTag < ApplicationRecord
   before_validation { self.slug = Canonizer.canonize(name) unless name.blank? }
 
   validates_presence_of :name, :slug
-  validates_uniqueness_of :slug, scope: [:post_type_id]
+  validates_uniqueness_of :slug, scope: :post_type_id
   validates_length_of :name, maximum: NAME_LIMIT
 
   scope :ordered_by_slug, -> { order('slug asc') }
@@ -42,6 +42,7 @@ class PostTag < ApplicationRecord
     find_by(post_type_id: post_type_id, slug: Canonizer.canonize(name))
   end
 
+  # @param [Integer] post_type_id
   # @param [String] name
   def self.match_or_create_by_name(post_type_id, name)
     entity = find_by(post_type_id: post_type_id, slug: Canonizer.canonize(name))
@@ -54,8 +55,16 @@ class PostTag < ApplicationRecord
 
   # @param [Post] post
   def post?(post)
-    return false if post.nil?
+    post_post_tags.exist?(post: post)
+  end
 
-    posts.exist?(id: post.id)
+  # @param [Post] post
+  def add_post(post)
+    post_post_tags.create(post: post) unless post.nil?
+  end
+
+  # @param [Post] post
+  def remove_post(post)
+    post_post_tags.where(post: post).delete_all
   end
 end

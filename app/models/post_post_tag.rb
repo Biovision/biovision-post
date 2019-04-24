@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+# Link between post and post tag
+#
+# Attributes:
+#   created_at [DateTime]
 class PostPostTag < ApplicationRecord
   belongs_to :post
   belongs_to :post_tag, counter_cache: :posts_count

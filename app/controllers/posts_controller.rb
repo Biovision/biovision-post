@@ -19,6 +19,7 @@ class PostsController < ApplicationController
     @entity = Post.new(creation_parameters)
     if @entity.save
       apply_post_tags
+      apply_post_categories
       PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(PostManager.new(@entity).post_path)
     else
@@ -46,6 +47,7 @@ class PostsController < ApplicationController
   def update
     if @entity.update(entity_parameters)
       apply_post_tags
+      apply_post_categories
       PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(PostManager.new(@entity).post_path)
     else
@@ -132,6 +134,14 @@ class PostsController < ApplicationController
 
   def apply_post_tags
     @entity.tags_string = param_from_request(:tags_string)
+  end
+
+  def apply_post_categories
+    if params.key?(:post_category_ids)
+      @entity.post_category_ids = Array(params[:post_category_ids])
+    else
+      @entity.post_post_categories.destroy_all
+    end
   end
 
   def owner_for_post

@@ -5,6 +5,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
   def up
     create_posts unless Post.table_exists?
     create_post_post_tags unless PostPostTag.table_exists?
+    create_post_post_categories unless PostPostCategory.table_exists?
     create_post_images unless PostImage.table_exists?
     create_post_links unless PostLink.table_exists?
     create_post_translations unless PostTranslation.table_exists?
@@ -22,6 +23,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     drop_table :post_translations if PostTranslation.table_exists?
     drop_table :post_links if PostLink.table_exists?
     drop_table :post_images if PostImage.table_exists?
+    drop_table :post_post_categories if PostPostCategory.table_exists?
     drop_table :post_post_tags if PostPostTag.table_exists?
     drop_table :posts if Post.table_exists?
   end
@@ -32,7 +34,6 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     create_table :posts, comment: 'Post' do |t|
       t.references :user, foreign_key: { on_update: :cascade, on_delete: :cascade }
       t.references :post_type, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
-      t.references :post_category, foreign_key: { on_update: :cascade, on_delete: :cascade }
       t.references :language, foreign_key: { on_update: :cascade, on_delete: :nullify }
       t.integer :region_id
       t.integer :original_post_id
@@ -101,6 +102,14 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     create_table :post_post_tags, comment: 'Link between post and tag' do |t|
       t.references :post, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
       t.references :post_tag, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.timestamps
+    end
+  end
+
+  def create_post_post_categories
+    create_table :post_post_categories, comment: 'Post in post category' do |t|
+      t.references :post, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.references :post_category, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
       t.timestamps
     end
   end

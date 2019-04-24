@@ -30,7 +30,8 @@ class PostCategory < ApplicationRecord
   belongs_to :post_type
   belongs_to :parent, class_name: PostCategory.to_s, optional: true, touch: true
   has_many :child_categories, class_name: PostCategory.to_s, foreign_key: :parent_id, dependent: :destroy
-  has_many :posts, dependent: :nullify
+  has_many :post_post_categories, dependent: :delete_all
+  has_many :posts, through: :post_post_categories
 
   before_validation { self.slug = Canonizer.transliterate(name.to_s) if slug.blank? }
   before_validation { self.slug = slug.to_s.downcase }
@@ -65,6 +66,18 @@ class PostCategory < ApplicationRecord
   # @param [PostCategory] entity
   def self.siblings(entity)
     where(post_type_id: entity.post_type_id, parent_id: entity.parent_id)
+  end
+
+  # @param [Integer] post_type_id
+  def self.list_for_tree(post_type_id)
+    buffer = {}
+    where(post_type_id: post_type_id).ordered_by_priority.each do |item|
+      buffer[item.id] = {
+        parent_id: item.parent_id,
+        item: item
+      }
+    end
+    buffer
   end
 
   def full_title
@@ -114,8 +127,18 @@ class PostCategory < ApplicationRecord
   end
 
   # @param [Post] post
-  def has_post?(post)
-    post.post_category == self
+  def post?(post)
+    post_post_categories.where(post: post).exists?
+  end
+
+  # @param [Post] post
+  def add_post(post)
+    post_post_categories.create(post: post)
+  end
+
+  # @param [Post] post
+  def remove_post(post)
+    post_post_categories.where(post: post).delete_all
   end
 
   def text_for_link

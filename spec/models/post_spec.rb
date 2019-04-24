@@ -98,6 +98,7 @@ RSpec.describe Post, type: :model do
     end
 
     it 'fails when post category belongs to other post type' do
+      pending 'Redo with many-to-many relationship'
       subject.post_category = create(:post_category)
       expect(subject).not_to be_valid
       expect(subject.errors.messages).to have_key(:post_category)

@@ -15,16 +15,16 @@ class Post < ApplicationRecord
     index_name Rails.configuration.post_index_name
   end
 
-  ALT_LIMIT         = 255
-  BODY_LIMIT        = 16_777_215
-  IMAGE_NAME_LIMIT  = 500
-  LEAD_LIMIT        = 5000
-  META_LIMIT        = 250
-  SLUG_LIMIT        = 200
-  SLUG_PATTERN      = /\A[a-z0-9][-_.a-z0-9]*[a-z0-9]\z/.freeze
+  ALT_LIMIT = 255
+  BODY_LIMIT = 16_777_215
+  IMAGE_NAME_LIMIT = 500
+  LEAD_LIMIT = 5000
+  META_LIMIT = 250
+  SLUG_LIMIT = 200
+  SLUG_PATTERN = /\A[a-z0-9][-_.a-z0-9]*[a-z0-9]\z/.freeze
   SLUG_PATTERN_HTML = '^[a-zA-Z0-9][-_.a-zA-Z0-9]*[a-zA-Z0-9]$'
-  TIME_RANGE        = (0..1440).freeze
-  TITLE_LIMIT       = 255
+  TIME_RANGE = (0..1440).freeze
+  TITLE_LIMIT = 255
 
   URL_PATTERN = %r{https?://([^/]+)/?.*}.freeze
 
@@ -34,13 +34,14 @@ class Post < ApplicationRecord
 
   belongs_to :user
   belongs_to :post_type, counter_cache: true
-  belongs_to :post_category, counter_cache: true, optional: true
   belongs_to :language, optional: true
   belongs_to :agent, optional: true
   belongs_to :post_layout, counter_cache: true, optional: true
   has_many :post_references, dependent: :delete_all
   has_many :post_notes, dependent: :delete_all
   has_many :post_links, dependent: :delete_all
+  has_many :post_post_categories, dependent: :destroy
+  has_many :post_categories, through: :post_post_categories
   has_many :post_post_tags, dependent: :destroy
   has_many :post_tags, through: :post_post_tags
   has_many :post_images, dependent: :destroy
@@ -75,20 +76,19 @@ class Post < ApplicationRecord
   validates_length_of :translator_name, maximum: META_LIMIT
   validates_format_of :slug, with: SLUG_PATTERN
   validates_numericality_of :time_required, in: TIME_RANGE, allow_nil: true
-  validate :category_consistency
 
   scope :recent, -> { order('publication_time desc') }
   scope :popular, -> { order('rating desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
   scope :for_language, ->(language) { where(language: language) }
-  scope :exclude_ids, ->(v) { where('id not in (?)', Array(v)) unless v.blank? }
+  scope :exclude_ids, ->(v) { where('posts.id not in (?)', Array(v)) unless v.blank? }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
   scope :list_for_owner, ->(user) { owned_by(user).recent }
   scope :tagged, ->(tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
-  scope :in_category, ->(slug) { where(post_category_id: PostCategory.ids_for_slug(slug)).distinct unless slug.blank? }
-  scope :in_category_branch, ->(category) { where(post_category_id: category.subbranch_ids) }
+  scope :in_category, ->(slug) { joins(:post_post_categories).where(post_post_categories: { post_category_id: PostCategory.ids_for_slug(slug) }).distinct unless slug.blank? }
+  scope :in_category_branch, ->(category) { joins(:post_post_categories).where(post_post_categories: { post_category_id: category.subbranch_ids }) }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
   scope :of_type, ->(slug) { where(post_type: PostType.find_by(slug: slug)) unless slug.blank? }
   scope :archive, -> { f = Arel.sql('date(publication_time)'); distinct.order(f).pluck(f) }
@@ -114,10 +114,10 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data   = %i[body language_id lead original_title post_category_id post_layout_id publication_time slug title]
-    image_data  = %i[image image_alt_text image_source_link image_source_name image_name]
-    meta_data   = %i[rating source_name source_link meta_title meta_description meta_keywords time_required]
-    flags_data  = %i[allow_comments allow_votes explicit show_owner visible translation]
+    main_data = %i[body language_id lead original_title post_layout_id publication_time slug title]
+    image_data = %i[image image_alt_text image_source_link image_source_name image_name]
+    meta_data = %i[rating source_name source_link meta_title meta_description meta_keywords time_required]
+    flags_data = %i[allow_comments allow_votes explicit show_owner visible translation]
     author_data = %i[author_name author_title author_url translator_name]
 
     main_data + image_data + meta_data + author_data + flags_data
@@ -196,12 +196,16 @@ class Post < ApplicationRecord
   def similar_posts(quantity = 3, excluded = [])
     result = []
 
-    collection = Post.where(post_category: post_category).exclude_ids(excluded)
+    collection = Post.joins(:post_post_categories).where(post_post_categories: { post_category_id: post_category_ids }).exclude_ids(excluded)
     collection.visible.popular.first(quantity).each do |post|
       result << post
     end
 
     result
+  end
+
+  def post_category
+    post_categories.first
   end
 
   def locale
@@ -248,12 +252,6 @@ class Post < ApplicationRecord
   end
 
   private
-
-  def category_consistency
-    return if post_category.nil? || post_category.post_type == post_type
-
-    errors.add(:post_category, I18n.t('activerecord.errors.messages.mismatches_post_type'))
-  end
 
   def prepare_source_names
     prepare_image_source

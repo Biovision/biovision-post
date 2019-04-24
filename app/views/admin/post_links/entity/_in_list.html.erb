@@ -21,10 +21,10 @@
       <%= t('activerecord.attributes.post.publication_time') %>:
       <%= time_tag(post.publication_time) %>
     </div>
-    <% unless post.post_category.nil? %>
+    <% if post.post_categories.any? %>
       <div>
-        <%= t('activerecord.attributes.post.post_category') %>:
-        <%= post.post_category.full_title %>
+        <%= t('.post_categories') %>:
+        <%= post.post_categories.map(&:name).join(', ') %>
       </div>
     <% end %>
   </div>
