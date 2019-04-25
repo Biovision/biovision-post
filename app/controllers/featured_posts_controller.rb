@@ -4,6 +4,7 @@ class FeaturedPostsController < AdminController
   # post /featured_posts
   def create
     @entity = FeaturedPost.new(creation_parameters)
+    bump_priority
     if @entity.save
       render status: :created
     else
@@ -38,5 +39,21 @@ class FeaturedPostsController < AdminController
     if @entity.nil?
       handle_http_404('Cannot find featured_post')
     end
+  end
+
+  def bump_priority
+    @entity.priority = 1
+
+    criteria = {
+      language_id: @entity&.language_id,
+      priority: 1
+    }
+    return unless FeaturedPost.exists?(criteria)
+
+    query = %(update #{FeaturedPost.table_name}
+      set priority = priority + 1
+      where language_id = #{criteria[:language_id]};)
+
+    FeaturedPost.connection.execute(query)
   end
 end

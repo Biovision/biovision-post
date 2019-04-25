@@ -62,6 +62,18 @@
                             list = document.createElement('ol');
                             list.classList.add('list-of-entities');
                             listContainer.append(list);
+                        } else {
+                            const firstItem = list.querySelector("li:first-of-type");
+                            if (firstItem) {
+                                const priority = parseInt(firstItem.getAttribute("data-number"));
+
+                                if (priority === 1) {
+                                    list.querySelectorAll("li").forEach(function (element) {
+                                        const oldPriority = parseInt(element.getAttribute("data-number"));
+                                        element.setAttribute("data-number", String(oldPriority + 1));
+                                    });
+                                }
+                            }
                         }
 
                         const li = document.createElement('li');
@@ -69,7 +81,7 @@
                         li.setAttribute('data-number', attr['priority']);
                         li.innerHTML = data.meta.html;
 
-                        list.append(li);
+                        list.prepend(li);
                     } else {
                         console.log('Cannot find list container');
                     }
