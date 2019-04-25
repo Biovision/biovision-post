@@ -273,6 +273,8 @@ ru:
           search: "Искать"
         in_list:
           post_categories: "Категории публикаций"
+      filter:
+        filter: "Фильтровать"
     index:
       dashboard:
         biovision_post:

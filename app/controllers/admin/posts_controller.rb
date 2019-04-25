@@ -9,7 +9,8 @@ class Admin::PostsController < AdminController
 
   # get /admin/posts
   def index
-    @collection = Post.page_for_administration(current_page)
+    @filter = params[:filter] || {}
+    @collection = Post.page_for_administration(current_page, @filter)
   end
 
   # get /admin/posts/:id

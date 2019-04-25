@@ -45,49 +45,21 @@
   <section>
     <h2><%= t('.add_category') %></h2>
 
-    <ul class="entity-links">
-      <% PostCategory.order('id asc').each do |post_category| %>
-        <li>
-          <% element_id = "post_category_#{post_category.id}" %>
-          <%=
-            check_box_tag(
-                'post_categories[]',
-                post_category.id,
-                @entity.category?(post_category),
-                id: element_id,
-                data: {
-                    url: category_admin_post_group_path(id: @entity.id, category_id: post_category.id)
-                }
-            )
-          %>
-          <%= label_tag(element_id, post_category.full_title) %>
-          (<%= post_category.post_type.name %>)
-        </li>
-      <% end %>
-    </ul>
-  </section>
-
-  <section>
-    <h2><%= t('.tags') %></h2>
-
-    <%=
-      render(
-          partial: 'shared/admin/list_with_priority',
-          locals: {
-              collection: @entity.post_group_tags.list_for_administration
-          }
-      )
-    %>
-  </section>
-
-  <section>
-    <h2><%= t('.add_tag') %></h2>
-
-    <div class="tag-search-container">
-      <label for="tag-search"><%= t('activerecord.attributes.post_tag.name') %></label>
-      <input id="tag-search" type="search" data-url="<%= tags_admin_post_group_path(id: @entity.id) %>"/>
-
-      <div class="list-container"></div>
-    </div>
+    <% PostType.list_for_administration.each do |post_type| %>
+      <div>
+        <h3><%= post_type.name %></h3>
+        <% categories = PostCategory.list_for_tree(post_type) %>
+        <%=
+          render(
+              partial: 'admin/post_groups/entity/categories',
+              locals: {
+                  collection: categories.select { |_, i| i[:parent_id].nil? },
+                  categories: categories,
+                  post_group: @entity
+              }
+          )
+        %>
+      </div>
+    <% end %>
   </section>
 </article>

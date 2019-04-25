@@ -50,6 +50,8 @@
   <section>
     <h2><%= t(:post_count, count: @entity.posts_count) %></h2>
 
+    <%= render partial: 'admin/posts/filter' %>
+
     <%= paginate @collection %>
     <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
     <%= paginate @collection %>

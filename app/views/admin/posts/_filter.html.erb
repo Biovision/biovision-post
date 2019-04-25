@@ -1,0 +1,19 @@
+<%= form_with(url: url_for, local: true, method: :get, scope: :filter) do |f| %>
+  <div class="fields">
+    <div>
+      <%= f.label :visible, t('activerecord.attributes.post.visible') %>
+      <%=
+        f.select(
+            :visible,
+            options_for_select(
+                [[t(:not_set), ''], [t(:yes), 1], [t(:no), 0]],
+                params.dig(:filter, :visible)
+            ),
+        )
+      %>
+    </div>
+  </div>
+  <div class="buttons">
+    <%= button_tag(t('.filter'), type: :submit) %>
+  </div>
+<% end %>

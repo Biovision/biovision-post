@@ -94,11 +94,13 @@ class Post < ApplicationRecord
   scope :archive, -> { f = Arel.sql('date(publication_time)'); distinct.order(f).pluck(f) }
   scope :posted_after, ->(time) { where('publication_time >= ?', time) }
   scope :pubdate, ->(date) { where('date(publication_time) = ?', date) }
+  scope :f_visible, ->(f) { where(visible: f.to_i.positive?) unless f.blank? }
+  scope :filtered, ->(f) { f_visible(f[:visible]) }
 
   # @param [Integer] page
-  # @param [Integer] per_page
-  def self.page_for_administration(page = 1, per_page = Post.items_per_page)
-    list_for_administration.page(page).per(per_page)
+  # @param [Hash] filter
+  def self.page_for_administration(page = 1, filter = {})
+    filtered(filter).list_for_administration.page(page)
   end
 
   # @param [Integer] page

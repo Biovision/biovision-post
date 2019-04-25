@@ -11,7 +11,8 @@ class Admin::PostTypesController < AdminController
 
   # get /admin/post_types/:id
   def show
-    @collection = @entity.posts.page_for_administration(current_page)
+    @filter = params[:filter] || {}
+    @collection = @entity.posts.page_for_administration(current_page, @filter)
   end
 
   # get /admin/post_types/:id/post_categories
