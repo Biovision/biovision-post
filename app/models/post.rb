@@ -196,7 +196,7 @@ class Post < ApplicationRecord
   def similar_posts(quantity = 3, excluded = [])
     result = []
 
-    collection = Post.joins(:post_post_categories).where(post_post_categories: { post_category_id: post_category_ids }).exclude_ids(excluded)
+    collection = Post.joins(:post_post_categories).where(post_post_categories: { post_category_id: post_category_ids }).exclude_ids(excluded + [id])
     collection.visible.popular.first(quantity).each do |post|
       result << post
     end
