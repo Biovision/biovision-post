@@ -88,7 +88,7 @@ class Post < ApplicationRecord
   scope :list_for_owner, ->(user) { owned_by(user).recent }
   scope :tagged, ->(tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
   scope :in_category, ->(slug) { joins(:post_post_categories).where(post_post_categories: { post_category_id: PostCategory.ids_for_slug(slug) }).distinct unless slug.blank? }
-  scope :in_category_branch, ->(category) { joins(:post_post_categories).where(post_post_categories: { post_category_id: category.subbranch_ids }) }
+  scope :in_category_branch, ->(category) { joins(:post_post_categories).where(post_post_categories: { post_category_id: category.subbranch_ids }).distinct }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
   scope :of_type, ->(slug) { where(post_type: PostType.find_by(slug: slug)) unless slug.blank? }
   scope :archive, -> { f = Arel.sql('date(publication_time)'); distinct.order(f).pluck(f) }
