@@ -70,6 +70,11 @@ class EditorialMember < ApplicationRecord
     Post.owned_by(user).count
   end
 
+  # @param [User] user
+  def editable_by?(user)
+    UserPrivilege.user_has_privilege?(user, :chief_editor)
+  end
+
   # @param [PostType] post_type
   def post_type?(post_type)
     editorial_member_post_types.where(post_type: post_type).exists?
