@@ -43,7 +43,7 @@ class Admin::PostsController < AdminController
   # @param [String] q
   def search_posts(q)
     if Post.respond_to?(:search)
-      Post.search(q).records.first(50)
+      Post.search(q).page(current_page).records
     else
       Post.where('title ilike ?', "%#{q}%").list_for_administration.first(50)
     end

@@ -1,0 +1,13 @@
+<%=
+  form_with(
+      url: search_admin_posts_path,
+      method: :get,
+      local: true
+  ) do
+%>
+  <div>
+    <%= label_tag(:q, t('.query')) %>
+    <%= search_field_tag(:q, param_from_request(:q)) %>
+    <%= button_tag t('.search'), type: :submit, name: nil %>
+  </div>
+<% end %>

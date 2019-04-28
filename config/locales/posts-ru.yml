@@ -275,6 +275,13 @@ ru:
           post_categories: "Категории публикаций"
       filter:
         filter: "Фильтровать"
+      search:
+        title: "Поиск публикаций"
+        nav_text: "Поиск"
+        heading: "Поиск публикаций"
+      search_form:
+        query: "Что искать"
+        search: "Искать"
     index:
       dashboard:
         biovision_post:
