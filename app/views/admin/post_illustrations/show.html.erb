@@ -1,0 +1,32 @@
+<% content_for :meta_title, t('.title', name: @entity.name) %>
+<% content_for :breadcrumbs do %>
+  <%= link_to(t('admin.post_illustrations.nav_item.text'), admin_post_illustrations_path) %>
+  <span><%= @entity.name %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.name %></h1>
+
+  <ul class="actions">
+    <li><%= back_icon(admin_post_illustrations_path) %></li>
+  </ul>
+
+  <dl>
+    <dt><%= t('activerecord.attributes.post_illustration.image') %></dt>
+    <dd>
+      <figure class="preview">
+        <%= simple_image_medium(@entity) %>
+        <figcaption>
+          <%= link_to(@entity.name, @entity.image.url) %>
+        </figcaption>
+      </figure>
+    </dd>
+
+    <% unless @entity.user.nil? %>
+      <dt><%= t('activerecord.attributes.post_illustration.user') %></dt>
+      <dd><%= admin_user_link(@entity.user) %></dd>
+    <% end %>
+  </dl>
+
+  <%= render partial: 'shared/track', locals: { item: @entity } %>
+</article>

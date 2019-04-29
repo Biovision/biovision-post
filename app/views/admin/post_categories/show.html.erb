@@ -2,10 +2,10 @@
 <% content_for :breadcrumbs do %>
   <%= link_to(t('admin.post_types.nav_item.text'), admin_post_types_path) %>
   <%= admin_post_type_link(@entity.post_type) %>
+  <%= link_to(t('admin.post_types.post_categories.heading'), post_categories_admin_post_type_path(id: @entity.post_type_id)) %>
   <% @entity.parents.each do |parent| %>
     <%= admin_post_category_link(parent) %>
   <% end %>
-  <%= link_to(t('admin.post_types.post_categories.heading'), post_categories_admin_post_type_path(id: @entity.post_type_id)) %>
   <span><%= @entity.name %></span>
 <% end %>
 

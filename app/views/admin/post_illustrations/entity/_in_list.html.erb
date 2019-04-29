@@ -1,0 +1,19 @@
+<div class="image">
+  <%= simple_image_preview(entity) %>
+</div>
+<div class="data">
+  <div><%= admin_post_illustration_link(entity) %></div>
+  <div class="info">
+    <%= t(:created_at) %>: <%= time_tag(entity.created_at) %>
+  </div>
+  <% unless entity.image.blank? %>
+    <div class="secondary info">
+      <%= link_to(number_to_human_size(File.size(entity.image.path)), entity.image.url) %>
+    </div>
+  <% end %>
+  <% unless entity.user.blank? %>
+    <div class="secondary info">
+      <%= admin_user_link(entity.user) %>
+    </div>
+  <% end %>
+</div>

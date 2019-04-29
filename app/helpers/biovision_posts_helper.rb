@@ -33,6 +33,13 @@ module BiovisionPostsHelper
     link_to(text, admin_post_group_path(id: entity.id), options)
   end
 
+  # @param [PostIllustration] entity
+  # @param [String] text
+  # @param [Hash] options
+  def admin_post_illustration_link(entity, text = entity.name, options = {})
+    link_to(text, admin_post_illustration_path(id: entity.id), options)
+  end
+
   # @param [PostImage] entity
   # @param [String] text
   def admin_post_image_link(entity, text = entity.name)

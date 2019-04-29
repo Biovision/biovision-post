@@ -102,6 +102,7 @@ Rails.application.routes.draw do
         get 'posts', on: :member
       end
 
+      resources :post_illustrations, only: %i[index show]
       resources :post_images, only: %i[index show], concerns: %i[toggle priority]
 
       resources :post_groups, only: %i[index show], concerns: %i[toggle priority] do

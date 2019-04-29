@@ -17,6 +17,7 @@ ru:
       post_group: "Группа категорий публикаций"
       post_group_category: "Категория публикаций в группе"
       post_group_tag: "Метка публикаций в группе"
+      post_illustration: "Иллюстрация в теле публикации"
       post_image: "Картинка для публикации"
       post_layout: "Шаблон отображения публикации"
       post_post_category: "Связь категории и публикации"
@@ -130,6 +131,10 @@ ru:
         post_group: "Группа"
         post_group_id: "Группа"
         priority: "Порядок сортировки"
+      post_illustration:
+        image: "Картинка"
+        user: "Пользователь"
+        user_id: "Пользователь"
       post_image:
         caption: "Название"
         description: "Описание"
@@ -205,10 +210,19 @@ ru:
         add_category: "Добавить категорию"
         tags: "Метки"
         add_tag: "Добавить метку"
+    post_illustrations:
+      nav_item:
+        description: "Управление загруженными картинками публикаций"
+        text: "Загруженные картинки для публикаций"
+      index:
+        title: "Картинки для публикаций, страница %{page}"
+        heading: "Картинки в публикациях"
+      show:
+        title: "Картинка в публикации «%{name}»"
     post_images:
       nav_item:
-        description: "Управление картинками публикаций"
-        text: "Картинки публикаций"
+        description: "Управление галереями публикаций"
+        text: "Изображения в галереях публикаций"
       index:
         heading: "Картинки публикаций"
         title: "Картинки публикаций, страница %{page}"
