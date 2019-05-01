@@ -13,7 +13,9 @@
 
   <%= render partial: 'admin/posts/search_form' %>
 
-  <%= paginate @collection %>
-  <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
-  <%= paginate @collection %>
+  <% if @collection.respond_to?(:current_page) %>
+    <%= paginate @collection %>
+    <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
+    <%= paginate @collection %>
+  <% end %>
 </article>

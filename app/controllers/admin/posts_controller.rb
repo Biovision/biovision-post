@@ -43,9 +43,9 @@ class Admin::PostsController < AdminController
   # @param [String] q
   def search_posts(q)
     if Post.respond_to?(:search)
-      Post.search(q).page(current_page).records
+      Post.search(q).records.page(current_page)
     else
-      Post.where('title ilike ?', "%#{q}%").list_for_administration.first(50)
+      Post.where('title ilike ?', "%#{q}%").page_for_administration(current_page)
     end
   end
 end
