@@ -1,10 +1,16 @@
 <div class="post-preview" role="group">
   <div class="image">
-    <%= post_link(entity, post_image_small(entity), class: 'covered proportional-container r-16x9') %>
+    <%=
+      post_link(
+          entity,
+          post_image_small(entity),
+          class: 'covered proportional-container r-16x9'
+      )
+    %>
   </div>
   <div class="text">
     <div class="title"><%= post_link(entity) %></div>
-    <div class="lead"><%= post_link(entity, entity.lead!) %></div>
+    <div class="lead"><%= post_link(entity, entity.lead) %></div>
   </div>
   <div class="meta">
     <div class="time-and-author">
@@ -21,7 +27,7 @@
       <%= post_category_link(entity) %>
     </div>
     <% if entity.tags_cache.any? %>
-      <ul class="tags">
+      <ul class="post-tags">
         <% entity.tags_cache.each do |tag_name| %>
           <li><%= tagged_posts_link(tag_name, entity) %></li>
         <% end %>

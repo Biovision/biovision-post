@@ -20,8 +20,10 @@
 
   <% unless post.image.blank? %>
     <figure itemprop="image" itemscope itemtype="http://schema.org/ImageObject" role="group">
-      <%= post_image_large(post, { itemprop: 'about' }) %>
-      <meta itemprop="url" content="<%= request.protocol + request.host_with_port + post.image.url %>"/>
+      <div class="post-image-main">
+        <%= post_image_large(post, { itemprop: 'about' }) %>
+        <meta itemprop="url" content="<%= request.protocol + request.host_with_port + post.image.url %>"/>
+      </div>
       <% if post.has_image_data? %>
         <figcaption>
           <% unless post.image_name.blank? %>
@@ -62,7 +64,7 @@
   %>
 
   <% if post.tags_cache.any? %>
-    <ul class="tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
+    <ul class="post-tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
       <% post.tags_cache.each do |tag_name| %>
         <li><%= tagged_posts_link(tag_name, post) %></li>
       <% end %>

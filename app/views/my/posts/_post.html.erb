@@ -42,7 +42,7 @@
   </div>
 
   <% if post.tags_cache.any? %>
-    <div class="tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
+    <div class="post-tags" aria-label="<%= t('activerecord.attributes.post.tags_cache') %>">
       <%= post.tags_cache.join(', ') %>
     </div>
   <% end %>
