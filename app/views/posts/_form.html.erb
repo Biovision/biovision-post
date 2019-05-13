@@ -20,19 +20,19 @@
           %>
           <%= label_tag("user_for_entity_#{current_user.id}", current_user.profile_name) %>
         </div>
-        <% PrivilegeGroup.users(:editors).uniq.each do |user| %>
-          <% next if user.id == current_user.id %>
+        <% EditorialMember.list_for_administration.each do |editorial_member| %>
+          <% next if editorial_member.user_id == current_user.id %>
           <div>
-            <% element_id = "user_for_entity_#{user.id}" %>
+            <% element_id = "user_for_entity_#{editorial_member.id}" %>
             <%=
               radio_button_tag(
                   :user_for_entity,
-                  user.id,
-                  entity.user_id == user.id,
+                  editorial_member.user_id,
+                  entity.user_id == editorial_member.user_id,
                   id: element_id
               )
             %>
-            <%= label_tag(element_id, user.profile_name) %>
+            <%= label_tag(element_id, editorial_member.profile_name) %>
           </div>
         <% end %>
       </dd>
