@@ -3,6 +3,7 @@
 # Tables for post types, categories and tags
 class CreatePostTypes < ActiveRecord::Migration[5.2]
   def up
+    create_component
     create_post_types unless PostType.table_exists?
     create_post_categories unless PostCategory.table_exists?
     create_post_tags unless PostTag.table_exists?
@@ -54,6 +55,7 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
       t.string :meta_description
       t.string :parents_cache, default: '', null: false
       t.integer :children_cache, default: [], array: true, null: false
+      t.jsonb :data, default: {}, null: false
     end
 
     add_foreign_key :post_categories, :post_categories, column: :parent_id, on_update: :cascade, on_delete: :cascade
@@ -101,5 +103,9 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
 
       group.add_privilege(child) if child.save
     end
+  end
+
+  def create_component
+    BiovisionComponent.create(slug: 'posts')
   end
 end
