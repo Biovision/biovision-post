@@ -51,15 +51,12 @@ class Post < ApplicationRecord
 
   after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize { self.publication_time = Time.now if publication_time.nil? }
-  before_validation { self.slug = Canonizer.transliterate(title.to_s) if slug.blank? }
-  before_validation { self.slug = slug.downcase }
+  before_validation :prepare_slug
   before_validation :prepare_source_names
 
   validates_presence_of :uuid, :title, :slug, :body
   validates_length_of :title, maximum: TITLE_LIMIT
-  validates_length_of :slug, maximum: SLUG_LIMIT
   validates_length_of :lead, maximum: LEAD_LIMIT
-  validates_length_of :body, maximum: BODY_LIMIT
   validates_length_of :image_name, maximum: IMAGE_NAME_LIMIT
   validates_length_of :image_alt_text, maximum: ALT_LIMIT
   validates_length_of :image_source_name, maximum: META_LIMIT
@@ -74,7 +71,7 @@ class Post < ApplicationRecord
   validates_length_of :author_title, maximum: META_LIMIT
   validates_length_of :author_url, maximum: META_LIMIT
   validates_length_of :translator_name, maximum: META_LIMIT
-  validates_format_of :slug, with: SLUG_PATTERN
+  # validates_format_of :slug, with: SLUG_PATTERN
   validates_numericality_of :time_required, in: TIME_RANGE, allow_nil: true
 
   scope :recent, -> { order('publication_time desc') }
@@ -116,7 +113,7 @@ class Post < ApplicationRecord
   end
 
   def self.entity_parameters
-    main_data = %i[body language_id lead original_title post_layout_id publication_time slug title]
+    main_data = %i[body language_id lead original_title post_layout_id publication_time region_id slug title]
     image_data = %i[image image_alt_text image_source_link image_source_name image_name]
     meta_data = %i[rating source_name source_link meta_title meta_description meta_keywords time_required]
     flags_data = %i[allow_comments allow_votes explicit show_owner visible translation]
@@ -254,6 +251,11 @@ class Post < ApplicationRecord
   end
 
   private
+
+  def prepare_slug
+    self.slug = Canonizer.transliterate(title.to_s) if slug.blank?
+    self.slug = slug.downcase
+  end
 
   def prepare_source_names
     prepare_image_source
