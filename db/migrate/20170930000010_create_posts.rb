@@ -13,9 +13,11 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     create_post_notes unless PostNote.table_exists?
     create_featured_posts unless FeaturedPost.table_exists?
     create_post_illustrations unless PostIllustration.table_exists?
+    create_post_attachments unless PostAttachment.table_exists?
   end
 
   def down
+    drop_table :post_attachments if PostAttachment.table_exists?
     drop_table :post_illustrations if PostIllustration.table_exists?
     drop_table :featured_posts if FeaturedPost.table_exists?
     drop_table :post_notes if PostNote.table_exists?
@@ -189,6 +191,16 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.inet :ip
       t.timestamps
       t.string :image
+    end
+  end
+
+  def create_post_attachments
+    create_table :post_attachments, comment: 'Attachment for post' do |t|
+      t.references :post, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.uuid :uuid
+      t.timestamps
+      t.string :name
+      t.string :file
     end
   end
 end

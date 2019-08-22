@@ -139,6 +139,19 @@ module BiovisionPostsHelper
     end
   end
 
+  # @param [PostAttachment] entity
+  # @param [String] text
+  # @param [Hash] options
+  def post_attachment_link(entity, text = entity.name!, options = {})
+    return '' if entity.file.blank?
+
+    default_options = {
+      target: '_blank'
+    }
+
+    link_to(text, entity.file.url, default_options.merge(options))
+  end
+
   # Post image preview for displaying in "administrative" lists
   #
   # @param [Post] entity

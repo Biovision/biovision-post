@@ -45,6 +45,7 @@ class Post < ApplicationRecord
   has_many :post_post_tags, dependent: :destroy
   has_many :post_tags, through: :post_post_tags
   has_many :post_images, dependent: :destroy
+  has_many :post_attachments, dependent: :destroy
   has_many :post_translations, dependent: :delete_all
   has_many :post_zen_categories, dependent: :destroy
   has_many :zen_categories, through: :post_zen_categories
