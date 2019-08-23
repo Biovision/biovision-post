@@ -31,6 +31,6 @@ class PostGroupCategory < ApplicationRecord
       next unless link.post_category.visible?
 
       link.post_category
-    end
+    end.compact
   end
 end

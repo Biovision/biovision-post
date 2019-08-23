@@ -10,6 +10,16 @@
     </div>
   <% end %>
 
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals:  {
+            entity: entity,
+            url:    toggle_admin_post_category_path(id: entity.id)
+        }
+    )
+  %>
+
   <ul class="actions">
     <li class="lockable <%= entity.locked? ? 'hidden' : '' %>">
       <%= edit_icon edit_post_category_path(id: entity.id) %>

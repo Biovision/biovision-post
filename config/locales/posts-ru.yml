@@ -304,6 +304,10 @@ ru:
       entity:
         in_list:
           post_categories: "Категории публикаций"
+  biovision:
+    components:
+      posts:
+        name: "Публикации"
   editorial_members:
     new:
       heading: "Добавление члена редакции"

@@ -50,6 +50,16 @@
     <% end %>
   </dl>
 
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals:  {
+            entity: @entity,
+            url:    toggle_admin_post_category_path(id: @entity.id)
+        }
+    )
+  %>
+
   <% if @entity.child_categories.any? %>
     <section>
       <h2><%= t('.children') %></h2>

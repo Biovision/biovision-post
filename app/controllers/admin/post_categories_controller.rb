@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Handling post categories
 class Admin::PostCategoriesController < AdminController
   include LockableEntity
   include ToggleableEntity
@@ -14,9 +17,7 @@ class Admin::PostCategoriesController < AdminController
 
   def set_entity
     @entity = PostCategory.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post category')
-    end
+    handle_http_404('Cannot find post category') if @entity.nil?
   end
 
   def restrict_access

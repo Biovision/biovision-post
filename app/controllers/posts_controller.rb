@@ -21,6 +21,7 @@ class PostsController < ApplicationController
       apply_post_tags
       apply_post_categories
       add_attachments if params.key?(:post_attachment)
+      mark_as_featured if params[:featured]
       PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(PostManager.new(@entity).post_path)
     else
@@ -189,5 +190,12 @@ class PostsController < ApplicationController
     parameters = params.require(:post_attachment).permit(permitted)
 
     @entity.post_attachments.create(parameters)
+  end
+
+  def mark_as_featured
+    FeaturedPost.where(language: @entity.language).update_all('priority = priority + 1')
+    link = FeaturedPost.new(language: @entity.language, post: @entity)
+    link.priority = 1
+    link.save
   end
 end
