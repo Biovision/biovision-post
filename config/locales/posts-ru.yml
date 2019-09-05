@@ -308,6 +308,10 @@ ru:
     components:
       posts:
         name: "Публикации"
+        privileges:
+          chief_editor: "Главный редактор"
+          deputy_chief_editor: "Заместитель главного редактора"
+          editor: "Редактор"
   editorial_members:
     new:
       heading: "Добавление члена редакции"

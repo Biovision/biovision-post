@@ -4,12 +4,14 @@ module Biovision
   module Components
     # Component for posts
     class PostsComponent < BaseComponent
-      def use_parameters?
-        false
+      SLUG = 'posts'
+
+      def self.privilege_names
+        %w[chief_editor deputy_chief_editor editor]
       end
 
-      def allow?(options = {})
-        UserPrivilege.user_in_group?(user, :editors)
+      def use_parameters?
+        false
       end
     end
   end
