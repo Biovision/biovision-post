@@ -251,6 +251,10 @@ class Post < ApplicationRecord
     update! tags_cache: post_tags.order('slug asc').map(&:name)
   end
 
+  def commentable_by?(user)
+    allow_comments? && !user.nil?
+  end
+
   private
 
   def prepare_slug
