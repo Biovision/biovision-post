@@ -1,51 +1,34 @@
+# frozen_string_literal: true
+
+# Post handler for user
 class My::PostsController < ProfileController
-  before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :restrict_editing, only: [:edit, :update, :destroy]
+  before_action :set_entity, only: %i[show edit update destroy]
+  before_action :restrict_editing, only: %i[edit update destroy]
 
   # get /my/posts
   def index
     @collection = Post.page_for_owner(current_user, current_page)
   end
 
-  # get /my/posts/new
-  def new
-    @entity = Post.new
-  end
-
   # get /my/articles/new
   def new_article
-    if current_user_has_privilege?(:editor)
-      @entity = Post.of_type(:article).new
-      render :new
-    else
-      handle_http_401('User has no editor privilege')
-    end
+    render_form_if_allowed 'article'
   end
 
   # get /my/news/new
   def new_news
-    if current_user_has_privilege?(:reporter)
-      @entity = Post.of_type(:news).new
-      render :new
-    else
-      handle_http_401('User has no reporter privilege')
-    end
+    render_form_if_allowed 'news'
   end
 
   # get /my/blog_posts/new
   def new_blog_post
-    if current_user_has_privilege?(:blogger)
-      @entity = Post.of_type(:blog_post).new
-      render :new
-    else
-      handle_http_401('User has no blogger privilege')
-    end
+    render_form_if_allowed 'blog_post'
   end
 
   # post /my/posts
   def create
     @entity = Post.new(creation_parameters)
-    if @entity.save
+    if component_handler.allow_post_type?(@entity.post_type) && @entity.save
       apply_post_tags
       form_processed_ok(my_post_path(id: @entity.id))
     else
@@ -73,40 +56,54 @@ class My::PostsController < ProfileController
 
   # delete /my/posts/:id
   def destroy
-    if @entity.destroy
-      flash[:notice] = t('posts.destroy.success')
-    end
+    flash[:notice] = t('posts.destroy.success') if @entity.destroy
+
     redirect_to my_posts_path
   end
 
   # get /my/articles
   def articles
-    @collection = Post.of_type(:article).page_for_owner(current_user, current_page)
+    prepare_collection 'article'
   end
 
   # get /my/news
   def news_index
-    @collection = Post.of_type(:news).page_for_owner(current_user, current_page)
+    prepare_collection 'news'
   end
 
   # get /my/blog
   def blog_posts
-    @collection = Post.of_type(:blog_post).page_for_owner(current_user, current_page)
+    prepare_collection 'blog_post'
   end
 
   private
 
-  def set_entity
-    @entity = Post.owned_by(current_user).find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post')
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
+  # @param [String] slug
+  def render_form_if_allowed(slug)
+    if component_handler.allow_post_type?(slug)
+      @entity = PostType[slug].posts.new
+      render :new
+    else
+      handle_http_401("User cannot create posts of type #{slug}")
     end
   end
 
+  # @param [String] slug
+  def prepare_collection(slug)
+    @collection = PostType[slug].posts.page_for_owner(current_user, current_page)
+  end
+
+  def set_entity
+    @entity = Post.owned_by(current_user).find_by(id: params[:id])
+    handle_http_404('Cannot find post') if @entity.nil?
+  end
+
   def restrict_editing
-    if @entity.locked?
-      handle_http_403('Entity is locked')
-    end
+    handle_http_403('Entity is locked') if @entity.locked?
   end
 
   def entity_parameters

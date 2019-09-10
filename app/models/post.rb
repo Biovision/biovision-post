@@ -79,7 +79,7 @@ class Post < ApplicationRecord
   scope :popular, -> { order('rating desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
-  scope :for_language, ->(language) { where(language: language) }
+  scope :for_language, ->(language) { where(language: language).or(where(language: nil)) }
   scope :exclude_ids, ->(v) { where('posts.id not in (?)', Array(v)) unless v.blank? }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }

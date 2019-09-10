@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
+# Viewing blog posts
 class BlogPostsController < ApplicationController
   before_action :set_category, only: :category
   before_action :set_entity, only: :show
 
   # get /blog_posts
   def index
-    post_type   = PostType.find_by(slug: 'blog_post')
+    post_type   = PostType['blog_post']
     @collection = post_type.posts.for_language(current_language).page_for_visitors(current_page)
     respond_to do |format|
       format.html
@@ -35,6 +38,10 @@ class BlogPostsController < ApplicationController
   end
 
   private
+
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
 
   def set_category
     type = PostType.find_by(slug: 'blog_post')

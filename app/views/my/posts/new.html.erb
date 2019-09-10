@@ -10,5 +10,13 @@
     <li><%= return_icon(my_posts_path) %></li>
   </ul>
 
-  <%= render partial: 'form', locals: { entity: @entity } %>
+  <%=
+    render(
+        partial: 'form',
+        locals: {
+            entity: @entity,
+            handler: component_handler
+        }
+    )
+  %>
 </article>

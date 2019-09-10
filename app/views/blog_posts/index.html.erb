@@ -3,7 +3,7 @@
   <link rel="alternate" type="application/rss+xml" href="<%= rss_posts_path %>" />
 <% end %>
 <% content_for :breadcrumbs do %>
-    <span><%= t('blog_posts.index.nav_text') %></span>
+  <span><%= t('blog_posts.index.nav_text') %></span>
 <% end %>
 
 <%=
@@ -11,7 +11,9 @@
       partial: 'posts/post_type/posts',
       locals: {
           heading: t('.heading'),
-          collection: @collection
+          collection: @collection,
+          path_for_new: my_new_blog_post_path,
+          allow_new: component_handler.allow_post_type?('blog_post')
       }
   )
 %>
