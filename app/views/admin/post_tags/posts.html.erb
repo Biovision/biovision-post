@@ -1,8 +1,9 @@
 <% content_for :meta_title, t('.title', name: @entity.name, page: current_page) %>
 <% content_for :breadcrumbs do %>
-    <%= link_to(t('admin.post_tags.nav_item.text'), admin_post_tags_path) %>
-    <%= admin_post_tag_link(@entity) %>
-    <span><%= t('.nav_text') %></span>
+  <%= admin_biovision_component_link(component_handler.component) %>
+  <%= link_to(t('admin.post_tags.nav_item.text'), admin_post_tags_path) %>
+  <%= admin_post_tag_link(@entity) %>
+  <span><%= t('.nav_text') %></span>
 <% end %>
 
 <article>

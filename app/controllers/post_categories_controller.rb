@@ -40,8 +40,13 @@ class PostCategoriesController < AdminController
 
   protected
 
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
   def restrict_access
-    require_privilege :chief_editor
+    error = 'Managing post categories is not allowed'
+    handle_http_401(error) unless component_handler.allow?('chief_editor')
   end
 
   def restrict_editing

@@ -1,5 +1,6 @@
 <% content_for :meta_title, t('.title', caption: @entity.caption) %>
 <% content_for :breadcrumbs do %>
+  <%= admin_biovision_component_link(component_handler.component) %>
   <%= link_to(t('admin.posts.nav_item.text'), admin_posts_path) %>
   <%= admin_post_link(@entity.post) %>
   <%= link_to(t('admin.posts.images.nav_text'), images_admin_post_path(id: @entity.post_id)) %>

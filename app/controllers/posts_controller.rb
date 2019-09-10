@@ -111,13 +111,18 @@ class PostsController < ApplicationController
 
   private
 
-  def set_entity
-    @entity = Post.find_by(id: params[:id])
-    handle_http_404('Cannot find post') if @entity.nil?
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
   def restrict_access
-    require_privilege_group :editors
+    error = 'Managing posts is not allowed'
+    handle_http_401(error) unless component_handler.allow?
+  end
+
+  def set_entity
+    @entity = Post.find_by(id: params[:id])
+    handle_http_404('Cannot find post') if @entity.nil?
   end
 
   def restrict_editing

@@ -7,23 +7,27 @@
         <div class="description">
           <%= t(:post_count, count: post_type.posts_count) %>
         </div>
-        <ul class="actions">
-          <li>
-            <%= create_icon(new_post_admin_post_type_path(id: post_type.id)) %>
-          </li>
-        </ul>
+        <% if handler.allow_post_type?(post_type) %>
+          <ul class="actions">
+            <li>
+              <%= create_icon(new_post_admin_post_type_path(id: post_type.id)) %>
+            </li>
+          </ul>
+        <% end %>
       </li>
     <% end %>
   </ul>
 </li>
 <li><%= render 'admin/posts/nav_item' %></li>
-<% if current_user_has_privilege?(:chief_editor) %>
+<% if handler.allow?('chief_editor', 'deputy_chief_editor') %>
   <li><%= render 'admin/featured_posts/nav_item' %></li>
-  <li><%= render 'admin/post_groups/nav_item' %></li>
 <% end %>
-<li><%= render 'admin/post_tags/nav_item' %></li>
+<% if handler.allow?('chief_editor') %>
+  <li><%= render 'admin/post_groups/nav_item' %></li>
+  <li><%= render 'admin/post_tags/nav_item' %></li>
+<% end %>
 <li><%= render 'admin/post_illustrations/nav_item' %></li>
 <li><%= render 'admin/post_images/nav_item' %></li>
-<% if current_user_has_privilege?(:chief_editor) %>
+<% if handler.allow?('chief_editor') %>
   <li><%= render 'admin/editorial_members/nav_item' %></li>
 <% end %>

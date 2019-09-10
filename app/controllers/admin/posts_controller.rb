@@ -29,15 +29,20 @@ class Admin::PostsController < AdminController
 
   private
 
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
+  def restrict_access
+    error = 'Managing posts is not allowed'
+    handle_http_401(error) unless component_handler.allow?
+  end
+
   def set_entity
     @entity = Post.find_by(id: params[:id])
     if @entity.nil?
       handle_http_404('Cannot find post')
     end
-  end
-
-  def restrict_access
-    require_privilege_group :editors
   end
 
   # @param [String] q

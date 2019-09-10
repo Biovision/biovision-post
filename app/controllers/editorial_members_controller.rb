@@ -40,15 +40,20 @@ class EditorialMembersController < AdminController
 
   private
 
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
+  def restrict_access
+    error = 'Managing editorial members is not allowed'
+    handle_http_401(error) unless component_handler.allow?('chief_editor')
+  end
+
   def set_entity
     @entity = EditorialMember.find_by(id: params[:id])
     if @entity.nil?
       handle_http_404('Cannot find editorial_member')
     end
-  end
-
-  def restrict_access
-    require_privilege :chief_editor
   end
 
   def entity_parameters

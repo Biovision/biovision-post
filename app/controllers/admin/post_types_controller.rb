@@ -31,12 +31,17 @@ class Admin::PostTypesController < AdminController
 
   private
 
-  def set_entity
-    @entity = PostType.find_by(id: params[:id])
-    handle_http_404('Cannot find post type') if @entity.nil?
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
   def restrict_access
-    require_privilege_group :editors
+    error = 'Viewing post types is not allowed'
+    handle_http_401(error) unless component_handler.allow?
+  end
+
+  def set_entity
+    @entity = PostType.find_by(id: params[:id])
+    handle_http_404('Cannot find post type') if @entity.nil?
   end
 end

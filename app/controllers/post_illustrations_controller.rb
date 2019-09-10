@@ -12,8 +12,13 @@ class PostIllustrationsController < ApplicationController
 
   private
 
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
   def restrict_access
-    require_privilege_group :editors
+    error = 'Managing post groups is not allowed'
+    handle_http_401(error) unless component_handler.allow?
   end
 
   def ckeditor_parameters

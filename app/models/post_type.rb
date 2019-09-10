@@ -36,4 +36,9 @@ class PostType < ApplicationRecord
   def self.page_for_administration
     active.ordered_by_name
   end
+
+  # @param [String] slug
+  def self.[](slug)
+    find_by(slug: slug)
+  end
 end

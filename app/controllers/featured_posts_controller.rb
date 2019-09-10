@@ -21,8 +21,13 @@ class FeaturedPostsController < AdminController
 
   private
 
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
   def restrict_access
-    require_privilege :chief_editor
+    error = 'Managing featured posts is not allowed'
+    handle_http_401(error) unless component_handler.allow?('chief_editor', 'deputy_chief_editor')
   end
 
   def creation_parameters

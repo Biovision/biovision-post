@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Managing post links
 class PostLinksController < AdminController
   before_action :set_entity, only: :destroy
 
@@ -20,8 +23,8 @@ class PostLinksController < AdminController
 
   private
 
-  def restrict_access
-    require_privilege_group :editors
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
   def entity_parameters

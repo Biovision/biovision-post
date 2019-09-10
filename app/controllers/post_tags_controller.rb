@@ -26,13 +26,18 @@ class PostTagsController < AdminController
 
   private
 
-  def set_entity
-    @entity = PostTag.find_by(id: params[:id])
-    handle_http_404('Cannot find post_tag') if @entity.nil?
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
   def restrict_access
-    require_privilege_group :editors
+    error = 'Managing post tags is not allowed'
+    handle_http_401(error) unless component_handler.allow?('chief_editor')
+  end
+
+  def set_entity
+    @entity = PostTag.find_by(id: params[:id])
+    handle_http_404('Cannot find post_tag') if @entity.nil?
   end
 
   def entity_parameters

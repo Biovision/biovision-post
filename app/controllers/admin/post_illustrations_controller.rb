@@ -15,12 +15,17 @@ class Admin::PostIllustrationsController < AdminController
 
   private
 
-  def set_entity
-    @entity = PostIllustration.find_by(id: params[:id])
-    handle_http_404('Cannot find post_illustration') if @entity.nil?
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
   def restrict_access
-    require_privilege_group :editors
+    error = 'Viewing post illustrations is not allowed'
+    handle_http_401(error) unless component_handler.allow?
+  end
+
+  def set_entity
+    @entity = PostIllustration.find_by(id: params[:id])
+    handle_http_404('Cannot find post_illustration') if @entity.nil?
   end
 end

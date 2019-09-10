@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Managing post images
 class PostImagesController < AdminController
   before_action :set_entity, only: [:edit, :update, :destroy]
   before_action :restrict_editing, only: [:edit, :update, :destroy]
@@ -35,15 +38,13 @@ class PostImagesController < AdminController
 
   private
 
-  def set_entity
-    @entity = PostImage.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post_image')
-    end
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
-  def restrict_access
-    require_privilege_group :editors
+  def set_entity
+    @entity = PostImage.find_by(id: params[:id])
+    handle_http_404('Cannot find post_image') if @entity.nil?
   end
 
   def restrict_editing

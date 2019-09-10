@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Displaying post authors
 class AuthorsController < ApplicationController
   before_action :set_entity, except: [:index]
 
@@ -20,8 +23,6 @@ class AuthorsController < ApplicationController
   def set_entity
     user = User.find_by(slug: params[:slug].downcase, deleted: false)
     @entity = EditorialMember.visible.find_by(user: user)
-    if @entity.nil?
-      handle_http_404('Cannot find user')
-    end
+    handle_http_404('Cannot find user') if @entity.nil?
   end
 end

@@ -8,12 +8,17 @@ class Admin::PostGroupTagsController < AdminController
 
   private
 
-  def set_entity
-    @entity = PostGroupTag.find_by(id: params[:id])
-    handle_http_404('Cannot find post_group_tag') if @entity.nil?
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
   end
 
   def restrict_access
-    require_privilege :chief_editor
+    error = 'Managing post tags is not allowed'
+    handle_http_401(error) unless component_handler.allow?('chief_editor')
+  end
+
+  def set_entity
+    @entity = PostGroupTag.find_by(id: params[:id])
+    handle_http_404('Cannot find post_group_tag') if @entity.nil?
   end
 end

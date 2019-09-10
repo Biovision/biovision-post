@@ -20,14 +20,19 @@ class Admin::PostImagesController < AdminController
 
   private
 
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
+
+  def restrict_access
+    error = 'Viewing post images is not allowed'
+    handle_http_401(error) unless component_handler.allow?
+  end
+
   def set_entity
     @entity = PostImage.find_by(id: params[:id])
     if @entity.nil?
       handle_http_404('Cannot find post_image')
     end
-  end
-
-  def restrict_access
-    require_privilege_group :editors
   end
 end

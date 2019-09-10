@@ -13,6 +13,19 @@ module Biovision
       def use_parameters?
         false
       end
+
+      # @param [PostType|String|Symbol] type
+      def allow_post_type?(type)
+        return false if user.nil?
+        return true if user.super_user?
+        return true if allow?('chief_editor', 'deputy_chief_editor')
+
+        criteria = {
+          editorial_member: EditorialMember.find_by(user: user),
+          post_type: type.is_a?(PostType) ? type : PostType['post_type']
+        }
+        EditorialMemberPostType.where(criteria).exists?
+      end
     end
   end
 end

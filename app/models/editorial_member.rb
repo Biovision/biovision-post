@@ -50,6 +50,11 @@ class EditorialMember < ApplicationRecord
     user.is_a?(self) || owned_by(user).visible.exists?
   end
 
+  # @param [String] slug
+  def self.[](slug)
+    find_by(user: User.find_by(slug: slug))
+  end
+
   def name
     user.profile_name
   end

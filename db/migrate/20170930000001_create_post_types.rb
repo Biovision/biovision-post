@@ -35,7 +35,6 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
     add_index :post_types, :name, unique: true
 
     create_default_types
-    create_privileges
   end
 
   def create_post_categories
@@ -88,20 +87,6 @@ class CreatePostTypes < ActiveRecord::Migration[5.2]
 
     items.each do |slug, data|
       PostType.create(slug: slug, name: data[0], url_part: data[1], default_category_name: data[2])
-    end
-  end
-
-  def create_privileges
-    group        = PrivilegeGroup.find_by(slug: 'editors') || PrivilegeGroup.create!(slug: 'editors', name: 'Редакторы')
-    chief_editor = Privilege.find_by(slug: 'chief_editor') || Privilege.create(slug: 'chief_editor', name: 'Главный редактор')
-    children     = {
-      editor: 'Редактор'
-    }
-
-    children.each do |slug, name|
-      child = Privilege.new(parent: chief_editor, slug: slug, name: name, administrative: false)
-
-      group.add_privilege(child) if child.save
     end
   end
 
