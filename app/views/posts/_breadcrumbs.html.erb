@@ -1,7 +1,2 @@
-<% unless entity.post_category.blank? %>
-  <% entity.post_category.parents.each do |parent| %>
-    <%= post_category_link(parent) %>
-  <% end %>
-  <%= post_category_link(entity.post_category) %>
-<% end %>
+<%= post_type_link(entity.post_type) %>
 <span><%= entity.title %></span>

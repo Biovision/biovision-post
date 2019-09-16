@@ -1,19 +1,15 @@
-<% handler = PostManager.new(post) %>
+<% handler = Biovision::Components::BaseComponent.handler('posts', current_user) %>
 <article class="post" itemscope itemtype="http://schema.org/Article" itemprop="mainEntityOfPage">
   <h1 itemprop="headline"><%= post.title %></h1>
-  <% if post.editable_by? current_user %>
+  <% if handler.editable?(post) %>
     <ul class="actions">
-      <% if post.owned_by?(current_user) %>
-        <li><%= gear_icon(my_post_path(id: post.id)) %></li>
-      <% elsif UserPrivilege.user_in_group?(current_user, :editors) %>
+      <% if handler.group?(:chief) %>
         <li><%= gear_icon(admin_post_path(id: post.id)) %></li>
+      <% elsif post.owned_by?(current_user) %>
+        <li><%= gear_icon(my_post_path(id: post.id)) %></li>
       <% end %>
       <% unless post.locked? %>
-        <% if post.owned_by?(current_user) %>
-          <li><%= edit_icon(edit_my_post_path(id: post.id)) %></li>
-        <% else %>
           <li><%= edit_icon(handler.edit_path) %></li>
-        <% end %>
       <% end %>
     </ul>
   <% end %>

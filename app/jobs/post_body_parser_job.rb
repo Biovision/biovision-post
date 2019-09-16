@@ -10,6 +10,6 @@ class PostBodyParserJob < ApplicationJob
 
     return if post.nil?
 
-    post.update(parsed_body: PostManager.new(post).parsed_body)
+    post.update(parsed_body: PostParser.new(post).parsed_body)
   end
 end

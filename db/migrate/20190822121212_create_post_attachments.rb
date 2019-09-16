@@ -3,6 +3,8 @@
 # Create table for post attachment
 class CreatePostAttachments < ActiveRecord::Migration[5.2]
   def up
+    return if PostAttachment.table_exists?
+
     create_table :post_attachments, comment: 'Attachment for post' do |t|
       t.references :post, foreign_key: { on_update: :cascade, on_delete: :cascade }
       t.uuid :uuid

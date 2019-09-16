@@ -48,7 +48,7 @@ class PostImagesController < AdminController
   end
 
   def restrict_editing
-    unless @entity.editable_by?(current_user)
+    unless component_handler.editable?(@entity.post)
       handle_http_401('Post image is not editable by current user')
     end
   end

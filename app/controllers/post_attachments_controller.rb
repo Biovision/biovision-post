@@ -24,7 +24,7 @@ class PostAttachmentsController < AdminController
   end
 
   def restrict_editing
-    return if @entity.editable_by?(current_user)
+    return if component_handler.editable?(@entity)
 
     handle_http_403("Attachment is not editable by user #{current_user&.id}")
   end

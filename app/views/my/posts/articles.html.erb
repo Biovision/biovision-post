@@ -6,7 +6,7 @@
 <article>
   <h1><%= t('.heading') %></h1>
 
-  <% if current_user_has_privilege?(:editor) %>
+  <% if component_handler.allow_post_type?('article') %>
     <nav>
       <%=
         link_to(

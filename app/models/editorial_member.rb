@@ -50,9 +50,12 @@ class EditorialMember < ApplicationRecord
     user.is_a?(self) || owned_by(user).visible.exists?
   end
 
-  # @param [String] slug
-  def self.[](slug)
-    find_by(user: User.find_by(slug: slug))
+  # @param [String|User] user
+  def self.[](user)
+    criteria = {
+      user: user.is_a?(User) ? user : User.find_by(slug: user)
+    }
+    find_by(criteria)
   end
 
   def name
@@ -76,8 +79,9 @@ class EditorialMember < ApplicationRecord
   end
 
   # @param [User] user
+  # @deprecated use component handler
   def editable_by?(user)
-    UserPrivilege.user_has_privilege?(user, :chief_editor)
+    Biovision::Components::BaseComponent.handler('posts', user).editable?(self)
   end
 
   # @param [PostType] post_type

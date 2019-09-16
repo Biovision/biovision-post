@@ -19,7 +19,7 @@
       <% next if item.image.blank? %>
       <item>
         <title><%= item.title %></title>
-        <link><%= site_link + PostManager.new(item).post_path %></link>
+        <link><%= site_link + item.url %></link>
         <media:rating scheme="urn:simple"><%= item.explicit? ? 'adult' : 'nonadult' %></media:rating>
         <pubDate><%= item.publication_time.rfc822 %></pubDate>
         <author><![CDATA[<%= item.author!(t(:anonymous)) %>]]></author>
@@ -31,7 +31,7 @@
           length="<%= File.size(item.image.hd.current_path) %>"
           type="<%= item.image.content_type %>"
         />
-        <% PostManager.enclosures(item).each do |url| %>
+        <% item.enclosures.each do |url| %>
           <enclosure url="<%= media_link + url %>" type="<%= Rack::Mime::MIME_TYPES[File.extname(url)] %>"/>
         <% end %>
         <description><![CDATA[<%= item.lead! %>]]></description>

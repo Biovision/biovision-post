@@ -10,7 +10,7 @@
   <section class="post-author">
     <h2><%= @entity.name %></h2>
 
-    <% if @entity.editable_by?(current_user) %>
+    <% if component_handler.editable?(@entity) %>
       <ul class="actions">
         <li><%= gear_icon(admin_editorial_member_path(id: @entity.id)) %></li>
       </ul>

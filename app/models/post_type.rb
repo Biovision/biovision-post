@@ -41,4 +41,14 @@ class PostType < ApplicationRecord
   def self.[](slug)
     find_by(slug: slug)
   end
+
+  # @param [Symbol] locale
+  def url(locale = I18n.default_locale)
+    prefix = locale.nil? || locale == I18n.default_locale ? '' : "/#{locale}"
+    "#{prefix}/#{url_part}"
+  end
+
+  def category_name!
+    default_category_name.blank? ? name : default_category_name
+  end
 end

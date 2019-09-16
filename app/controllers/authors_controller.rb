@@ -2,7 +2,7 @@
 
 # Displaying post authors
 class AuthorsController < ApplicationController
-  before_action :set_entity, except: [:index]
+  before_action :set_entity, except: :index
 
   # get /authors
   def index
@@ -19,6 +19,10 @@ class AuthorsController < ApplicationController
   end
 
   private
+
+  def component_slug
+    Biovision::Components::PostsComponent::SLUG
+  end
 
   def set_entity
     user = User.find_by(slug: params[:slug].downcase, deleted: false)

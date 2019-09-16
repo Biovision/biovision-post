@@ -1,10 +1,9 @@
-<% handler = PostManager.new(post) %>
 <article class="post" itemscope itemtype="http://schema.org/Article" itemprop="mainEntityOfPage">
   <h1 itemprop="headline"><%= post.title %></h1>
   <ul class="actions">
     <li><%= back_icon(my_posts_path) %></li>
     <% if post.visible? %>
-      <li><%= world_icon(handler.post_path) %></li>
+      <li><%= world_icon(post.url) %></li>
     <% end %>
     <% unless post.locked? %>
       <li><%= edit_icon(edit_my_post_path(id: post.id)) %></li>

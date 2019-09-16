@@ -23,7 +23,7 @@ class PostsController < ApplicationController
       add_attachments if params.key?(:post_attachment)
       mark_as_featured if params[:featured]
       PostBodyParserJob.perform_later(@entity.id)
-      form_processed_ok(PostManager.new(@entity).post_path)
+      form_processed_ok(@entity.url)
     else
       form_processed_with_error(:new)
     end
@@ -52,7 +52,7 @@ class PostsController < ApplicationController
       apply_post_categories
       add_attachments if params.key?(:post_attachment)
       PostBodyParserJob.perform_later(@entity.id)
-      form_processed_ok(PostManager.new(@entity).post_path)
+      form_processed_ok(@entity.url)
     else
       form_processed_with_error(:edit)
     end
@@ -60,9 +60,8 @@ class PostsController < ApplicationController
 
   # delete /posts/:id
   def destroy
-    if @entity.destroy #@entity.update(deleted: true)
-      flash[:notice] = t('posts.destroy.success')
-    end
+    flash[:notice] = t('posts.destroy.success') if @entity.destroy #@entity.update(deleted: true)
+
     redirect_to admin_posts_path
   end
 
@@ -126,7 +125,7 @@ class PostsController < ApplicationController
   end
 
   def restrict_editing
-    if @entity.locked? || !@entity.editable_by?(current_user)
+    if @entity.locked? || !component_handler.editable?(@entity)
       handle_http_403('Post is locked or not editable by current user')
     end
   end
@@ -155,7 +154,7 @@ class PostsController < ApplicationController
   def owner_for_post
     key    = :user_for_entity
     result = {}
-    if current_user_has_privilege?(:chief_editor) && params.key?(key)
+    if component_handler.allow?('chief_editor') && params.key?(key)
       result[:user_id] = param_from_request(key)
     end
     result

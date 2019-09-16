@@ -5,8 +5,6 @@
   <span><%= @entity.title %></span>
 <% end %>
 
-<% handler = PostManager.new(@entity) %>
-
 <article>
   <h1><%= @entity.title %></h1>
 
@@ -23,10 +21,10 @@
   <ul class="actions">
     <li><%= back_icon(admin_posts_path) %></li>
     <% if @entity.visible? %>
-      <li><%= world_icon(handler.post_path) %></li>
+      <li><%= world_icon(@entity.url) %></li>
     <% end %>
-    <% if @entity.editable_by?(current_user) && !@entity.locked? %>
-      <li><%= edit_icon(handler.edit_path) %></li>
+    <% if component_handler.editable?(@entity) && !@entity.locked? %>
+      <li><%= edit_icon(component_handler.edit_path(@entity)) %></li>
       <li class="danger"><%= destroy_icon(@entity) %></li>
     <% end %>
   </ul>
@@ -52,7 +50,7 @@
       <dt><%= t('.post_categories') %></dt>
       <dd>
         <ul>
-          <% chief = current_user_has_privilege?(:chief_editor) %>
+          <% chief = component_handler.allow?('chief_editor') %>
           <% @entity.post_categories.each do |post_category| %>
             <li>
               <% if chief %>

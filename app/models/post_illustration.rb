@@ -47,8 +47,9 @@ class PostIllustration < ApplicationRecord
   end
 
   # @param [User] user
+  # @deprecated use component handler
   def editable_by?(user)
-    owned_by?(user) || UserPrivilege.user_has_privilege?(user, :chief_editor)
+    Biovision::Components::BaseComponent.handler('posts', user).editable?(self)
   end
 
   # Response data for CKEditor upload

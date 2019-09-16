@@ -1,4 +1,5 @@
 <%
+  handler ||= Biovision::Components::BaseComponent.handler('post', current_user)
   model_name = entity.class.to_s.underscore
   languages = Language.active
 %>
@@ -6,7 +7,7 @@
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
   <dl>
-    <% if current_user_has_privilege?(:chief_editor) %>
+    <% if handler.allow?('chief_editor') %>
       <dt><%= t('activerecord.attributes.post.user') %></dt>
       <dd>
         <div>
@@ -364,7 +365,7 @@
       <div class="guideline"><%= t('.guidelines.meta_keywords') %></div>
     </dd>
 
-    <% if current_user_has_privilege?(:chief_editor) %>
+    <% if handler.allow?('chief_editor', 'deputy_chief_editor') %>
       <dt><%= f.label :rating %></dt>
       <dd>
         <%=
@@ -381,7 +382,7 @@
     <dt><%= t(:flags) %></dt>
     <dd>
       <ul class="flags">
-        <% if entity.id.nil? && current_user_has_privilege?(:chief_editor) %>
+        <% if entity.id.nil? && handler.allow?('chief_editor', 'deputy_chief_editor') %>
           <li>
             <%= check_box_tag :featured, '1' %>
             <%= label_tag :featured, t('activerecord.models.featured_post') %>

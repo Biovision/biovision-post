@@ -87,6 +87,7 @@ class Post < ApplicationRecord
   scope :tagged, ->(tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
   scope :in_category, ->(slug) { joins(:post_post_categories).where(post_post_categories: { post_category_id: PostCategory.ids_for_slug(slug) }).distinct unless slug.blank? }
   scope :in_category_branch, ->(category) { joins(:post_post_categories).where(post_post_categories: { post_category_id: category.subbranch_ids }).distinct }
+  scope :with_category_ids, ->(v) { joins(:post_post_categories).where(post_post_categories: { post_category_id: Array(v) }) }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
   scope :of_type, ->(slug) { where(post_type: PostType.find_by(slug: slug)) unless slug.blank? }
   scope :archive, -> { f = Arel.sql('date(publication_time)'); distinct.order(f).pluck(f) }
@@ -165,6 +166,25 @@ class Post < ApplicationRecord
     end
   end
 
+  # @param [Symbol] locale
+  def url(locale = I18n.default_locale)
+    prefix = locale.nil? || locale == I18n.default_locale ? '' : "/#{locale}"
+    "#{prefix}/#{post_type.url_part}/#{id}-#{slug}"
+  end
+
+  # @param [String] tag_name
+  # @param [Symbol] locale
+  def tagged_path(tag_name, locale = I18n.default_locale)
+    prefix = locale.nil? || locale == I18n.default_locale ? '' : "/#{locale}"
+    "#{prefix}/#{post_type.url_part}/tagged/#{CGI.escape(tag_name)}"
+  end
+
+  def enclosures
+    parsed_body.scan(/<img[^>]+>/).map do |image|
+      image.scan(/src="([^"]+)"/)[0][0]
+    end
+  end
+
   # Get editorial member instance for this post
   #
   # If user can be shown and is member of editorial, this method returns
@@ -221,8 +241,9 @@ class Post < ApplicationRecord
   end
 
   # @param [User] user
+  # @deprecated use component handler
   def editable_by?(user)
-    owned_by?(user) || UserPrivilege.user_has_privilege?(user, :chief_editor)
+    Biovision::Components::BaseComponent.handler('posts', user).editable?(self)
   end
 
   def has_image_data?

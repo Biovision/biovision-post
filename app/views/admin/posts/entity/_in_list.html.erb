@@ -70,14 +70,14 @@
           partial: 'shared/actions/locks',
           locals:  {
               entity: entity,
-              path:   (current_user_has_privilege?(:chief_editor) ? lock_admin_post_path(id: entity.id) : '')
+              path:   (handler.allow?(:chief_editor) ? lock_admin_post_path(id: entity.id) : '')
           }
       )
     %>
-    <li class="lockable <%= entity.editable_by?(current_user) ? '' : 'hidden' %>">
+    <li class="lockable <%= handler.editable?(entity) ? '' : 'hidden' %>">
       <%= edit_icon(edit_post_path(id: entity.id)) %>
     </li>
-    <li class="lockable <%= entity.editable_by?(current_user) ? '' : 'hidden' %> danger">
+    <li class="lockable <%= handler.editable?(entity) ? '' : 'hidden' %> danger">
       <%= destroy_icon(entity) %>
     </li>
   </ul>

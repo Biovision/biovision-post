@@ -141,6 +141,12 @@ class PostCategory < ApplicationRecord
     post_post_categories.where(post: post).delete_all
   end
 
+  # @param [Symbol] locale
+  def url(locale = I18n.default_locale)
+    prefix = locale.nil? || locale == I18n.default_locale ? '' : "/#{locale}"
+    "#{prefix}/#{post_type.url_part}/#{long_slug}"
+  end
+
   def text_for_link
     nav_text.blank? ? name : nav_text
   end

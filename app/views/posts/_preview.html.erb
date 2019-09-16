@@ -24,7 +24,13 @@
       <%= time_tag(entity.publication_time.to_date, format: :default) %>
     </div>
     <div class="category" aria-label="<%= t('activerecord.attributes.post.post_category_id') %>">
-      <%= post_category_link(entity) %>
+      <% if entity.post_categories.any? %>
+        <% entity.post_categories.each do |category| %>
+          <%= post_category_link(category) %>
+        <% end %>
+      <% else %>
+        <%= post_type_link(entity.post_type) %>
+      <% end %>
     </div>
     <% if entity.tags_cache.any? %>
       <ul class="post-tags">

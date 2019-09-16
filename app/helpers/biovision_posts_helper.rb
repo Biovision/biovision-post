@@ -70,26 +70,6 @@ module BiovisionPostsHelper
     end
   end
 
-  # @param [Integer] post_type_id
-  # @param [String] first_item
-  def post_categories_for_select(post_type_id, first_item = t(:not_set))
-    options = [[first_item, '']]
-    PostCategory.for_tree(post_type_id).each do |category|
-      options << [category.name, category.id]
-      if category.child_categories.any?
-        PostCategory.for_tree(post_type_id, category.id).each do |subcategory|
-          options << ["-#{subcategory.name}", subcategory.id]
-          if subcategory.child_categories.any?
-            PostCategory.for_tree(post_type_id, subcategory.id).each do |deep_category|
-              options << ["--#{deep_category.name}", deep_category.id]
-            end
-          end
-        end
-      end
-    end
-    options
-  end
-
   def post_layouts_for_select
     options = PostLayout.ordered_by_name.map { |i| [i.name, i.id] }
     options + [[t(:not_set), '']]
@@ -99,13 +79,21 @@ module BiovisionPostsHelper
   # @param [String] text
   # @param [Hash] options
   def post_link(entity, text = entity.title, options = {})
-    link_to(text, PostManager.new(entity).post_path, options)
+    link_to(text, entity.url, options)
   end
 
-  # @param [Post|PostCategory] entity
-  def post_category_link(entity)
-    handler = PostManager.new(entity)
-    link_to(handler.category_name, handler.category_path)
+  # @param [PostCategory] entity
+  # @param [String] text
+  # @param [Hash] options
+  def post_category_link(entity, text = entity.name, options = {})
+    link_to(text, entity.url, options)
+  end
+
+  # @param [PostType] entity
+  # @param [String] text
+  # @param [Hash] options
+  def post_type_link(entity, text = entity.category_name!, options = {})
+    link_to(text, entity.url, options)
   end
 
   # @param [PostGroup] entity
@@ -134,8 +122,7 @@ module BiovisionPostsHelper
     if entity.nil?
       link_to(tag_name, tagged_posts_path(tag_name: tag_name), rel: 'tag')
     else
-      handler = PostManager.new(entity)
-      link_to(tag_name, handler.tagged_path(tag_name), rel: 'tag')
+      link_to(tag_name, entity.tagged_path(tag_name), rel: 'tag')
     end
   end
 
