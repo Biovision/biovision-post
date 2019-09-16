@@ -8,5 +8,13 @@
     <li class="danger"><%= destroy_icon(@entity) %></li>
   </ul>
 
-  <%= render partial: 'form', locals: { entity: @entity } %>
+  <%=
+    render(
+        partial: 'form',
+        locals: {
+            entity: @entity,
+            handler: component_handler
+        }
+    )
+  %>
 </article>
