@@ -3,6 +3,8 @@
 # Convert privilege-based links to component-user links
 class ConvertPostPrivileges < ActiveRecord::Migration[5.2]
   def up
+    return unless Privilege.table_exists?
+
     @handler = Biovision::Components::BaseComponent.handler('posts')
 
     convert_chief_editors

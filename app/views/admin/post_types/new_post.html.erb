@@ -13,5 +13,13 @@
     <li><%= return_icon(admin_post_type_path(id: @entity.id)) %></li>
   </ul>
 
-  <%= render partial: 'posts/form', locals: { entity: Post.new(post_type: @entity) } %>
+  <%=
+    render(
+        partial: 'posts/form',
+        locals: {
+            entity: Post.new(post_type: @entity),
+            handler: component_handler
+        }
+    )
+  %>
 </article>

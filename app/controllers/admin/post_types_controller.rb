@@ -29,6 +29,10 @@ class Admin::PostTypesController < AdminController
     @collection = @entity.editorial_members.list_for_administration
   end
 
+  # get /admin/post_types/:id/new_post
+  def new_post
+  end
+
   private
 
   def component_slug

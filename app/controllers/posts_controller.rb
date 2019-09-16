@@ -154,7 +154,7 @@ class PostsController < ApplicationController
   def owner_for_post
     key    = :user_for_entity
     result = {}
-    if component_handler.allow?('chief_editor') && params.key?(key)
+    if component_handler.group?(:chief) && params.key?(key)
       result[:user_id] = param_from_request(key)
     end
     result
