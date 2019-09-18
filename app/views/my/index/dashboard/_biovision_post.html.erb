@@ -1,4 +1,4 @@
-<% handler = Biovision::Components::BaseComponent.handler('posts') %>
+<% handler = Biovision::Components::BaseComponent.handler('posts', current_user) %>
 <% if handler.show_dashboard? %>
   <section class="dashboard" id="biovision-post-my-dashboard">
     <h2><%= t('.heading') %></h2>
