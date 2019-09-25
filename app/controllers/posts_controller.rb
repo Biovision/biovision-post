@@ -185,7 +185,7 @@ class PostsController < ApplicationController
     if Post.respond_to?(:search)
       Post.search(q).records.first(50).select(&:visible_to_visitors?)
     else
-      Post.where('title ilike ?', "%#{q}%").list_for_visitors.first(50)
+      Post.pg_search(q).list_for_visitors.first(50)
     end
   end
 

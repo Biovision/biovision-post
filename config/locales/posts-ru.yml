@@ -269,7 +269,7 @@ ru:
     posts:
       nav_item:
         description: "Управление публикациями"
-        text: "Публикации"
+        text: "Все публикации"
       index:
         heading: "Публикации"
         title: "Публикации, страница %{page}"

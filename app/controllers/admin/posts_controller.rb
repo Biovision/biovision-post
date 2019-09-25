@@ -33,16 +33,9 @@ class Admin::PostsController < AdminController
     Biovision::Components::PostsComponent::SLUG
   end
 
-  def restrict_access
-    error = 'Managing posts is not allowed'
-    handle_http_401(error) unless component_handler.allow?
-  end
-
   def set_entity
     @entity = Post.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find post')
-    end
+    handle_http_404('Cannot find post') if @entity.nil?
   end
 
   # @param [String] q
@@ -50,7 +43,7 @@ class Admin::PostsController < AdminController
     if Post.respond_to?(:search)
       Post.search(q).records.page(current_page)
     else
-      Post.where('title ilike ?', "%#{q}%").page_for_administration(current_page)
+      Post.pg_search(q).page_for_administration(current_page)
     end
   end
 end

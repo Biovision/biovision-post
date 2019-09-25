@@ -89,15 +89,26 @@ class CreatePosts < ActiveRecord::Migration[5.2]
 
     execute "create index posts_created_at_month_idx on posts using btree (date_trunc('month', created_at), post_type_id, user_id);"
     execute "create index posts_pubdate_month_idx on posts using btree (date_trunc('month', publication_time), post_type_id, user_id);"
+    execute %(
+      create or replace function posts_tsvector(title text, lead text, body text)
+        returns tsvector as $$
+          begin
+            return (
+              setweight(to_tsvector('russian', title), 'A') ||
+              setweight(to_tsvector('russian', coalesce(lead, '')), 'B') ||
+              setweight(to_tsvector('russian', body), 'C')
+            );
+          end
+        $$ language 'plpgsql' immutable;
+    )
+    execute "create index posts_search_idx on posts using gin(posts_tsvector(title, lead, body));"
 
     add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
 
     add_index :posts, :created_at
     add_index :posts, :data, using: :gin
 
-    if Gem.loaded_specs.key?('elasticsearch-model')
-      Post.__elasticsearch__.create_index!
-    end
+    Post.__elasticsearch__.create_index! if Gem.loaded_specs.key?('elasticsearch-model')
   end
 
   def create_post_post_tags
