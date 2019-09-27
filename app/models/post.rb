@@ -80,7 +80,7 @@ class Post < ApplicationRecord
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
   scope :for_language, ->(language) { where(language: language).or(where(language: nil)) }
-  scope :pg_search, ->(v) { where("posts_tsvector(title, lead, body) @@ to_tsquery('russian', ?)", v) }
+  scope :pg_search, ->(v) { where("posts_tsvector(title, lead, body) @@ phraseto_tsquery('russian', ?)", v) }
   scope :exclude_ids, ->(v) { where('posts.id not in (?)', Array(v)) unless v.blank? }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
