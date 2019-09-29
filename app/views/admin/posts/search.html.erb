@@ -16,7 +16,15 @@
 
   <% if @collection.respond_to?(:current_page) %>
     <%= paginate @collection %>
-    <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
+    <%=
+      render(
+          partial: 'shared/admin/list',
+          locals: {
+              collection: @collection,
+              handler: component_handler
+          }
+      )
+    %>
     <%= paginate @collection %>
   <% end %>
 </article>

@@ -9,7 +9,7 @@
         <li><%= gear_icon(my_post_path(id: post.id)) %></li>
       <% end %>
       <% unless post.locked? %>
-          <li><%= edit_icon(handler.edit_path) %></li>
+          <li><%= edit_icon(handler.edit_path(post)) %></li>
       <% end %>
     </ul>
   <% end %>

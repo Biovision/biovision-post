@@ -7,8 +7,8 @@ class BlogPostsController < ApplicationController
 
   # get /blog_posts
   def index
-    post_type   = PostType['blog_post']
-    @collection = post_type.posts.for_language(current_language).page_for_visitors(current_page)
+    posts = PostType['blog_post'].posts.for_language(current_language)
+    @collection = posts.page_for_visitors(current_page)
     respond_to do |format|
       format.html
       format.json { render('posts/index') }
@@ -17,7 +17,8 @@ class BlogPostsController < ApplicationController
 
   # get /blog_posts/:category_slug
   def category
-    @collection = Post.in_category_branch(@category).for_language(current_language).page_for_visitors(current_page)
+    posts = Post.in_category_branch(@category).for_language(current_language)
+    @collection = posts.page_for_visitors(current_page)
     respond_to do |format|
       format.html
       format.json { render('posts/index') }
@@ -29,12 +30,14 @@ class BlogPostsController < ApplicationController
     @entity.increment :view_count
     @entity.increment :rating, 0.0025
     @entity.save
+
+    render 'posts/show'
   end
 
   # get /blog_posts/tagged/:tag_name
   def tagged
-    post_type   = PostType.find_by(slug: 'blog_post')
-    @collection = post_type.posts.tagged(params[:tag_name]).page_for_visitors(current_page)
+    posts = PostType['blog_post'].posts.tagged(params[:tag_name])
+    @collection = posts.page_for_visitors(current_page)
   end
 
   private
@@ -44,7 +47,7 @@ class BlogPostsController < ApplicationController
   end
 
   def set_category
-    type = PostType.find_by(slug: 'blog_post')
+    type = PostType['blog_post']
     @category = type.post_categories.find_by(long_slug: params[:category_slug])
     handle_http_404('Cannot find post category (blog_post)') if @category.nil?
   end

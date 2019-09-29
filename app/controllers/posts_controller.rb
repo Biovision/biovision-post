@@ -72,7 +72,8 @@ class PostsController < ApplicationController
 
   # get /posts/:category_slug
   def category
-    @collection = Post.in_category(params[:category_slug]).page_for_visitors(current_page)
+    posts = Post.in_category(params[:category_slug])
+    @collection = posts.page_for_visitors(current_page)
     @category = @collection.first&.post_category
 
     handle_http_404('Cannot find post category in collection') if @category.nil?
@@ -90,12 +91,14 @@ class PostsController < ApplicationController
 
   # get /posts/rss/zen.xml
   def zen
-    @collection = Post.for_language(current_language).list_for_visitors.posted_after(3.days.ago)
+    posts = Post.for_language(current_language).list_for_visitors
+    @collection = posts.posted_after(3.days.ago)
   end
 
   # get /posts/rss.xml
   def rss
-    @collection = Post.for_language(current_language).list_for_visitors.first(20)
+    posts = Post.for_language(current_language).list_for_visitors
+    @collection = posts.first(20)
   end
 
   # get /posts/archive/(:year)(-:month)(-:day)

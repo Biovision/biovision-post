@@ -1,6 +1,1 @@
-<% content_for :breadcrumbs do %>
-  <%= link_to(t('posts.index.nav_text'), posts_path) %>
-  <%= render partial: 'posts/breadcrumbs', locals: { entity: @entity } %>
-<% end %>
-
 <%= render partial: 'posts/post_type/post_page', locals: { entity: @entity } %>
