@@ -85,7 +85,8 @@ module BiovisionPostsHelper
   # @param [PostCategory] entity
   # @param [String] text
   # @param [Hash] options
-  def post_category_link(entity, text = entity.name, options = {})
+  def post_category_link(entity, text = nil, options = {})
+    text ||= entity.respond_to?(:name) ? entity.name : entity.title
     link_to(text, entity.url, options)
   end
 
