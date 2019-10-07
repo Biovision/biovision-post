@@ -7,7 +7,7 @@ class NewsController < ApplicationController
 
   # get /news
   def index
-    posts = PostType[slug: 'news'].posts.for_language(current_language)
+    posts = PostType['news'].posts.for_language(current_language)
     @collection = posts.page_for_visitors(current_page)
     respond_to do |format|
       format.html
