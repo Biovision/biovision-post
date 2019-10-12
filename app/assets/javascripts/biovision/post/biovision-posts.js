@@ -2,37 +2,34 @@
 
 const Posts = {
     initialized: false,
-    autoInit: true,
-    components: {},
-    init: function () {
-        for (let component in this.components) {
-            if (this.components.hasOwnProperty(component)) {
-                if (this.components[component].hasOwnProperty("init")) {
-                    this.components[component].init();
-                }
-            }
-        }
-
-        this.initialized = true;
-    }
+    autoInitComponents: true,
+    components: {}
 };
 
-const BiovisionPosts = {
-    /**
-     * @type {Function}
-     * @param e
-     */
-    loadPosts: function (e) {
+Posts.components.postLoader = {
+    initialized: false,
+    buttons: [],
+    selector: ".posts-loader",
+    init: function () {
+        document.querySelectorAll(this.selector).forEach(this.apply);
+        this.initialized = true;
+    },
+    apply: function (button) {
+        const component = Posts.components.postLoader;
+        component.buttons.push(button);
+        button.addEventListener("click", component.handler);
+    },
+    handler: function (e) {
         e.preventDefault();
 
-        const button = this;
+        const button = e.target;
         const container = document.getElementById(button.getAttribute('data-container'));
         if (container) {
-            const list = container.querySelector('div.list');
+            const list = container.querySelector("div.posts-list");
 
             if (list && !button.classList.contains('loading')) {
                 const url = button.getAttribute('href');
-                const request = Biovision.newAjaxRequest('get', url, function () {
+                const request = Biovision.jsonAjaxRequest("get", url, function () {
                     button.classList.remove('loading');
 
                     const response = JSON.parse(this.responseText);
@@ -60,6 +57,8 @@ const BiovisionPosts = {
                 button.classList.add('loading');
                 request.send();
             }
+        } else {
+            console.log("Cannot find container for loaded posts");
         }
     }
 };
@@ -250,9 +249,3 @@ Posts.components.groupTagLinker = {
 };
 
 Biovision.components.posts = Posts;
-
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.posts-loader').forEach(function (button) {
-        button.addEventListener('click', BiovisionPosts.loadPosts);
-    });
-});

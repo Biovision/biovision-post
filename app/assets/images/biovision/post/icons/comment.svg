@@ -1,0 +1,9 @@
+<svg version="1.1" viewBox="0 0 24 24" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+  <title>Comment</title>
+  <defs>
+    <style type="text/css">
+      path { fill: #fff; stroke: #000; stroke-width: 1; stroke-linejoin: round}
+    </style>
+  </defs>
+  <path d="M16,21 v-3 h3 a3,3 0 0,0 3,-3 v-7 a3,3 0 0,0 -3,-3 h-14 a3,3 0 0,0 -3,3 v7 a3,3 0 0,0, 3,3 h8 z"/>
+</svg>
