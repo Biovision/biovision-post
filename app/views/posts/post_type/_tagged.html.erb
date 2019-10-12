@@ -1,7 +1,7 @@
 <article>
-  <header>
-    <h1><%= heading %></h1>
-  </header>
+  <div class="content-wrapper">
+    <header><h1><%= heading %></h1></header>
 
-  <%= render partial: 'posts/collection', locals: { collection: collection } %>
+    <%= render partial: 'posts/collection', locals: { collection: collection } %>
+  </div>
 </article>

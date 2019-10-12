@@ -1,7 +1,9 @@
 <% content_for :meta_description, category.meta_description unless category.meta_description.blank? %>
 
 <article>
-  <h1><%= category.name %></h1>
+  <div class="content-wrapper">
+    <h1><%= category.name %></h1>
 
-  <%= render partial: 'posts/collection', locals: { collection: collection } %>
+    <%= render partial: 'posts/collection', locals: { collection: collection } %>
+  </div>
 </article>

@@ -4,7 +4,9 @@
 
 <%= render partial: 'posts/entity/metadata', locals: { entity: entity } %>
 <%= render partial: 'posts/post', locals: { post: entity } %>
-<%# render partial: 'comments/list', locals: { commentable: entity, comments: entity.comments } %>
+<% if Gem.loaded_specs.key?('biovision-comment') %>
+  <%= render partial: 'comments/section', locals: { entity: entity } %>
+<% end %>
 <%=
   render(
       partial: 'posts/entity/linked_posts',
