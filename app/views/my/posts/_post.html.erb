@@ -37,7 +37,7 @@
   <% end %>
 
   <div class="body" itemprop="articleBody mainEntityOfPage">
-    <%= raw(post.parsed_body || post.body) %>
+    <%= raw(post.body) %>
   </div>
 
   <% if post.tags_cache.any? %>

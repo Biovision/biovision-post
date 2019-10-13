@@ -35,7 +35,7 @@
           <enclosure url="<%= media_link + url %>" type="<%= Rack::Mime::MIME_TYPES[File.extname(url)] %>"/>
         <% end %>
         <description><![CDATA[<%= item.lead! %>]]></description>
-        <content:encoded><![CDATA[<%= raw(item.parsed_body) %>]]></content:encoded>
+        <content:encoded><![CDATA[<%= raw(item.body) %>]]></content:encoded>
       </item>
     <% end %>
   </channel>

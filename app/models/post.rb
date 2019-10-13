@@ -148,9 +148,8 @@ class Post < ApplicationRecord
   def lead!
     if lead.blank?
       pattern = %r{<p>(.+?)</p>}
-      chunk = parsed_body.blank? ? body : parsed_body
-      passage = chunk.match(pattern)
-      (passage.nil? ? chunk.gsub(/<[^>]+>/, '') : passage[1]).to_s[0..499]
+      passage = body.match(pattern)
+      (passage.nil? ? body.gsub(/<[^>]+>/, '') : passage[1]).to_s[0..499]
     else
       lead
     end
@@ -181,7 +180,7 @@ class Post < ApplicationRecord
   end
 
   def enclosures
-    parsed_body.scan(/<img[^>]+>/).map do |image|
+    body.scan(/<img[^>]+>/).map do |image|
       image.scan(/src="([^"]+)"/)[0][0]
     end
   end

@@ -35,13 +35,6 @@ RSpec.describe Post, type: :model do
     end
   end
 
-  describe 'before_save' do
-    it 'prepares parsed body' do
-      subject.save
-      expect(subject.parsed_body).not_to be_blank
-    end
-  end
-
   describe 'validation' do
     it 'fails with invalid slug' do
       subject.slug = 'invalid slug'

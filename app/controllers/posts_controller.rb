@@ -22,7 +22,6 @@ class PostsController < ApplicationController
       apply_post_categories
       add_attachments if params.key?(:post_attachment)
       mark_as_featured if params[:featured]
-      PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(@entity.url)
     else
       form_processed_with_error(:new)
@@ -51,7 +50,6 @@ class PostsController < ApplicationController
       apply_post_tags
       apply_post_categories
       add_attachments if params.key?(:post_attachment)
-      PostBodyParserJob.perform_later(@entity.id)
       form_processed_ok(@entity.url)
     else
       form_processed_with_error(:edit)
