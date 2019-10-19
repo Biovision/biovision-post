@@ -54,7 +54,15 @@
     <%= render partial: 'admin/posts/filter' %>
 
     <%= paginate @collection %>
-    <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
+    <%=
+      render(
+          partial: 'shared/admin/list',
+          locals: {
+              collection: @collection,
+              handler: component_handler
+          }
+      )
+    %>
     <%= paginate @collection %>
   </section>
 </article>
