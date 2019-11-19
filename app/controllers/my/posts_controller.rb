@@ -30,6 +30,7 @@ class My::PostsController < ProfileController
     @entity = Post.new(creation_parameters)
     if component_handler.allow_post_type?(@entity.post_type) && @entity.save
       apply_post_tags
+      apply_post_categories
       form_processed_ok(my_post_path(id: @entity.id))
     else
       form_processed_with_error(:new)
@@ -48,6 +49,7 @@ class My::PostsController < ProfileController
   def update
     if @entity.update(entity_parameters)
       apply_post_tags
+      apply_post_categories
       form_processed_ok(my_post_path(id: @entity.id))
     else
       form_processed_with_error(:edit)
@@ -117,5 +119,13 @@ class My::PostsController < ProfileController
 
   def apply_post_tags
     @entity.tags_string = param_from_request(:tags_string)
+  end
+
+  def apply_post_categories
+    if params.key?(:post_category_ids)
+      @entity.post_category_ids = Array(params[:post_category_ids])
+    else
+      @entity.post_post_categories.destroy_all
+    end
   end
 end
