@@ -6,7 +6,7 @@ class ConvertEditorialPrivileges < ActiveRecord::Migration[5.2]
     slug = Biovision::Components::PostsComponent::SLUG
     handler = Biovision::Components::BaseComponent.handler(slug)
     EditorialMemberPostType.order('id asc').each do |link|
-      handler.user = link.user
+      handler.user = link.editorial_member.user
       handler.allow_post_type(link.post_type)
     end
   end
