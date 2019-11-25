@@ -13,6 +13,22 @@ class Admin::PostCategoriesController < AdminController
     @collection = @entity.posts.page_for_administration(current_page)
   end
 
+  # put /admin/post_categories/:id/users/:user_id
+  def add_user
+    component_handler.user = User.find_by(id: params[:user_id])
+    component_handler.allow_post_category(@entity)
+
+    head :no_content
+  end
+
+  # delete /admin/post_categories/:id/users/:user_id
+  def remove_user
+    component_handler.user = User.find_by(id: params[:user_id])
+    component_handler.disallow_post_category(@entity)
+
+    head :no_content
+  end
+
   private
 
   def component_slug

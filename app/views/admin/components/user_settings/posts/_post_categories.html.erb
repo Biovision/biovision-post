@@ -1,0 +1,37 @@
+<% if collection.any? %>
+  <ul class="post-category-tree">
+    <% collection.each do |category_id, item| %>
+      <li>
+        <% element_id = "post_category_#{category_id}" %>
+        <%=
+          check_box_tag(
+              "post_category_ids[]",
+              category_id,
+              handler.allow_post_category?(item[:item]),
+              data: {
+                  url: user_admin_post_category_path(
+                      id: category_id,
+                      user_id: handler.user.id
+                  )
+              },
+              id: element_id
+          )
+        %>
+        <%= label_tag element_id, item[:item].name %>
+        <% collection.delete(category_id) %>
+        <% children = collection.select { |_, i| i[:parent_id] == category_id } %>
+        <% if children.any? %>
+          <%=
+            render(
+                partial: 'admin/components/user_settings/posts/post_categories',
+                locals: {
+                    collection: children,
+                    handler: entity
+                }
+            )
+          %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

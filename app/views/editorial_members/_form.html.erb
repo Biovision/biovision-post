@@ -75,27 +75,6 @@
     <%= render partial: 'shared/forms/entity_flags', locals: { f: f } %>
   </dl>
 
-  <section>
-    <h2><%= t('.post_types') %></h2>
-
-    <ul class="flags">
-      <% PostType.list_for_administration.each do |post_type| %>
-        <li>
-          <% field_id = "post_type_#{post_type.id}" %>
-          <%=
-            check_box_tag(
-                'post_type_ids[]',
-                post_type.id,
-                entity.post_type?(post_type),
-                id: field_id
-            )
-          %>
-          <%= label_tag(field_id, post_type.name) %>
-        </li>
-      <% end %>
-    </ul>
-  </section>
-
   <%= render 'shared/forms/state_container' %>
 
   <div class="buttons">

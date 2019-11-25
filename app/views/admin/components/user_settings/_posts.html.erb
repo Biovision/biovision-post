@@ -1,0 +1,39 @@
+<h4><%= t('.heading') %></h4>
+
+<ul class="user-post-types entity-links">
+  <% PostType.list_for_administration.each do |post_type| %>
+    <li>
+      <% element_id = "post_type_user_#{post_type.id}" %>
+      <%=
+        check_box_tag(
+            'user_post_type',
+            post_type.id,
+            handler.allow_post_type?(post_type),
+            class: 'biovision-post-type-flag',
+            data: {
+                url: user_admin_post_type_path(
+                    id: post_type.id,
+                    user_id: handler.user.id
+                )
+            },
+            id: element_id
+        )
+      %>
+      <%=
+        label_tag(
+            element_id,
+            post_type.name
+        )
+      %>
+      <%=
+        render(
+            partial: 'admin/components/user_settings/posts/post_categories',
+            locals: {
+                collection: PostCategory.list_for_tree(post_type),
+                handler: handler
+            }
+        )
+      %>
+    </li>
+  <% end %>
+</ul>

@@ -304,6 +304,10 @@ ru:
       entity:
         in_list:
           post_categories: "Категории публикаций"
+    components:
+      user_settings:
+        posts:
+          heading: "Разрешённые типы и категории"
   biovision:
     components:
       posts:

@@ -31,7 +31,9 @@
     <% unless @entity.about.blank? %>
       <dt><%= t('activerecord.attributes.editorial_member.about') %></dt>
       <dd>
-        <%= raw(@entity.about) %>
+        <div class="text">
+          <%= raw(@entity.about) %>
+        </div>
       </dd>
     <% end %>
   </dl>
@@ -45,28 +47,4 @@
         }
     )
   %>
-
-  <section>
-    <h2><%= t('.post_types') %></h2>
-
-    <ul class="entity-links">
-      <% PostType.list_for_administration.each do |post_type| %>
-        <li>
-          <% entity_id = "post_type_#{post_type.id}" %>
-          <%=
-            check_box_tag(
-                "post_types[#{post_type.id}]",
-                post_type.id,
-                @entity.post_type?(post_type),
-                id: entity_id,
-                data: {
-                    url: post_type_admin_editorial_member_path(id: @entity.id, post_type_id: post_type.id)
-                }
-            )
-          %>
-          <%= label_tag(entity_id, post_type.name) %>
-        </li>
-      <% end %>
-    </ul>
-  </section>
 </article>

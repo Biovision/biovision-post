@@ -33,6 +33,26 @@ class Admin::PostTypesController < AdminController
   def new_post
   end
 
+  # put /admin/post_types/:id/users/:user_id
+  def add_user
+    if component_handler.allow?('chief_editor')
+      component_handler.user = User.find_by(id: params[:user_id])
+      component_handler.allow_post_type(@entity)
+    end
+
+    head :no_content
+  end
+
+  # delete /admin/post_types/:id/users/:user_id
+  def remove_user
+    if component_handler.allow?('chief_editor')
+      component_handler.user = User.find_by(id: params[:user_id])
+      component_handler.disallow_post_type(@entity)
+    end
+
+    head :no_content
+  end
+
   private
 
   def component_slug

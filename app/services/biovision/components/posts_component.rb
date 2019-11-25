@@ -39,11 +39,63 @@ module Biovision
         return true if user.super_user?
         return true if group?(:chief)
 
-        criteria = {
-          editorial_member: EditorialMember[user],
-          post_type: type.is_a?(PostType) ? type : PostType[type]
-        }
-        EditorialMemberPostType.where(criteria).exists?
+        entity = type.is_a?(PostType) ? type : PostType[type]
+
+        types = Array(@user_link.data.dig('settings', 'types'))
+        types.include?(entity.slug)
+      end
+
+      # @param [PostCategory] entity
+      def allow_post_category?(entity)
+        return false if user.nil?
+        return true if user.super_user?
+        return true if group?(:chief)
+
+        ids = Array(@user_link.data.dig('settings', 'categories'))
+        ids.blank? || ids.map(&:to_i).include?(entity.id)
+      end
+
+      # @param [PostType] entity
+      def allow_post_type(entity)
+        return if user.nil?
+
+        link = user_link!
+        prepare_link_settings!(link)
+        link.data['settings']['types'] += [entity.slug]
+        link.data['settings']['types'].uniq!
+        link.save
+      end
+
+      # @param [PostType] entity
+      def disallow_post_type(entity)
+        return if user.nil?
+
+        link = user_link!
+        prepare_link_settings!(link)
+        link.data['settings']['types'] -= [entity.slug]
+        link.save
+      end
+
+      # @param [PostCategory] entity
+      def allow_post_category(entity)
+        return if user.nil?
+
+        link = user_link!
+        prepare_link_settings!(link)
+        ids = link.data['settings']['categories'] + [entity.subbranch_ids]
+        link.data['settings']['categories'] = ids.map(&:to_i).uniq
+        link.save
+      end
+
+      # @param [PostCategory] entity
+      def disallow_post_category(entity)
+        return if user.nil?
+
+        link = user_link!
+        prepare_link_settings!(link)
+        categories = link.data['settings']['categories'].map(&:to_i)
+        link.data['settings']['categories'] = categories - [entity.id]
+        link.save
       end
 
       def editable?(entity)
@@ -59,6 +111,13 @@ module Biovision
         else
           "/my/posts/#{entity.id}/edit"
         end
+      end
+
+      # @param [BiovisionComponentUser] link
+      def prepare_link_settings!(link)
+        link.data['settings'] ||= {}
+        link.data['settings']['types'] ||= []
+        link.data['settings']['categories'] ||= []
       end
     end
   end

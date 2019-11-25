@@ -91,3 +91,11 @@
     padding-left: 1rem;
   }
 }
+
+.biovision-post-type-flag {
+  &:not(:checked) {
+    ~ ul {
+      display: none;
+    }
+  }
+}

@@ -91,10 +91,17 @@ Rails.application.routes.draw do
           get :new_post
           get :post_tags
           get :authors
+          put 'users/:user_id' => :add_user, as: :user
+          delete 'users/:user_id' => :remove_user
         end
       end
 
-      resources :post_categories, only: :show, concerns: %i[toggle priority]
+      resources :post_categories, only: :show, concerns: %i[toggle priority] do
+        member do
+          put 'users/:user_id' => :add_user, as: :user
+          delete 'users/:user_id' => :remove_user
+        end
+      end
 
       resources :posts, only: %i[index show], concerns: %i[lock toggle] do
         get 'search', on: :collection
