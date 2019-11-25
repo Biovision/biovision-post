@@ -41,7 +41,7 @@ module Biovision
 
         entity = type.is_a?(PostType) ? type : PostType[type]
 
-        types = Array(@user_link.data.dig('settings', 'types'))
+        types = Array(user_link!.data.dig('settings', 'types'))
         types.include?(entity.slug)
       end
 
@@ -51,8 +51,8 @@ module Biovision
         return true if user.super_user?
         return true if group?(:chief)
 
-        ids = Array(@user_link.data.dig('settings', 'categories'))
-        ids.blank? || ids.map(&:to_i).include?(entity.id)
+        ids = Array(user_link!.data.dig('settings', 'categories'))
+        ids.map(&:to_i).include?(entity.id)
       end
 
       # @param [PostType] entity
