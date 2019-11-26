@@ -2,13 +2,17 @@
   <ul class="post-category-tree">
     <% collection.each do |category_id, item| %>
       <li>
-        <% element_id = "post_category_#{category_id}" %>
+        <%
+          element_id = "post_category_#{category_id}"
+          allowed = handler.allow_post_category?(category_id)
+        %>
         <%=
           check_box_tag(
               "post_category_ids[]",
               category_id,
               item[:item].post?(entity),
-              id: element_id
+              id: element_id,
+              disabled: !allowed
           )
         %>
         <%= label_tag element_id, item[:item].name %>
@@ -19,9 +23,10 @@
             render(
                 partial: 'posts/form/category_links',
                 locals: {
-                    entity: entity,
+                    categories: categories,
                     collection: children,
-                    categories: categories
+                    entity: entity,
+                    handler: handler
                 }
             )
           %>

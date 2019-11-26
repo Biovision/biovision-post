@@ -45,14 +45,14 @@ module Biovision
         types.include?(entity.slug)
       end
 
-      # @param [PostCategory] entity
+      # @param [PostCategory|Integer] entity
       def allow_post_category?(entity)
         return false if user.nil?
         return true if user.super_user?
         return true if group?(:chief)
 
         ids = Array(user_link!.data.dig('settings', 'categories'))
-        ids.map(&:to_i).include?(entity.id)
+        ids.map(&:to_i).include?(entity.respond_to?(:id) ? entity.id : entity)
       end
 
       # @param [PostType] entity
@@ -82,7 +82,7 @@ module Biovision
 
         link = user_link!
         prepare_link_settings!(link)
-        ids = link.data['settings']['categories'] + [entity.subbranch_ids]
+        ids = link.data['settings']['categories'] + entity.subbranch_ids
         link.data['settings']['categories'] = ids.map(&:to_i).uniq
         link.save
       end

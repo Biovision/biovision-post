@@ -19,12 +19,13 @@
         %>
         <%= label_tag element_id, item[:item].name %>
         <% collection.delete(category_id) %>
-        <% children = collection.select { |_, i| i[:parent_id] == category_id } %>
+        <% children = categories.select { |_, i| i[:parent_id] == category_id } %>
         <% if children.any? %>
           <%=
             render(
                 partial: 'admin/components/user_settings/posts/post_categories',
                 locals: {
+                    categories: categories,
                     collection: children,
                     handler: handler
                 }

@@ -25,15 +25,19 @@
             post_type.name
         )
       %>
-      <%=
-        render(
-            partial: 'admin/components/user_settings/posts/post_categories',
-            locals: {
-                collection: PostCategory.list_for_tree(post_type),
-                handler: handler
-            }
-        )
-      %>
+      <% categories = PostCategory.list_for_tree(post_type.id) %>
+      <% if categories.any? %>
+        <%=
+          render(
+              partial: 'admin/components/user_settings/posts/post_categories',
+              locals: {
+                  categories: categories,
+                  collection: categories.select { |_, i| i[:parent_id].nil? },
+                  handler: handler
+              }
+          )
+        %>
+      <% end %>
     </li>
   <% end %>
 </ul>

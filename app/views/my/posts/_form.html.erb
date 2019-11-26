@@ -1,4 +1,7 @@
-<% model_name = entity.class.to_s.underscore %>
+<%
+  handler ||= Biovision::Components::BaseComponent.handler('post', current_user)
+  model_name = entity.class.to_s.underscore
+%>
 <%=
   form_with(
       model: entity,
@@ -11,184 +14,209 @@
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
 
   <dl>
-    <dt><%= f.label :publication_time %></dt>
-    <dd>
-      <%=
-        f.datetime_local_field(
-            :publication_time,
-            id: "#{model_name}_publication_time",
-            required: true
-        )
-      %>
-    </dd>
+    <div>
+      <dt><%= f.label :publication_time %></dt>
+      <dd>
+        <%=
+          f.datetime_local_field(
+              :publication_time,
+              id: "#{model_name}_publication_time",
+              required: true
+          )
+        %>
+      </dd>
+    </div>
 
-    <dt><%= f.label :title %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :title,
-            id: "#{model_name}_title",
-            size: nil,
-            maxlength: Post::TITLE_LIMIT,
-            required: true,
-            data: { transliterate: "#{model_name}_slug" }
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.title') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :title %></dt>
+      <dd>
+        <%=
+          f.text_field(
+              :title,
+              id: "#{model_name}_title",
+              size: nil,
+              maxlength: Post::TITLE_LIMIT,
+              required: true,
+              data: { transliterate: "#{model_name}_slug" }
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.title') %></div>
+      </dd>
+    </div>
 
     <% categories = PostCategory.list_for_tree(entity.post_type_id) %>
     <% if categories.any? %>
-      <dt><label><%= t('.categories') %></label></dt>
+      <div>
+        <dt><label><%= t('.categories') %></label></dt>
+        <dd>
+          <%=
+            render(
+                partial: 'posts/form/category_links',
+                locals: {
+                    categories: categories,
+                    collection: categories.select { |_, i| i[:parent_id].nil? },
+                    entity: entity,
+                    handler: handler
+                }
+            )
+          %>
+        </dd>
+      </div>
+    <% end %>
+
+    <div>
+      <dt><%= f.label :lead %></dt>
       <dd>
         <%=
-          render(
-              partial: 'posts/form/category_links',
-              locals: {
-                  entity: entity,
-                  collection: categories.select { |_, i| i[:parent_id].nil? },
-                  categories: categories
+          f.text_area(
+              :lead,
+              id: "#{model_name}_lead",
+              cols: 80,
+              rows: 3,
+              maxlength: Post::LEAD_LIMIT
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.lead') %></div>
+      </dd>
+    </div>
+
+    <div>
+      <dt><%= f.label :body %></dt>
+      <dd>
+        <%=
+          f.text_area(
+              :body,
+              id: "#{model_name}_body",
+              cols: 20,
+              rows: 25,
+              required: true,
+              data: {
+                  wysiwyg: 1
               }
           )
         %>
       </dd>
-    <% end %>
+    </div>
 
-    <dt><%= f.label :lead %></dt>
-    <dd>
-      <%=
-        f.text_area(
-            :lead,
-            id: "#{model_name}_lead",
-            cols: 80,
-            rows: 3,
-            maxlength: Post::LEAD_LIMIT
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.lead') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :image %></dt>
+      <dd>
+        <% figure_id = "#{model_name}-image" %>
+        <figure role="group" class="preview" id="<%= figure_id %>">
+          <% if entity.image.blank? %>
+            <%= f.label :image, image_tag('biovision/base/placeholders/3x2.svg') %>
+          <% else %>
+            <%= f.label :image, image_tag(entity.image.big.url) %>
+          <% end %>
+          <figcaption>
+            <%=
+              f.file_field(
+                  :image,
+                  accept: 'image/jpeg,image/png',
+                  data: { image: figure_id },
+                  id: "#{model_name}_image"
+              )
+            %>
+          </figcaption>
+        </figure>
+        <div class="guideline"><%= t('posts.form.guidelines.image') %></div>
+      </dd>
+    </div>
 
-    <dt><%= f.label :body %></dt>
-    <dd>
-      <%=
-        f.text_area(
-            :body,
-            id: "#{model_name}_body",
-            cols: 20,
-            rows: 25,
-            required: true,
-            data: {
-                wysiwyg: 1
-            }
-        )
-      %>
-    </dd>
+    <div>
+      <dt><%= f.label :image_alt_text %></dt>
+      <dd>
+        <%=
+          f.text_field(
+              :image_alt_text,
+              id: "#{model_name}_image_alt_text",
+              size: nil,
+              maxlength: Post::META_LIMIT
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.image_alt_text') %></div>
+      </dd>
+    </div>
 
-    <dt><%= f.label :image %></dt>
-    <dd>
-      <% figure_id = "#{model_name}-image" %>
-      <figure role="group" class="preview" id="<%= figure_id %>">
-        <% if entity.image.blank? %>
-          <%= f.label :image, image_tag('biovision/base/placeholders/3x2.svg') %>
-        <% else %>
-          <%= f.label :image, image_tag(entity.image.big.url) %>
-        <% end %>
-        <figcaption>
-          <%=
-            f.file_field(
-                :image,
-                accept: 'image/jpeg,image/png',
-                data: { image: figure_id },
-                id: "#{model_name}_image"
-            )
-          %>
-        </figcaption>
-      </figure>
-      <div class="guideline"><%= t('posts.form.guidelines.image') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :image_name %></dt>
+      <dd>
+        <%=
+          f.text_field(
+              :image_name,
+              id: "#{model_name}_image_name",
+              size: nil,
+              maxlength: Post::IMAGE_NAME_LIMIT
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.image_name') %></div>
+      </dd>
+    </div>
 
-    <dt><%= f.label :image_alt_text %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :image_alt_text,
-            id: "#{model_name}_image_alt_text",
-            size: nil,
-            maxlength: Post::META_LIMIT
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.image_alt_text') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :image_source_name %></dt>
+      <dd>
+        <%=
+          f.text_field(
+              :image_source_name,
+              id: "#{model_name}_image_source_name",
+              size: nil,
+              maxlength: Post::META_LIMIT
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.image_source_name') %></div>
+      </dd>
+    </div>
 
-    <dt><%= f.label :image_name %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :image_name,
-            id: "#{model_name}_image_name",
-            size: nil,
-            maxlength: Post::IMAGE_NAME_LIMIT
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.image_name') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :image_source_link %></dt>
+      <dd>
+        <%=
+          f.url_field(
+              :image_source_link,
+              id: "#{model_name}_image_source_link",
+              size: nil,
+              maxlength: Post::META_LIMIT,
+              placeholder: t('posts.form.placeholders.image_source_link')
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.image_source_link') %></div>
+      </dd>
+    </div>
 
-    <dt><%= f.label :image_source_name %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :image_source_name,
-            id: "#{model_name}_image_source_name",
-            size: nil,
-            maxlength: Post::META_LIMIT
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.image_source_name') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :source_link %></dt>
+      <dd>
+        <%=
+          f.url_field(
+              :source_link,
+              id: "#{model_name}_source_link",
+              size: nil,
+              maxlength: Post::META_LIMIT,
+              placeholder: t('posts.form.placeholders.source_link')
+          )
+        %>
+        <div class="guideline"><%= t('posts.form.guidelines.source_link') %></div>
+      </dd>
+    </div>
 
-    <dt><%= f.label :image_source_link %></dt>
-    <dd>
-      <%=
-        f.url_field(
-            :image_source_link,
-            id: "#{model_name}_image_source_link",
-            size: nil,
-            maxlength: Post::META_LIMIT,
-            placeholder: t('posts.form.placeholders.image_source_link')
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.image_source_link') %></div>
-    </dd>
-
-    <dt><%= f.label :source_link %></dt>
-    <dd>
-      <%=
-        f.url_field(
-            :source_link,
-            id: "#{model_name}_source_link",
-            size: nil,
-            maxlength: Post::META_LIMIT,
-            placeholder: t('posts.form.placeholders.source_link')
-        )
-      %>
-      <div class="guideline"><%= t('posts.form.guidelines.source_link') %></div>
-    </dd>
-
-    <dt><%= t(:flags) %></dt>
-    <dd>
-      <ul class="flags">
-        <li>
-          <%= f.check_box :visible, id: "#{model_name}_visible" %>
-          <%= f.label :visible %>
-        </li>
-        <% if Gem.loaded_specs.key?('biovision-comment') %>
+    <div>
+      <dt><%= t(:flags) %></dt>
+      <dd>
+        <ul class="flags">
           <li>
-            <%= f.check_box :allow_comments, id: :post_allow_comments %>
-            <%= f.label :allow_comments %>
+            <%= f.check_box :visible, id: "#{model_name}_visible" %>
+            <%= f.label :visible %>
           </li>
-        <% end %>
-      </ul>
-    </dd>
+          <% if Gem.loaded_specs.key?('biovision-comment') %>
+            <li>
+              <%= f.check_box :allow_comments, id: :post_allow_comments %>
+              <%= f.label :allow_comments %>
+            </li>
+          <% end %>
+        </ul>
+      </dd>
+    </div>
   </dl>
 
   <%= render 'shared/forms/state_container' %>
