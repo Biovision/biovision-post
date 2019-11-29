@@ -77,7 +77,7 @@ class PostGroup < ApplicationRecord
 
   # @param [Integer] page
   def posts_page(page = 1)
-    post_ids = Post.where(post_category_id: post_category_ids).pluck(:id)
+    post_ids = PostPostCategory.where(post_category_id: post_category_ids).pluck(:post_id)
     post_ids += PostPostTag.where(post_tag_id: post_tag_ids).pluck(:post_id)
     Post.list_for_visitors.where(id: post_ids.uniq).page(page)
   end
