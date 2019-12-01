@@ -1,5 +1,5 @@
 <%
-  handler ||= Biovision::Components::BaseComponent.handler('post', current_user)
+  handler ||= Biovision::Components::BaseComponent.handler('posts', current_user)
   model_name = entity.class.to_s.underscore
 %>
 <%=
