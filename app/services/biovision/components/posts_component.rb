@@ -51,8 +51,18 @@ module Biovision
         return true if user.super_user?
         return true if group?(:chief)
 
-        ids = Array(user_link!.data.dig('settings', 'categories'))
-        ids.map(&:to_i).include?(entity.respond_to?(:id) ? entity.id : entity)
+        ids = Array(user_link!.data.dig('settings', 'categories')).map(&:to_i)
+        ids.include?(entity.respond_to?(:id) ? entity.id : entity)
+      end
+
+      # @param [PostCategory] entity
+      def allow_category_branch?(entity)
+        return false if user.nil?
+        return true if allow_post_category?(entity)
+
+        ids = Array(user_link!.data.dig('settings', 'categories')).map(&:to_i)
+        item = entity.is_a?(PostCategory) ? entity : PostCategory.find(entity)
+        (ids & item.subbranch_ids).any?
       end
 
       # @param [PostType] entity
