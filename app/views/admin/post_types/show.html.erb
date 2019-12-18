@@ -10,32 +10,36 @@
 
   <ul class="actions">
     <li><%= back_icon(admin_post_types_path) %></li>
-    <li><%= create_icon(new_post_admin_post_type_path(id: @entity.id)) %></li>
+    <% if component_handler.allow_post_type?(@entity.slug) %>
+      <li><%= create_icon(new_post_admin_post_type_path(id: @entity.id)) %></li>
+    <% end %>
   </ul>
 
-  <nav>
-    <%=
-      link_to(
-          t('admin.post_types.post_categories.nav_text'),
-          post_categories_admin_post_type_path(id: @entity.id),
-          class: 'button-nav'
-      )
-    %>
-    <%=
-      link_to(
-          t('admin.post_types.post_tags.nav_text'),
-          post_tags_admin_post_type_path(id: @entity.id),
-          class: 'button-nav'
-      )
-    %>
-    <%=
-      link_to(
-          t('admin.post_types.authors.nav_text'),
-          authors_admin_post_type_path(id: @entity.id),
-          class: 'button-nav'
-      )
-    %>
-  </nav>
+  <% if component_handler.group?(:chief) %>
+    <nav>
+      <%=
+        link_to(
+            t('admin.post_types.post_categories.nav_text'),
+            post_categories_admin_post_type_path(id: @entity.id),
+            class: 'button-nav'
+        )
+      %>
+      <%=
+        link_to(
+            t('admin.post_types.post_tags.nav_text'),
+            post_tags_admin_post_type_path(id: @entity.id),
+            class: 'button-nav'
+        )
+      %>
+      <%=
+        link_to(
+            t('admin.post_types.authors.nav_text'),
+            authors_admin_post_type_path(id: @entity.id),
+            class: 'button-nav'
+        )
+      %>
+    </nav>
+  <% end %>
 
   <dl>
     <dt><%= t('activerecord.attributes.post_type.slug') %></dt>

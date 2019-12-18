@@ -17,7 +17,7 @@ class PostsController < ApplicationController
   # post /posts
   def create
     @entity = Post.new(creation_parameters)
-    if @entity.save
+    if component_handler.allow_post_type?(@entity.post_type) && @entity.save
       apply_post_tags
       apply_post_categories
       add_attachments if params.key?(:post_attachment)

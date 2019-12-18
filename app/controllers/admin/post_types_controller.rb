@@ -2,7 +2,8 @@
 
 # Administrative part of post type management
 class Admin::PostTypesController < AdminController
-  before_action :set_entity, except: [:index]
+  before_action :set_entity, except: :index
+  before_action :restrict_post_type, only: %i[new_post]
 
   # get /admin/post_types
   def index
@@ -62,6 +63,11 @@ class Admin::PostTypesController < AdminController
   def restrict_access
     error = 'Viewing post types is not allowed'
     handle_http_401(error) unless component_handler.allow?
+  end
+
+  def restrict_post_type
+    error = 'Handling this post type is not allowed'
+    handle_http_401(error) unless component_handler.allow_post_type?(@entity)
   end
 
   def set_entity
