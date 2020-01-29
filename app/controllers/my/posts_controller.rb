@@ -8,6 +8,10 @@ class My::PostsController < ProfileController
   # get /my/posts
   def index
     @collection = Post.page_for_owner(current_user, current_page)
+    respond_to do |format|
+      format.html
+      format.json { render 'posts/index' }
+    end
   end
 
   # get /my/articles/new

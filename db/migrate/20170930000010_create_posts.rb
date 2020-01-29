@@ -52,7 +52,6 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.boolean :translation, default: false, null: false
       t.boolean :explicit, default: false, null: false
       t.boolean :spam, default: false, null: false
-      t.boolean :avoid_parsing, default: false, null: false
       t.float :rating, default: 0.0, null: false
       t.integer :privacy, limit: 2, default: 0
       t.integer :comments_count, default: 0, null: false
