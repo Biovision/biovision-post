@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Move legacy votes component fields to data
-class ConvertVoteData < ActiveRecord::Migration[5.2]
+# Move legacy votes component fields to data in posts
+class ConvertPostsVoteData < ActiveRecord::Migration[5.2]
   def up
     return unless column_exists?(:posts, :vote_result)
 
