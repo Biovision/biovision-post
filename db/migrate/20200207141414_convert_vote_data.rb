@@ -11,6 +11,7 @@ class ConvertVoteData < ActiveRecord::Migration[5.2]
         down: post.downvote_count,
         total: post.vote_result
       }
+      post.save!
     end
 
     remove_column :posts, :upvote_count
