@@ -4,16 +4,10 @@
 class Post < ApplicationRecord
   include Checkable
   include HasOwner
+  include HasUuid
   include CommentableItem if Gem.loaded_specs.key?('biovision-comment')
   include VotableItem if Gem.loaded_specs.key?('biovision-vote')
   include Toggleable
-
-  if Gem.loaded_specs.key?('elasticsearch-model')
-    include Elasticsearch::Model
-    include Elasticsearch::Model::Callbacks
-
-    index_name Rails.configuration.post_index_name
-  end
 
   ALT_LIMIT = 255
   BODY_LIMIT = 16_777_215
@@ -31,6 +25,8 @@ class Post < ApplicationRecord
   toggleable :visible, :show_owner
 
   mount_uploader :image, PostImageUploader
+
+  paginates_per 12
 
   belongs_to :user
   belongs_to :post_type, counter_cache: true
@@ -50,12 +46,11 @@ class Post < ApplicationRecord
   has_many :post_zen_categories, dependent: :destroy
   has_many :zen_categories, through: :post_zen_categories
 
-  after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize { self.publication_time = Time.now if publication_time.nil? }
   before_validation :prepare_slug
   before_validation :prepare_source_names
 
-  validates_presence_of :uuid, :title, :slug, :body
+  validates_presence_of :title, :slug, :body
   validates_length_of :title, maximum: TITLE_LIMIT
   validates_length_of :lead, maximum: LEAD_LIMIT
   validates_length_of :image_name, maximum: IMAGE_NAME_LIMIT
@@ -79,21 +74,21 @@ class Post < ApplicationRecord
   scope :popular, -> { order('rating desc') }
   scope :visible, -> { where(visible: true, deleted: false, approved: true) }
   scope :published, -> { where('publication_time <= current_timestamp') }
-  scope :for_language, ->(language) { where(language: language).or(where(language: nil)) }
+  scope :for_language, ->(v) { where(language: v).or(where(language: nil)) }
   scope :pg_search, ->(v) { where("posts_tsvector(title, lead, body) @@ phraseto_tsquery('russian', ?)", v) }
   scope :exclude_ids, ->(v) { where('posts.id not in (?)', Array(v)) unless v.blank? }
   scope :list_for_visitors, -> { visible.published.recent }
   scope :list_for_administration, -> { order('id desc') }
-  scope :list_for_owner, ->(user) { owned_by(user).recent }
-  scope :tagged, ->(tag) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(tag) }).distinct unless tag.blank? }
-  scope :in_category, ->(slug) { joins(:post_post_categories).where(post_post_categories: { post_category_id: PostCategory.ids_for_slug(slug) }).distinct unless slug.blank? }
-  scope :in_category_branch, ->(category) { joins(:post_post_categories).where(post_post_categories: { post_category_id: category.subbranch_ids }).distinct }
+  scope :list_for_owner, ->(v) { owned_by(v).recent }
+  scope :tagged, ->(v) { joins(:post_post_tags).where(post_post_tags: { post_tag_id: PostTag.ids_for_name(v) }).distinct unless v.blank? }
+  scope :in_category, ->(v) { joins(:post_post_categories).where(post_post_categories: { post_category_id: PostCategory.ids_for_slug(v) }).distinct unless v.blank? }
+  scope :in_category_branch, ->(v) { joins(:post_post_categories).where(post_post_categories: { post_category_id: v.subbranch_ids }).distinct }
   scope :with_category_ids, ->(v) { joins(:post_post_categories).where(post_post_categories: { post_category_id: Array(v) }) }
   scope :authors, -> { User.where(id: Post.author_ids).order('screen_name asc') }
-  scope :of_type, ->(slug) { where(post_type: PostType.find_by(slug: slug)) unless slug.blank? }
+  scope :of_type, ->(v) { where(post_type: PostType.find_by(slug: v)) unless v.blank? }
   scope :archive, -> { f = Arel.sql('date(publication_time)'); distinct.order(f).pluck(f) }
-  scope :posted_after, ->(time) { where('publication_time >= ?', time) }
-  scope :pubdate, ->(date) { where('date(publication_time) = ?', date) }
+  scope :posted_after, ->(v) { where('publication_time >= ?', v) }
+  scope :pubdate, ->(v) { where('date(publication_time) = ?', v) }
   scope :f_visible, ->(f) { where(visible: f.to_i.positive?) unless f.blank? }
   scope :filtered, ->(f) { f_visible(f[:visible]) }
 
@@ -105,8 +100,8 @@ class Post < ApplicationRecord
 
   # @param [Integer] page
   # @param [Integer] per_page
-  def self.page_for_visitors(page = 1, per_page = Post.items_per_page)
-    list_for_visitors.page(page).per(per_page)
+  def self.page_for_visitors(page = 1)
+    list_for_visitors.page(page)
   end
 
   # @param [User] user
@@ -123,10 +118,6 @@ class Post < ApplicationRecord
     author_data = %i[author_name author_title author_url translator_name]
 
     main_data + image_data + meta_data + author_data + flags_data
-  end
-
-  def self.items_per_page
-    12
   end
 
   def self.creation_parameters

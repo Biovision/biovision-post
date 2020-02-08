@@ -56,9 +56,6 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.integer :privacy, limit: 2, default: 0
       t.integer :comments_count, default: 0, null: false
       t.integer :view_count, default: 0, null: false
-      t.integer :upvote_count, default: 0, null: false
-      t.integer :downvote_count, default: 0, null: false
-      t.integer :vote_result, default: 0, null: false
       t.integer :time_required, limit: 2
       t.datetime :publication_time
       t.uuid :uuid, null: false
@@ -81,7 +78,6 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.string :translator_name
       t.text :lead
       t.text :body, null: false
-      t.text :parsed_body
       t.string :tags_cache, array: true, default: [], null: false
       t.jsonb :data, default: {}, null: false
     end
@@ -104,10 +100,9 @@ class CreatePosts < ActiveRecord::Migration[5.2]
 
     add_foreign_key :posts, :posts, column: :original_post_id, on_update: :cascade, on_delete: :nullify
 
+    add_index :posts, :uuid, unique: true
     add_index :posts, :created_at
     add_index :posts, :data, using: :gin
-
-    Post.__elasticsearch__.create_index! if Gem.loaded_specs.key?('elasticsearch-model')
   end
 
   def create_post_post_tags
@@ -143,7 +138,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.timestamps
       t.boolean :visible, default: true, null: false
       t.integer :priority, limit: 2, default: 1, null: false
-      t.uuid :uuid
+      t.uuid :uuid, null: false
       t.string :image
       t.string :image_alt_text
       t.string :caption
@@ -151,6 +146,8 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.string :source_link
       t.text :description
     end
+
+    add_index :post_images, :uuid, unique: true
   end
 
   def create_post_translations
@@ -207,10 +204,12 @@ class CreatePosts < ActiveRecord::Migration[5.2]
   def create_post_attachments
     create_table :post_attachments, comment: 'Attachment for post' do |t|
       t.references :post, foreign_key: { on_update: :cascade, on_delete: :cascade }
-      t.uuid :uuid
+      t.uuid :uuid, null: false
       t.timestamps
       t.string :name
       t.string :file
     end
+
+    add_index :post_attachments, :uuid, unique: true
   end
 end

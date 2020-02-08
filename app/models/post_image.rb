@@ -1,4 +1,5 @@
 class PostImage < ApplicationRecord
+  include HasUuid
   include Toggleable
 
   DESCRIPTION_LIMIT = 5000
@@ -11,7 +12,6 @@ class PostImage < ApplicationRecord
 
   belongs_to :post
 
-  after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
   after_initialize :set_next_priority
   before_validation :normalize_priority
 
