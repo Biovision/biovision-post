@@ -11,14 +11,13 @@
 #   uuid [UUID]
 class PostAttachment < ApplicationRecord
   include Checkable
+  include HasUuid
 
   NAME_LIMIT = 120
 
   mount_uploader :file, SimpleFileUploader
 
   belongs_to :post
-
-  after_initialize { self.uuid = SecureRandom.uuid if uuid.nil? }
 
   validates_length_of :name, maximum: NAME_LIMIT
   validates_presence_of :file
@@ -44,6 +43,6 @@ class PostAttachment < ApplicationRecord
   # @param [User] user
   # @deprecated use component handler
   def editable_by?(user)
-    Biovision::Components::BaseComponent.handler('posts', user).editable?(post)
+    Biovision::Components::PostsComponent[user]&.editable?(post)
   end
 end

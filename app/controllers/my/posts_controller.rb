@@ -84,8 +84,8 @@ class My::PostsController < ProfileController
 
   private
 
-  def component_slug
-    Biovision::Components::PostsComponent::SLUG
+  def component_class
+    Biovision::Components::PostsComponent
   end
 
   # @param [String] slug

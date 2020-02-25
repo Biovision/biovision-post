@@ -101,6 +101,8 @@ ru:
         uuid: "UUID"
         view_count: "Количество просмотров"
         visible: "Показывать"
+      post_attachment:
+        file: "Файл"
       post_category:
         children_cache: "Кеш дочек"
         meta_description: "Описание для тэга meta"
@@ -287,6 +289,8 @@ ru:
           search: "Искать"
         in_list:
           post_categories: "Категории публикаций"
+        attachments:
+          heading: "Приложения"
       filter:
         filter: "Фильтровать"
       search:

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :featured_posts, only: :destroy
   resources :post_illustrations, only: :create
   resources :post_groups, only: %i[update destroy]
+  resources :post_attachments, only: :destroy
 
   scope '/(:locale)', constraints: { locale: /ru|en|sv|cn/ } do
     resources :post_categories, except: %i[index show update destroy]

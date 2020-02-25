@@ -1,0 +1,12 @@
+<div class="data">
+  <div><%= post_attachment_link(entity) %></div>
+  <div class="info">
+    <%= number_to_human_size(entity.size) %>
+  </div>
+
+  <% if entity.editable_by?(current_user) %>
+    <ul class="actions">
+      <li><%= destroy_icon(entity) %></li>
+    </ul>
+  <% end %>
+</div>

@@ -23,8 +23,8 @@ class PostLinksController < AdminController
 
   private
 
-  def component_slug
-    Biovision::Components::PostsComponent::SLUG
+  def component_class
+    Biovision::Components::PostsComponent
   end
 
   def entity_parameters

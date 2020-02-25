@@ -14,13 +14,8 @@ class PostAttachmentsController < AdminController
 
   private
 
-  def component_slug
-    Biovision::Components::PostsComponent::SLUG
-  end
-
-  def restrict_access
-    error = 'Managing post attachments is not allowed'
-    handle_http_401(error) unless component_handler.allow?
+  def component_class
+    Biovision::Components::PostsComponent
   end
 
   def restrict_editing

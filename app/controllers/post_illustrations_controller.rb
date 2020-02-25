@@ -12,8 +12,8 @@ class PostIllustrationsController < ApplicationController
 
   private
 
-  def component_slug
-    Biovision::Components::PostsComponent::SLUG
+  def component_class
+    Biovision::Components::PostsComponent
   end
 
   def restrict_access
