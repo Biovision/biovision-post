@@ -85,6 +85,10 @@ Rails.application.routes.draw do
       get ':slug' => :show, as: :author
     end
 
+    scope 'u/:slug', controller: :profiles, constraints: { slug: %r{[^/]+} } do
+      get 'posts' => :posts, as: :user_posts
+    end
+
     namespace :admin do
       resources :post_types, only: %i[index show] do
         member do
