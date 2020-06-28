@@ -14,9 +14,15 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     create_featured_posts unless FeaturedPost.table_exists?
     create_post_illustrations unless PostIllustration.table_exists?
     create_post_attachments unless PostAttachment.table_exists?
+    create_post_groups unless PostGroup.table_exists?
+    create_post_group_categories unless PostGroupCategory.table_exists?
+    create_post_group_tags unless PostGroupTag.table_exists?
   end
 
   def down
+    drop_table :post_group_tags if PostGroupTag.table_exists?
+    drop_table :post_group_categories if PostGroupCategory.table_exists?
+    drop_table :post_groups if PostGroup.table_exists?
     drop_table :post_attachments if PostAttachment.table_exists?
     drop_table :post_illustrations if PostIllustration.table_exists?
     drop_table :featured_posts if FeaturedPost.table_exists?
@@ -211,5 +217,35 @@ class CreatePosts < ActiveRecord::Migration[5.2]
     end
 
     add_index :post_attachments, :uuid, unique: true
+  end
+
+
+  def create_post_groups
+    create_table :post_groups, comment: 'Group of post categories and tags' do |t|
+      t.integer :priority, limit: 2, default: 1, null: false
+      t.boolean :visible, default: true, null: false
+      t.timestamps
+      t.string :slug
+      t.string :name
+      t.string :nav_text
+    end
+  end
+
+  def create_post_group_categories
+    create_table :post_group_categories, comment: 'Post category in group' do |t|
+      t.references :post_group, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.references :post_category, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.integer :priority, limit: 2, default: 1, null: false
+      t.timestamps
+    end
+  end
+
+  def create_post_group_tags
+    create_table :post_group_tags, comment: 'Post tag in group' do |t|
+      t.references :post_group, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.references :post_tag, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+      t.integer :priority, limit: 2, default: 1, null: false
+      t.timestamps
+    end
   end
 end
